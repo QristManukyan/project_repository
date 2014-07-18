@@ -1,0 +1,11 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.project.devicemeneger.MainActivity" >
+
+    <item
+        android:id="@+id/new_device_item"
+        android:showAsAction="always"
+        android:title="@string/action_new_device"/>
+        
+        
+</menu>
