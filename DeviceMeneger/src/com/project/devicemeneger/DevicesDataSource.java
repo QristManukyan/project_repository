@@ -3,7 +3,6 @@ package com.project.devicemeneger;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -15,7 +14,7 @@ public class DevicesDataSource {
 	private SQLiteDatabase database;
 	private MySQLiteHelper dbHelper;
 	private String[] allColumns = { MySQLiteHelper.COLUMN_ID,
-			MySQLiteHelper.COLUMN_DATA };
+			MySQLiteHelper.COLUMN_DATA};
 
 	public DevicesDataSource(Context context) {
 		dbHelper = new MySQLiteHelper(context);
@@ -29,27 +28,31 @@ public class DevicesDataSource {
 		dbHelper.close();
 	}
 
-	public Device createInfo(String info) {
+	public Device createInfo(String name) throws SQLException {
 		ContentValues values = new ContentValues();
-		values.put(MySQLiteHelper.COLUMN_DATA, info);
-		long insertId = database.insert(MySQLiteHelper.TABLE_DATA, null,
-				values);
-		Cursor cursor = database.query(MySQLiteHelper.TABLE_DATA,
-				allColumns, MySQLiteHelper.COLUMN_ID + " = " + insertId, null,
-				null, null, null);
+		values.put(MySQLiteHelper.COLUMN_DATA, name);
+
+		long insertId = database
+				.insert(MySQLiteHelper.TABLE_DATA, null, values);
+		Cursor cursor = database.query(MySQLiteHelper.TABLE_DATA, allColumns,
+				MySQLiteHelper.COLUMN_ID + " = " + insertId, null, null, null,
+				null);
+
 		cursor.moveToFirst();
 		Device newInfo = cursorToInfo(cursor);
 		cursor.close();
 		return newInfo;
 	}
 
-	public void insertInfos(String info) {
-		ContentValues values = new ContentValues();
-		values.put(MySQLiteHelper.COLUMN_DATA, info);
-		database.insert("MySQLiteHelper.TABLE_DATA", null, values);
-		database.close();
-
-	}
+	// public void insertInfos(String info) {
+	// System.out.println("insertInfos");
+	// ContentValues values = new ContentValues();
+	// values.put(MySQLiteHelper.COLUMN_DATA, info);
+	// // values.put(MySQLiteHelper.COLUMN_IP, ip);
+	// database.insert("MySQLiteHelper.TABLE_DATA", null, values);
+	// database.close();
+	//
+	// }
 
 	public void deleteInfo(Device info) {
 		long id = info.getId();
@@ -57,11 +60,11 @@ public class DevicesDataSource {
 				+ " = " + id, null);
 	}
 
-	public List<Device> getAllInfos() {
+	public List<Device> getAllInfos() throws SQLException {
 		List<Device> infos = new ArrayList<Device>();
 
-		Cursor cursor = database.query(MySQLiteHelper.TABLE_DATA,
-				allColumns, null, null, null, null, null);
+		Cursor cursor = database.query(MySQLiteHelper.TABLE_DATA, allColumns,
+				null, null, null, null, null);
 
 		cursor.moveToFirst();
 		while (!cursor.isAfterLast()) {
@@ -75,7 +78,7 @@ public class DevicesDataSource {
 	}
 
 	private Device cursorToInfo(Cursor cursor) {
-		Device info = new Device(0, null, null, null);
+		Device info = new Device(0, null, 0, 0);
 		info.setId(cursor.getLong(0));
 		info.setName(cursor.getString(1));
 		return info;

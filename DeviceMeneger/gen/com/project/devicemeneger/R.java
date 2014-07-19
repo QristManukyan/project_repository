@@ -57,6 +57,7 @@ public final class R {
         public static final int main=0x7f080000;
     }
     public static final class string {
+        public static final int action_bar_title=0x7f050010;
         public static final int action_btn3=0x7f050009;
         public static final int action_btn4=0x7f05000a;
         public static final int action_devices_btn=0x7f050007;
@@ -78,11 +79,23 @@ public final class R {
         /** 
         Base application theme, dependent on API level. This theme is replaced
         by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+
+
+
+
+
+
     
 
             Theme customizations available in newer API levels can go in
             res/values-vXX/styles.xml, while customizations related to
             backward-compatibility can go here.
+
+
+
+
+
+
         
 
         Base application theme for API 11+. This theme completely replaces
@@ -97,6 +110,7 @@ public final class R {
  API 14 theme customizations can go here. 
          */
         public static final int AppBaseTheme=0x7f070000;
+        public static final int HomeButtonStyle=0x7f070002;
         /**  Application theme. 
  All customizations that are NOT specific to a particular API-level can go here. 
          */

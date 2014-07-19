@@ -3,36 +3,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:paddingTop="30dp" >
 
     <LinearLayout
         android:id="@+id/home_page_first_row"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:paddingTop="10dp" >
+     >
 
         <Button
             android:id="@+id/home_page_devices_btn"
-            style="@style/LightThemeSelector"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_margin="10dp"
-            android:background="@android:color/darker_gray"
-            android:gravity="center"
-            android:text="@string/action_devices_btn"
-            android:textSize="16sp" />
+            style="@style/HomeButtonStyle"
+            android:text="@string/action_devices_btn" />
 
         <Button
             android:id="@+id/home_page_files_btn"
-            style="@style/LightThemeSelector"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_margin="10dp"
-            android:background="@android:color/darker_gray"
-            android:gravity="center"
-            android:text="@string/action_files_btn"
-            android:textSize="16sp" />
+            style="@style/HomeButtonStyle"
+            android:text="@string/action_files_btn" />
     </LinearLayout>
 
     <LinearLayout
@@ -41,29 +30,17 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:paddingBottom="10dp" >
+         >
 
         <Button
             android:id="@+id/home_page_btn3"
-            style="@style/LightThemeSelector"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_margin="10dp"
-            android:background="@android:color/darker_gray"
-            android:gravity="center"
-            android:text="@string/action_btn3"
-            android:textSize="16sp" />
+            style="@style/HomeButtonStyle"
+            android:text="@string/action_btn3" />
 
         <Button
             android:id="@+id/home_page_btn4"
-            style="?android:attr/buttonBarButtonStyle"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_margin="10dp"
-            android:background="@android:color/darker_gray"
-            android:gravity="center"
-            android:text="@string/action_btn4"
-            android:textSize="16sp" />
+            style="@style/HomeButtonStyle"
+            android:text="@string/action_btn4" />
     </LinearLayout>
 
 </LinearLayout>

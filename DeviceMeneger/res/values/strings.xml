@@ -17,6 +17,7 @@
    	<string name="dialog_owner_hint">Owner</string>
    	<string name="dialog_ip_hint">IP</string> 
    	<string name="dialog_add_new">Add</string> 
+   	<string name="action_bar_title">Devices</string>
     <string-array name="item_options_array">
         <item >Send</item>
         <item >Browse</item>

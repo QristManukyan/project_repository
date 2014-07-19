@@ -1,7 +1,5 @@
 package com.project.devicemeneger;
 
-
-
 import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Dialog;
@@ -22,6 +20,7 @@ public class DeviceManageActivity extends Activity implements
 		ActionBar.TabListener {
 
 	SectionsPagerAdapter mSectionsPagerAdapter;
+	CharSequence pageTitle;
 
 	/**
 	 * The {@link ViewPager} that will host the section contents.
@@ -34,7 +33,6 @@ public class DeviceManageActivity extends Activity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-
 		// Set up the action bar.
 		final ActionBar actionBar = getActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -42,19 +40,18 @@ public class DeviceManageActivity extends Activity implements
 		actionBar.setHomeButtonEnabled(true);
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.setDisplayUseLogoEnabled(false);
+		actionBar.setDisplayShowHomeEnabled(false);
 		actionBar.setTitle("Devices");
+		
 
-		// Create the adapter that will return a fragment for each of the three
-		// primary sections of the activity.
 		mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
 
-		// Set up the ViewPager with the sections adapter.
+		for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
+			pageTitle = mSectionsPagerAdapter.getPageTitle(i);
+		}
+
 		mViewPager = (ViewPager) findViewById(R.id.pager);
 		mViewPager.setAdapter(mSectionsPagerAdapter);
-
-		// When swiping between different sections, select the corresponding
-		// tab. We can also use ActionBar.Tab#select() to do this if we have
-		// a reference to the Tab.
 		mViewPager
 				.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
 					@Override
@@ -65,10 +62,6 @@ public class DeviceManageActivity extends Activity implements
 
 		// For each of the sections in the app, add a tab to the action bar.
 		for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
-			// Create a tab with text corresponding to the page title defined by
-			// the adapter. Also specify this Activity object, which implements
-			// the TabListener interface, as the callback (listener) for when
-			// this tab is selected.
 			actionBar.addTab(actionBar.newTab()
 					.setText(mSectionsPagerAdapter.getPageTitle(i))
 					.setTabListener(this));
@@ -78,24 +71,17 @@ public class DeviceManageActivity extends Activity implements
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
-		// CharSequence titleRes = new ;
-
 		menu.addSubMenu(0, MENU_QUIT_ID, 0, getString(R.string.action_quit));
-
 		return true;
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
+
 		switch (item.getItemId()) {
 		case R.id.new_device_item:
 			addDevice(mViewPager);
-			System.out.println("NEw device is crated");
 			break;
 		case android.R.id.home:
 			Intent intent = new Intent(this, MainActivity.class);
@@ -106,46 +92,67 @@ public class DeviceManageActivity extends Activity implements
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	
-void addDevice(View view) {
-	final Dialog dialog = new Dialog(this);
-	dialog.setContentView(R.layout.dialog);
-	dialog.setTitle("Add planet");
-	dialog.setCancelable(true);
-	
-	final EditText editId = (EditText) dialog.findViewById(R.id.dialog_edit_id);
-	final EditText editName = (EditText) dialog.findViewById(R.id.dialog_edit_name);
-	final EditText editOwner = (EditText) dialog.findViewById(R.id.dialog_edit_owner);
-	final EditText editIp = (EditText) dialog.findViewById(R.id.dialog_edit_ip);
-	
-	Button addBtn = (Button) dialog.findViewById(R.id.dialog_add_btn);
-	addBtn.setOnClickListener(new View.OnClickListener() {
-		
-		public void onClick(View v) {
-			Device deviceIndfo = null;
-			long deviceId = editId.getText().hashCode();
-			String deviceName = editName.getText().toString();
-			String deviceOwner = editOwner.getText().toString();
-			String deviceIp = editIp.getText().toString();
-			
-			MyDevicesFragment.deviceList.add(new Device(deviceId, deviceName, deviceOwner, deviceIp));
-			deviceIndfo =MyDevicesFragment.datasource.createInfo(deviceName);
-			MyDevicesFragment.deviceAdapter.add(deviceIndfo);
-			System.out.println("Device list = " +MyDevicesFragment.deviceList );
-			MyDevicesFragment.deviceAdapter.notifyDataSetChanged();
-			dialog.dismiss();
-		}
-	});
-	
-	dialog.show();
-}
 
+	void addDevice(View view) {
+		final Dialog dialog = new Dialog(this);
+		dialog.setContentView(R.layout.dialog);
+		dialog.setTitle("Add Device");
+		dialog.setCancelable(true);
+
+		final EditText editId = (EditText) dialog.findViewById(R.id.dialog_edit_id);
+		final EditText editName = (EditText) dialog.findViewById(R.id.dialog_edit_name);
+		final EditText editOwner = (EditText) dialog.findViewById(R.id.dialog_edit_owner);
+		final EditText editIp = (EditText) dialog.findViewById(R.id.dialog_edit_ip);
+
+		Button addBtn = (Button) dialog.findViewById(R.id.dialog_add_btn);
+		addBtn.setOnClickListener(new View.OnClickListener() {
+
+			public void onClick(View v) {
+
+				Device deviceInfo = null;
+				long deviceId = editId.getText().hashCode();
+				String deviceName = editName.getText().toString();
+				long deviceOwner = editOwner.getText().hashCode();
+				long deviceIp =  editIp.getText().hashCode();
+				String pageTitle = getActionBar().getSelectedTab().getText()
+						.toString();
+
+				switch (pageTitle) {
+				case "My Devices":
+					DevicesFragment.deviceList.add(new Device(deviceId,
+							deviceName, deviceOwner, deviceIp));
+					deviceInfo = DevicesFragment.datasource.createInfo(deviceName);
+					DevicesFragment.deviceAdapter.add(deviceInfo);
+					DevicesFragment.deviceAdapter.notifyDataSetChanged();
+					break;
+
+				case "Recent":
+					DevicesFragment.deviceList.add(new Device(deviceId,
+							deviceName, deviceOwner, deviceIp));
+					deviceInfo = DevicesFragment.datasource.createInfo(deviceName);
+					DevicesFragment.deviceAdapter.add(deviceInfo);
+					DevicesFragment.deviceAdapter.notifyDataSetChanged();
+					break;
+				case "More":
+					DevicesFragment.deviceList.add(new Device(deviceId,
+							deviceName, deviceOwner, deviceIp));
+					deviceInfo = DevicesFragment.datasource.createInfo(deviceName);
+					DevicesFragment.deviceAdapter.add(deviceInfo);
+					DevicesFragment.deviceAdapter.notifyDataSetChanged();
+					break;
+
+				}
+
+				dialog.dismiss();
+			}
+		});
+
+		dialog.show();
+	}
 
 	@Override
 	public void onTabSelected(ActionBar.Tab tab,
 			FragmentTransaction fragmentTransaction) {
-		// When the given tab is selected, switch to the corresponding page in
-		// the ViewPager.
 		mViewPager.setCurrentItem(tab.getPosition());
 	}
 
@@ -159,10 +166,6 @@ void addDevice(View view) {
 			FragmentTransaction fragmentTransaction) {
 	}
 
-	/**
-	 * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
-	 * one of the sections/tabs/pages.
-	 */
 	public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
 		public SectionsPagerAdapter(FragmentManager fm) {
@@ -171,19 +174,14 @@ void addDevice(View view) {
 
 		@Override
 		public Fragment getItem(int position) {
-			// getItem is called to instantiate the fragment for the given page.
-			// Return a PlaceholderFragment (defined as a static inner class
-			// below).
-			switch (position) {
-			case 0:
-				return MyDevicesFragment.newInstance(position + 1);
-			case 1:
-				return RecentDevicesFragment.newInstance(position + 1);
-			case 2:
-				return MoreDevicesFragment.newInstance(position + 1);
-			}
-
-			return null;
+//			switch (position) {
+//			case 0:
+//				return DevicesFragment.newInstance(position + 1);
+//			case 1:
+//				return RecentDevicesFragment.newInstance(position + 1);
+//			case 2:
+				return DevicesFragment.newInstance(position + 1);
+			//}
 
 		}
 
@@ -195,7 +193,6 @@ void addDevice(View view) {
 
 		@Override
 		public CharSequence getPageTitle(int position) {
-		//	Locale l = Locale.getDefault();
 			switch (position) {
 			case 0:
 				return getString(R.string.title_section1);
@@ -207,10 +204,4 @@ void addDevice(View view) {
 			return null;
 		}
 	}
-
-	/**
-	 * A placeholder fragment containing a simple view.
-	 */
-
-
 }

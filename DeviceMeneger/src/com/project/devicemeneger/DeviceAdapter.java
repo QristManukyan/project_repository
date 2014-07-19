@@ -5,9 +5,11 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class DeviceAdapter extends ArrayAdapter<Device> {
 
@@ -32,7 +34,6 @@ public class DeviceAdapter extends ArrayAdapter<Device> {
 
 	@Override
 	public long getItemId(int position) {
-		// TODO Auto-generated method stub
 		return deviceList.get(position).hashCode();
 	}
 
@@ -49,7 +50,6 @@ public class DeviceAdapter extends ArrayAdapter<Device> {
 			holder = (ViewHolder)convertView.getTag();
 		}
 		
-		
 		if (holder.deviceNameTextView == null){
 			
 			holder.deviceNameTextView = (TextView) convertView.findViewById(R.id.my_devices_item_name);
@@ -58,9 +58,45 @@ public class DeviceAdapter extends ArrayAdapter<Device> {
 		if (holder.deviceOptionsSpinnerView == null){
 			
 			holder.deviceOptionsSpinnerView = (Spinner) convertView.findViewById(R.id.my_devices_item_options_spinner);
-			ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(), R.array.item_options_array, android.R.layout.simple_spinner_item);
+			
+			final ArrayAdapter<CharSequence> adapter = ArrayAdapter
+					.createFromResource(getContext(),
+							R.array.item_options_array,
+							android.R.layout.simple_spinner_item);
 			adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 			holder.deviceOptionsSpinnerView.setAdapter(adapter);
+			
+			holder.deviceOptionsSpinnerView.setOnItemSelectedListener(
+		                new AdapterView.OnItemSelectedListener() {
+		                    public void onItemSelected(
+		                            AdapterView<?> parent, View view, int position, long id) {
+		                    
+		                    	
+		                        String optionName = adapter.getItem(position).toString();
+		                        switch (optionName){
+		                        case "Send":
+		                        //	Toast.makeText(context, optionName +" is Clicked",Toast.LENGTH_LONG ).show();
+		                        	break;
+		                        case "Browse":
+		                        	Toast.makeText(context, optionName +" is Clicked",Toast.LENGTH_LONG ).show();
+		                        	break;
+		                        case "Info":
+		                        	Toast.makeText(context, optionName +" is Clicked",Toast.LENGTH_LONG ).show();
+		                        	break;
+		                        case "Disconect":
+		                        	Toast.makeText(context, optionName +" is Clicked",Toast.LENGTH_LONG ).show();
+		                        	break;
+		                        case "Remove":
+		                        	Toast.makeText(context, optionName +" is Clicked",Toast.LENGTH_LONG ).show();
+		                        	DevicesFragment.deviceAdapter.clear();
+		                        	DevicesFragment.deviceAdapter.notifyDataSetChanged();
+		                        	break;
+		                        }
+		                    }
+
+		                    public void onNothingSelected(AdapterView<?> parent) {
+		                    }
+		                });			
 		}
 		return convertView;
 

@@ -11,12 +11,13 @@ import android.widget.Button;
 public class MainActivity extends Activity implements OnClickListener {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.home_page_layout);
 
 		final ActionBar actionBar = getActionBar();
 		actionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.setDisplayShowHomeEnabled(false);
+		actionBar.setTitle("Devices");
 
 		Button deviceBtn = (Button) findViewById(R.id.home_page_devices_btn);
 		deviceBtn.setOnClickListener(this);
@@ -30,13 +31,9 @@ public class MainActivity extends Activity implements OnClickListener {
 
 	@Override
 	public void onClick(View view) {
-		System.out.println("onClick");
 		if (view.getId() == R.id.home_page_devices_btn) {
-			System.out.println("new ACtivity");
-
 			Intent intent = new Intent(this, DeviceManageActivity.class);
 			startActivity(intent);
-
 		}
 	}
 }
