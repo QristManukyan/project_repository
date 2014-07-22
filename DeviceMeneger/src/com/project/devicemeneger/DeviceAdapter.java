@@ -31,7 +31,7 @@ public class DeviceAdapter extends ArrayAdapter<Device> {
 	public Device getItem(int position) {
 		return deviceList.get(position);
 	}
-
+	
 	@Override
 	public long getItemId(int position) {
 		return deviceList.get(position).hashCode();
@@ -53,11 +53,10 @@ public class DeviceAdapter extends ArrayAdapter<Device> {
 		if (holder.deviceNameTextView == null){
 			
 			holder.deviceNameTextView = (TextView) convertView.findViewById(R.id.my_devices_item_name);
-			holder.deviceNameTextView.setText(deviceList.get(position).name);
+			holder.deviceNameTextView.setText(deviceList.get(position).getName());
 		}
 		if (holder.deviceOptionsSpinnerView == null){
-			
-			holder.deviceOptionsSpinnerView = (Spinner) convertView.findViewById(R.id.my_devices_item_options_spinner);
+			 holder.deviceOptionsSpinnerView = (Spinner) convertView.findViewById(R.id.my_devices_item_options_spinner);
 			
 			final ArrayAdapter<CharSequence> adapter = ArrayAdapter
 					.createFromResource(getContext(),
@@ -65,7 +64,7 @@ public class DeviceAdapter extends ArrayAdapter<Device> {
 							android.R.layout.simple_spinner_item);
 			adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 			holder.deviceOptionsSpinnerView.setAdapter(adapter);
-			
+			holder.deviceOptionsSpinnerView.setPrompt("title");
 			holder.deviceOptionsSpinnerView.setOnItemSelectedListener(
 		                new AdapterView.OnItemSelectedListener() {
 		                    public void onItemSelected(
@@ -88,6 +87,8 @@ public class DeviceAdapter extends ArrayAdapter<Device> {
 		                        	break;
 		                        case "Remove":
 		                        	Toast.makeText(context, optionName +" is Clicked",Toast.LENGTH_LONG ).show();
+		                        	int viewPosition = DevicesFragment.listView.getSelectedItemPosition();
+		                        	//deleteItem(viewPosition);
 		                        	DevicesFragment.deviceAdapter.clear();
 		                        	DevicesFragment.deviceAdapter.notifyDataSetChanged();
 		                        	break;
@@ -100,6 +101,9 @@ public class DeviceAdapter extends ArrayAdapter<Device> {
 		}
 		return convertView;
 
+	}
+	public void deleteItem(int position){
+		deviceList.remove(position);
 	}
 
 	private class ViewHolder {

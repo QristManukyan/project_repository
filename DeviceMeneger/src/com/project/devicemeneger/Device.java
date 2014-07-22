@@ -3,41 +3,39 @@ package com.project.devicemeneger;
 
 public class Device {
 
-	private long id;
-	public String name;
-	private long owner;
-	private long ip;
+	private int id;
+	private String name;
+	private int owner;
+	private int ip;
 	
-	
-	
-	public Device(long id,  String name, long owner, long ip){
+	public Device(int id,  String name, int owner, int ip){
 		this.id = id;
 		this.name = name;
 		this.owner = owner;
 		this.ip = ip;
 	}
-	public long getId(){
+	public int getId(){
 		return id;
 	}
 	
-	public void setId(long id){
+	public void setId(int id){
 		this.id = id;
 	}
 	
-	public long getIp(){
+	public int getIp(){
 		return ip;
 	}
 	
-	public void setIp(long ip){
+	public void setIp(int ip){
 		this.ip = ip;
 	}
 	
 	
-	public long getOwner(){
+	public int getOwner(){
 		return owner;
 	}
 	
-	public void setOwner(long owner){
+	public void setOwner(int owner){
 		this.owner = owner;
 	}
 	public String getName(){

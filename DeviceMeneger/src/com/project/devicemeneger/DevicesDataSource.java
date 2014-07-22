@@ -76,10 +76,41 @@ public class DevicesDataSource {
 		return infos;
 
 	}
+	
+//	public List<Device> getMoreInfos() throws SQLException {
+//		List<Device> infos = new ArrayList<Device>();
+//
+//		Cursor cursor = database.query(MySQLiteHelper.TABLE_DATA, allColumns,
+//				null, null, null, null, null);
+//
+//		cursor.moveToFirst();
+//		while (!cursor.isAfterLast()) {
+//			Device info = cursorToInfo(cursor);
+//			infos.add(info);
+//			cursor.moveToNext();
+//		}
+//		cursor.close();
+//		return infos;
+//
+//	}
+	
+
+	public List<Device> getResentInfos() throws SQLException {
+		List<Device> infos = new ArrayList<Device>();
+
+		Cursor cursor = database.query(MySQLiteHelper.TABLE_DATA, allColumns,
+				null, null, null, null, null);
+		cursor.moveToFirst();
+			Device info = cursorToInfo(cursor);
+			infos.add(info);
+		cursor.close();
+		return infos;
+
+	}
 
 	private Device cursorToInfo(Cursor cursor) {
 		Device info = new Device(0, null, 0, 0);
-		info.setId(cursor.getLong(0));
+		info.setId(cursor.getInt(0));
 		info.setName(cursor.getString(1));
 		return info;
 	}

@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TabHost.OnTabChangeListener;
 
 public class DeviceManageActivity extends Activity implements
 		ActionBar.TabListener {
@@ -22,9 +23,6 @@ public class DeviceManageActivity extends Activity implements
 	SectionsPagerAdapter mSectionsPagerAdapter;
 	CharSequence pageTitle;
 
-	/**
-	 * The {@link ViewPager} that will host the section contents.
-	 */
 	ViewPager mViewPager;
 
 	private static final int MENU_QUIT_ID = 1;
@@ -36,7 +34,6 @@ public class DeviceManageActivity extends Activity implements
 		// Set up the action bar.
 		final ActionBar actionBar = getActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-		actionBar.setDisplayOptions(0, ActionBar.DISPLAY_SHOW_TITLE);
 		actionBar.setHomeButtonEnabled(true);
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.setDisplayUseLogoEnabled(false);
@@ -110,15 +107,16 @@ public class DeviceManageActivity extends Activity implements
 			public void onClick(View v) {
 
 				Device deviceInfo = null;
-				long deviceId = editId.getText().hashCode();
+				int deviceId = editId.getText().hashCode();
 				String deviceName = editName.getText().toString();
-				long deviceOwner = editOwner.getText().hashCode();
-				long deviceIp =  editIp.getText().hashCode();
+				int deviceOwner = editOwner.getText().hashCode();
+				int deviceIp =  editIp.getText().hashCode();
 				String pageTitle = getActionBar().getSelectedTab().getText()
 						.toString();
 
 				switch (pageTitle) {
 				case "My Devices":
+					System.out.println("page title "+ pageTitle);
 					DevicesFragment.deviceList.add(new Device(deviceId,
 							deviceName, deviceOwner, deviceIp));
 					deviceInfo = DevicesFragment.datasource.createInfo(deviceName);
@@ -127,18 +125,20 @@ public class DeviceManageActivity extends Activity implements
 					break;
 
 				case "Recent":
+					System.out.println("page title "+ pageTitle);
 					DevicesFragment.deviceList.add(new Device(deviceId,
 							deviceName, deviceOwner, deviceIp));
 					deviceInfo = DevicesFragment.datasource.createInfo(deviceName);
-					DevicesFragment.deviceAdapter.add(deviceInfo);
-					DevicesFragment.deviceAdapter.notifyDataSetChanged();
+					DevicesFragment.deviceRecentAdapter.add(deviceInfo);
+					DevicesFragment.deviceRecentAdapter.notifyDataSetChanged();
 					break;
 				case "More":
+					System.out.println("page title "+ pageTitle);
 					DevicesFragment.deviceList.add(new Device(deviceId,
 							deviceName, deviceOwner, deviceIp));
 					deviceInfo = DevicesFragment.datasource.createInfo(deviceName);
-					DevicesFragment.deviceAdapter.add(deviceInfo);
-					DevicesFragment.deviceAdapter.notifyDataSetChanged();
+					DevicesFragment.deviceMoreAdapter.add(deviceInfo);
+					DevicesFragment.deviceMoreAdapter.notifyDataSetChanged();
 					break;
 
 				}
@@ -149,11 +149,18 @@ public class DeviceManageActivity extends Activity implements
 
 		dialog.show();
 	}
+	
 
 	@Override
 	public void onTabSelected(ActionBar.Tab tab,
 			FragmentTransaction fragmentTransaction) {
 		mViewPager.setCurrentItem(tab.getPosition());
+		
+//		if(tab.getPosition() == 0){
+//			RecentFragment frag = new RecentFragment();
+//			fragmentTransaction.replace(android.R.id.content, frag);
+//		}
+	
 	}
 
 	@Override
@@ -174,14 +181,7 @@ public class DeviceManageActivity extends Activity implements
 
 		@Override
 		public Fragment getItem(int position) {
-//			switch (position) {
-//			case 0:
-//				return DevicesFragment.newInstance(position + 1);
-//			case 1:
-//				return RecentDevicesFragment.newInstance(position + 1);
-//			case 2:
 				return DevicesFragment.newInstance(position + 1);
-			//}
 
 		}
 
