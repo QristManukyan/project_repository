@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-public class DevicesFragment extends Fragment {
+public class MoreFragment extends Fragment {
 	static DevicesDataSource datasource;
 
 	public static DeviceAdapter deviceAdapter;
@@ -25,15 +25,15 @@ public class DevicesFragment extends Fragment {
 		super.onCreate(savedInstanceState);
 	};
 
-	public static DevicesFragment newInstance(int sectionNumber) {
-		DevicesFragment fragment = new DevicesFragment();
+	public static MoreFragment newInstance(int sectionNumber) {
+		MoreFragment fragment = new MoreFragment();
 		Bundle args = new Bundle();
 		args.putInt(ARG_SECTION_NUMBER, sectionNumber);
 		fragment.setArguments(args);
 		return fragment;
 	}
 
-	public DevicesFragment() {
+	public MoreFragment() {
 	}
 
 	@Override
@@ -44,7 +44,7 @@ public class DevicesFragment extends Fragment {
 //		.toString();
 		datasource = new DevicesDataSource(getActivity());
 		datasource.open();
-		List<Device> values = datasource.getAllInfos();
+		List<Device> values = datasource.getMoreInfos();
 		View rootView = inflater.inflate(R.layout.fragment_main, container,
 				false);
 		listView = (ListView) rootView.findViewById(R.id.device_list_view);

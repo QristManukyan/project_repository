@@ -33,6 +33,7 @@ public class MainActivity extends Activity implements OnClickListener {
 	public void onClick(View view) {
 		if (view.getId() == R.id.home_page_devices_btn) {
 			Intent intent = new Intent(this, DeviceManageActivity.class);
+			System.out.println("intent"+intent);
 			startActivity(intent);
 		}
 	}

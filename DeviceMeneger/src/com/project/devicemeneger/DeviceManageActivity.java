@@ -1,11 +1,16 @@
 package com.project.devicemeneger;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Dialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.os.Bundle;
@@ -16,6 +21,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TabHost.OnTabChangeListener;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
 
 public class DeviceManageActivity extends Activity implements
 		ActionBar.TabListener {
@@ -24,6 +32,7 @@ public class DeviceManageActivity extends Activity implements
 	CharSequence pageTitle;
 
 	ViewPager mViewPager;
+	static MySQLiteHelper dbHelper;
 
 	private static final int MENU_QUIT_ID = 1;
 
@@ -64,6 +73,7 @@ public class DeviceManageActivity extends Activity implements
 					.setTabListener(this));
 
 		}
+		
 	}
 
 	@Override
@@ -105,6 +115,7 @@ public class DeviceManageActivity extends Activity implements
 		addBtn.setOnClickListener(new View.OnClickListener() {
 
 			public void onClick(View v) {
+				
 
 				Device deviceInfo = null;
 				int deviceId = editId.getText().hashCode();
@@ -113,7 +124,15 @@ public class DeviceManageActivity extends Activity implements
 				int deviceIp =  editIp.getText().hashCode();
 				String pageTitle = getActionBar().getSelectedTab().getText()
 						.toString();
-
+				
+//				DevicesFragment.deviceList.add(new Device(deviceId,
+//						deviceName, deviceOwner, deviceIp));
+//				//deviceInfo = createInfo(deviceName);
+//				DevicesFragment.deviceAdapter.add(deviceInfo);
+//				System.out.println("adapter= "+DevicesFragment.deviceAdapter.getContext());
+//				DevicesFragment.deviceAdapter.notifyDataSetChanged();
+				//createInfo(deviceName);
+				
 				switch (pageTitle) {
 				case "My Devices":
 					System.out.println("page title "+ pageTitle);
@@ -126,25 +145,44 @@ public class DeviceManageActivity extends Activity implements
 
 				case "Recent":
 					System.out.println("page title "+ pageTitle);
-					DevicesFragment.deviceList.add(new Device(deviceId,
+					RecentFragment.deviceList.add(new Device(deviceId,
 							deviceName, deviceOwner, deviceIp));
-					deviceInfo = DevicesFragment.datasource.createInfo(deviceName);
-					DevicesFragment.deviceRecentAdapter.add(deviceInfo);
-					DevicesFragment.deviceRecentAdapter.notifyDataSetChanged();
+					deviceInfo = RecentFragment.datasource.createInfo(deviceName);
+					System.out.println("deviceInfo"+deviceInfo);
+					RecentFragment.deviceAdapter.add(deviceInfo);
+					RecentFragment.deviceAdapter.notifyDataSetChanged();
 					break;
 				case "More":
 					System.out.println("page title "+ pageTitle);
-					DevicesFragment.deviceList.add(new Device(deviceId,
+					MoreFragment.deviceList.add(new Device(deviceId,
 							deviceName, deviceOwner, deviceIp));
-					deviceInfo = DevicesFragment.datasource.createInfo(deviceName);
-					DevicesFragment.deviceMoreAdapter.add(deviceInfo);
-					DevicesFragment.deviceMoreAdapter.notifyDataSetChanged();
+					deviceInfo = MoreFragment.datasource.createInfo(deviceName);
+					MoreFragment.deviceAdapter.add(deviceInfo);
+					MoreFragment.deviceAdapter.notifyDataSetChanged();
 					break;
 
 				}
 
 				dialog.dismiss();
 			}
+
+//			private void createInfo(String deviceName) {
+//				
+//				 ContentValues cv = new ContentValues();
+//				    
+//				    // получаем данные из полей ввода
+//
+//				    // подключаемся к БД
+//				    SQLiteDatabase db = dbHelper.getWritableDatabase();
+//				    
+//				    cv.put("name", deviceName);
+//				      cv.put("email", deviceName);
+//				      // вставляем запись и получаем ее ID
+//				      long rowID = db.insert("mytable", null, cv);
+//				      System.out.println( "row inserted, ID = " + rowID);
+//				}
+
+		
 		});
 
 		dialog.show();
@@ -156,11 +194,6 @@ public class DeviceManageActivity extends Activity implements
 			FragmentTransaction fragmentTransaction) {
 		mViewPager.setCurrentItem(tab.getPosition());
 		
-//		if(tab.getPosition() == 0){
-//			RecentFragment frag = new RecentFragment();
-//			fragmentTransaction.replace(android.R.id.content, frag);
-//		}
-	
 	}
 
 	@Override
@@ -181,8 +214,18 @@ public class DeviceManageActivity extends Activity implements
 
 		@Override
 		public Fragment getItem(int position) {
+			switch(position){
+			case 0:
 				return DevicesFragment.newInstance(position + 1);
-
+			
+			case 1:
+				return RecentFragment.newInstance(position + 1);
+			
+			case 2:
+				return MoreFragment.newInstance(position + 1);
+			}
+			System.out.println("no fragment");
+			return null;
 		}
 
 		@Override
@@ -204,4 +247,6 @@ public class DeviceManageActivity extends Activity implements
 			return null;
 		}
 	}
+	
+	
 }
