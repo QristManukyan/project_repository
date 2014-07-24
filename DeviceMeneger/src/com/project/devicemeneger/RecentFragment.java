@@ -3,7 +3,6 @@ package com.project.devicemeneger;
 import java.util.ArrayList;
 import java.util.List;
 import android.app.Fragment;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +13,6 @@ import android.widget.ListView;
 public class RecentFragment extends Fragment {
 
 	static MySQLiteHelper datasource;
-	private SQLiteDatabase database;
 	public static DeviceAdapter deviceAdapter;
 
 	public static ListView listView;
@@ -45,7 +43,7 @@ public class RecentFragment extends Fragment {
 //		String pageTitle = getActivity().getActionBar().getSelectedTab().getText()
 //		.toString();
 		datasource = new MySQLiteHelper(getActivity());
-		database =  datasource.getWritableDatabase();
+		datasource.getWritableDatabase();
 		List<Device> values = datasource.getAllDevices();
 		View rootView = inflater.inflate(R.layout.fragment_main, container,
 				false);

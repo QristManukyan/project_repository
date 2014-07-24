@@ -87,7 +87,6 @@ public class DeviceAdapter extends ArrayAdapter<Device> {
 		                        	break;
 		                        case "Remove":
 		                        	Toast.makeText(context, optionName +" is Clicked",Toast.LENGTH_LONG ).show();
-		                        	int viewPosition = DevicesFragment.listView.getSelectedItemPosition();
 		                        	//deleteItem(viewPosition);
 		                        	DevicesFragment.deviceAdapter.clear();
 		                        	DevicesFragment.deviceAdapter.notifyDataSetChanged();

@@ -1,7 +1,5 @@
 package com.project.devicemeneger;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import android.app.Activity;
 import android.app.ActionBar;
@@ -9,8 +7,6 @@ import android.app.Dialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.os.Bundle;
@@ -20,10 +16,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TabHost.OnTabChangeListener;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 
 public class DeviceManageActivity extends Activity implements
 		ActionBar.TabListener {
@@ -132,13 +124,11 @@ public class DeviceManageActivity extends Activity implements
 //						deviceName, deviceOwner, deviceIp));
 //				//deviceInfo = createInfo(deviceName);
 //				DevicesFragment.deviceAdapter.add(deviceInfo);
-//				System.out.println("adapter= "+DevicesFragment.deviceAdapter.getContext());
 //				DevicesFragment.deviceAdapter.notifyDataSetChanged();
 				//createInfo(deviceName);
 				
 				switch (pageTitle) {
 				case "My Devices":
-					System.out.println("page title "+ pageTitle);
 					DevicesFragment.deviceList.add(new Device(deviceId,
 							deviceName, deviceOwner, deviceIp));
 					deviceInfo = DevicesFragment.datasource.addDevice(crateDevice);
@@ -147,16 +137,13 @@ public class DeviceManageActivity extends Activity implements
 					break;
 
 				case "Recent":
-					System.out.println("page title "+ pageTitle);
 					RecentFragment.deviceList.add(new Device(deviceId,
 							deviceName, deviceOwner, deviceIp));
 					deviceInfo = RecentFragment.datasource.addDevice(crateDevice);
-					System.out.println("deviceInfo"+deviceInfo);
 					RecentFragment.deviceAdapter.add(deviceInfo);
 					RecentFragment.deviceAdapter.notifyDataSetChanged();
 					break;
 				case "More":
-					System.out.println("page title "+ pageTitle);
 					MoreFragment.deviceList.add(new Device(deviceId,
 							deviceName, deviceOwner, deviceIp));
 					deviceInfo = MoreFragment.datasource.addDevice(crateDevice);
@@ -168,24 +155,6 @@ public class DeviceManageActivity extends Activity implements
 
 				dialog.dismiss();
 			}
-
-//			private void createInfo(String deviceName) {
-//				
-//				 ContentValues cv = new ContentValues();
-//				    
-//				    // получаем данные из полей ввода
-//
-//				    // подключаемся к БД
-//				    SQLiteDatabase db = dbHelper.getWritableDatabase();
-//				    
-//				    cv.put("name", deviceName);
-//				      cv.put("email", deviceName);
-//				      // вставляем запись и получаем ее ID
-//				      long rowID = db.insert("mytable", null, cv);
-//				      System.out.println( "row inserted, ID = " + rowID);
-//				}
-
-		
 		});
 
 		dialog.show();
@@ -227,7 +196,6 @@ public class DeviceManageActivity extends Activity implements
 			case 2:
 				return MoreFragment.newInstance(position + 1);
 			}
-			System.out.println("no fragment");
 			return null;
 		}
 
