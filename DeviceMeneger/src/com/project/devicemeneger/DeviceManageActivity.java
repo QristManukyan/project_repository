@@ -122,6 +122,9 @@ public class DeviceManageActivity extends Activity implements
 				String deviceName = editName.getText().toString();
 				int deviceOwner = editOwner.getText().hashCode();
 				int deviceIp =  editIp.getText().hashCode();
+				
+				Device crateDevice = new Device(deviceId, deviceName, deviceOwner, deviceIp);
+
 				String pageTitle = getActionBar().getSelectedTab().getText()
 						.toString();
 				
@@ -138,7 +141,7 @@ public class DeviceManageActivity extends Activity implements
 					System.out.println("page title "+ pageTitle);
 					DevicesFragment.deviceList.add(new Device(deviceId,
 							deviceName, deviceOwner, deviceIp));
-					deviceInfo = DevicesFragment.datasource.createInfo(deviceName);
+					deviceInfo = DevicesFragment.datasource.addDevice(crateDevice);
 					DevicesFragment.deviceAdapter.add(deviceInfo);
 					DevicesFragment.deviceAdapter.notifyDataSetChanged();
 					break;
@@ -147,7 +150,7 @@ public class DeviceManageActivity extends Activity implements
 					System.out.println("page title "+ pageTitle);
 					RecentFragment.deviceList.add(new Device(deviceId,
 							deviceName, deviceOwner, deviceIp));
-					deviceInfo = RecentFragment.datasource.createInfo(deviceName);
+					deviceInfo = RecentFragment.datasource.addDevice(crateDevice);
 					System.out.println("deviceInfo"+deviceInfo);
 					RecentFragment.deviceAdapter.add(deviceInfo);
 					RecentFragment.deviceAdapter.notifyDataSetChanged();
@@ -156,7 +159,7 @@ public class DeviceManageActivity extends Activity implements
 					System.out.println("page title "+ pageTitle);
 					MoreFragment.deviceList.add(new Device(deviceId,
 							deviceName, deviceOwner, deviceIp));
-					deviceInfo = MoreFragment.datasource.createInfo(deviceName);
+					deviceInfo = MoreFragment.datasource.addDevice(crateDevice);
 					MoreFragment.deviceAdapter.add(deviceInfo);
 					MoreFragment.deviceAdapter.notifyDataSetChanged();
 					break;

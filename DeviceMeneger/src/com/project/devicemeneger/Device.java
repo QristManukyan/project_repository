@@ -14,6 +14,13 @@ public class Device {
 		this.owner = owner;
 		this.ip = ip;
 	}
+	public Device (String name, int owner){
+		this.name = name;
+		this.owner = owner;
+	}
+	
+	public Device(){}
+	
 	public int getId(){
 		return id;
 	}
@@ -49,5 +56,7 @@ public class Device {
 	@Override
 	public String toString(){
 		return name;
+//			return "Device [id=" + id + ", name=" + name + ", owner=" + owner + ", ip=" + ip
+//					+ "]";
 	}
 }

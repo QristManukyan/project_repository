@@ -3,6 +3,7 @@ package com.project.devicemeneger;
 import java.util.ArrayList;
 import java.util.List;
 import android.app.Fragment;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +12,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 public class DevicesFragment extends Fragment {
-	static DevicesDataSource datasource;
+	static MySQLiteHelper datasource;
+	private SQLiteDatabase database;
 
 	public static DeviceAdapter deviceAdapter;
 
@@ -42,9 +44,9 @@ public class DevicesFragment extends Fragment {
 		
 //		String pageTitle = getActivity().getActionBar().getSelectedTab().getText()
 //		.toString();
-		datasource = new DevicesDataSource(getActivity());
-		datasource.open();
-		List<Device> values = datasource.getAllInfos();
+		datasource = new MySQLiteHelper(getActivity());
+		database =  datasource.getWritableDatabase();
+		List<Device> values = datasource.getAllDevices();
 		View rootView = inflater.inflate(R.layout.fragment_main, container,
 				false);
 		listView = (ListView) rootView.findViewById(R.id.device_list_view);

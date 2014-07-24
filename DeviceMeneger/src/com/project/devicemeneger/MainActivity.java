@@ -1,5 +1,9 @@
 package com.project.devicemeneger;
 
+
+import java.util.List;
+
+
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
@@ -21,6 +25,8 @@ public class MainActivity extends Activity implements OnClickListener {
 
 		Button deviceBtn = (Button) findViewById(R.id.home_page_devices_btn);
 		deviceBtn.setOnClickListener(this);
+		
+        
 	}
 
 	@Override

@@ -111,4 +111,5 @@ public class DeviceAdapter extends ArrayAdapter<Device> {
 		public Spinner deviceOptionsSpinnerView = null;
 	}
 
+
 }
