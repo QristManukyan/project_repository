@@ -28,8 +28,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 	// SQL statement to create  table
 			String DATABASE_CREATE = "CREATE TABLE devices ( " +
 	                "id INTEGER PRIMARY KEY AUTOINCREMENT, " + 
-	                "name TEXT, "+
 					"deviceID TEXT, "+
+					"name TEXT, "+
 					"owner TEXT, "+
 					"deviceIp TEXT )";
 			

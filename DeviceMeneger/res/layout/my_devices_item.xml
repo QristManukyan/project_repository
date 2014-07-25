@@ -1,31 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
-
-    <LinearLayout
-        android:id="@+id/my_devices_item_layout"
-        android:layout_width="fill_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:descendantFocusability="blocksDescendants"
+    android:paddingBottom="5dp"
+>
+    <RelativeLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingBottom="10dp"
-        android:paddingLeft="5dp"
-        android:paddingTop="10dp" >
+        android:layout_alignParentRight="true" >
 
-        <TextView
-            android:id="@+id/my_devices_item_name"
-            android:layout_width="100dp"
-            android:layout_height="50dp"
-            android:text="Dives1" />
-
-        <Spinner
-            android:id="@+id/my_devices_item_options_spinner"
-            android:layout_width="fill_parent"
+        <FrameLayout
+            android:id="@+id/si_ui_gallery_item_view_user_image_layout"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:spinnerMode="dropdown"
-            />
-    </LinearLayout>
+            android:layout_margin="10dip"
+            android:clickable="true"
+            android:paddingTop="7dp" >
 
+            <TextView
+                android:id="@+id/my_devices_item_name"
+                android:layout_width="100dip"
+                android:layout_height="fill_parent"
+                android:layout_gravity="center"
+                android:text="@string/action_devices_btn"
+                android:textSize="16sp" />
+        </FrameLayout>
 
-</LinearLayout>
+        <FrameLayout
+            android:id="@+id/my_devices_item_options_more"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:clickable="true"
+            android:padding="5dp"
+            android:visibility="visible" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:clickable="false"
+                android:duplicateParentState="true"
+                android:scaleType="center"
+                android:src="@drawable/menu_moreoverflow_normal_holo_light" />
+        </FrameLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

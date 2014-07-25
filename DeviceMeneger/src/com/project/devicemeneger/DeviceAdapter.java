@@ -3,11 +3,12 @@ package com.project.devicemeneger;
 import java.util.List;
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Spinner;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,60 +55,55 @@ public class DeviceAdapter extends ArrayAdapter<Device> {
 			
 			holder.deviceNameTextView = (TextView) convertView.findViewById(R.id.my_devices_item_name);
 			holder.deviceNameTextView.setText(deviceList.get(position).getName());
+			System.out.println("name is"+deviceList.get(position).getName());
 		}
-		if (holder.deviceOptionsSpinnerView == null){
-			 holder.deviceOptionsSpinnerView = (Spinner) convertView.findViewById(R.id.my_devices_item_options_spinner);
-			
-			final ArrayAdapter<CharSequence> adapter = ArrayAdapter
-					.createFromResource(getContext(),
-							R.array.item_options_array,
-							android.R.layout.simple_spinner_item);
-			adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-			holder.deviceOptionsSpinnerView.setAdapter(adapter);
-			holder.deviceOptionsSpinnerView.setPrompt("title");
-			holder.deviceOptionsSpinnerView.setOnItemSelectedListener(
-		                new AdapterView.OnItemSelectedListener() {
-		                    public void onItemSelected(
-		                            AdapterView<?> parent, View view, int position, long id) {
-		                    
-		                    	
-		                        String optionName = adapter.getItem(position).toString();
-		                        switch (optionName){
-		                        case "Send":
-		                        //	Toast.makeText(context, optionName +" is Clicked",Toast.LENGTH_LONG ).show();
-		                        	break;
-		                        case "Browse":
-		                        	Toast.makeText(context, optionName +" is Clicked",Toast.LENGTH_LONG ).show();
-		                        	break;
-		                        case "Info":
-		                        	Toast.makeText(context, optionName +" is Clicked",Toast.LENGTH_LONG ).show();
-		                        	break;
-		                        case "Disconect":
-		                        	Toast.makeText(context, optionName +" is Clicked",Toast.LENGTH_LONG ).show();
-		                        	break;
-		                        case "Remove":
-		                        	Toast.makeText(context, optionName +" is Clicked",Toast.LENGTH_LONG ).show();
-		                        	//deleteItem(viewPosition);
-		                        	DevicesFragment.deviceAdapter.clear();
-		                        	DevicesFragment.deviceAdapter.notifyDataSetChanged();
-		                        	break;
-		                        }
-		                    }
+			 holder.deviceOptionsMore = (ViewGroup) convertView.findViewById(R.id.my_devices_item_options_more);
+			 holder.deviceOptionsMore.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View view) {
 
-		                    public void onNothingSelected(AdapterView<?> parent) {
-		                    }
-		                });			
-		}
+					System.out.println("onClick");
+					PopupMenu popupMenu = new PopupMenu(context, holder.deviceOptionsMore);
+					popupMenu.getMenuInflater().inflate(R.menu.popup_menu, popupMenu.getMenu());
+					
+					popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+						
+						@Override
+						public boolean onMenuItemClick(MenuItem item) {
+							String itemTitle = item.getTitle().toString();
+							switch (itemTitle){
+							case "Send":
+								Toast.makeText(context, "Send is clicked", Toast.LENGTH_LONG).show();
+								break;
+							case "Browse":
+								Toast.makeText(context, "Browse is clicked", Toast.LENGTH_LONG).show();
+								break;
+							case "Info":
+								Toast.makeText(context, "Info is clicked", Toast.LENGTH_LONG).show();
+								break;
+							case "Disconect":
+								Toast.makeText(context, "Disconect is clicked", Toast.LENGTH_LONG).show();
+								break;
+							case "Remove":
+								Toast.makeText(context, "Remove is clicked", Toast.LENGTH_LONG).show();
+								break;
+								
+							
+							}
+							return true;
+						}
+					});
+					popupMenu.show();
+				}
+			});
 		return convertView;
 
-	}
-	public void deleteItem(int position){
-		deviceList.remove(position);
 	}
 
 	private class ViewHolder {
 		public TextView deviceNameTextView = null;
-		public Spinner deviceOptionsSpinnerView = null;
+		public ViewGroup deviceOptionsMore = null;
 	}
 
 

@@ -18,6 +18,11 @@
    	<string name="dialog_ip_hint">IP</string> 
    	<string name="dialog_add_new">Add</string> 
    	<string name="action_bar_title">Devices</string>
+   	<string name="gen_send">Send</string>
+   	<string name="gen_browse">Browse</string>
+   	<string name="gen_info">Info</string>
+   	<string name="gen_disconect">Disconect</string>
+   	<string name="gen_remove">Remove</string>
     <string-array name="item_options_array">
         <item >Send</item>
         <item >Browse</item>

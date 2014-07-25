@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+  
+    <item  
+        android:id="@+id/send"  
+        android:title="@string/gen_send"/>  
+      
+    <item  
+        android:id="@+id/browse"  
+        android:title="@string/gen_browse"/>  
+        
+    <item  
+        android:id="@+id/info"  
+        android:title="@string/gen_info"/>  
+    <item  
+        android:id="@+id/disconect"  
+        android:title="@string/gen_disconect"/>  
+        
+    <item  
+        android:id="@+id/remove"  
+        android:title="@string/gen_remove"/>  
+               
+          
+
+</menu>
