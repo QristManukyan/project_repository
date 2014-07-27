@@ -40,6 +40,8 @@ public class DeviceAdapter extends ArrayAdapter<Device> {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
+		System.out.println("getView");
+		
 		final ViewHolder holder;
 		if (convertView == null){
 			
@@ -55,7 +57,6 @@ public class DeviceAdapter extends ArrayAdapter<Device> {
 			
 			holder.deviceNameTextView = (TextView) convertView.findViewById(R.id.my_devices_item_name);
 			holder.deviceNameTextView.setText(deviceList.get(position).getName());
-			System.out.println("name is"+deviceList.get(position).getName());
 		}
 			 holder.deviceOptionsMore = (ViewGroup) convertView.findViewById(R.id.my_devices_item_options_more);
 			 holder.deviceOptionsMore.setOnClickListener(new OnClickListener() {
@@ -88,8 +89,6 @@ public class DeviceAdapter extends ArrayAdapter<Device> {
 							case "Remove":
 								Toast.makeText(context, "Remove is clicked", Toast.LENGTH_LONG).show();
 								break;
-								
-							
 							}
 							return true;
 						}

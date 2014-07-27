@@ -11,13 +11,14 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 public class RecentFragment extends Fragment {
+	
 
 	static MySQLiteHelper datasource;
-	public static DeviceAdapter deviceAdapter;
+	public static DeviceAdapter recentDeviceAdapter;
 
 	public static ListView listView;
-	public static List<Device> deviceList = new ArrayList<Device>();
-	private static final String ARG_SECTION_NUMBER = "section_number";
+	public static List<Device> recentDeviceList = new ArrayList<Device>();
+	private static final String ARG_SECTION_NUMBER = "section_number2";
 
 	
 	@Override
@@ -48,13 +49,13 @@ public class RecentFragment extends Fragment {
 		View rootView = inflater.inflate(R.layout.fragment_main, container,
 				false);
 		listView = (ListView) rootView.findViewById(R.id.device_list_view);
-		deviceAdapter = new DeviceAdapter(values, getActivity());
-		listView.setAdapter(deviceAdapter);
+		recentDeviceAdapter = new DeviceAdapter(values, getActivity());
+		listView.setAdapter(recentDeviceAdapter);
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				((InfoListener) getActivity()).onChangeInfo(deviceList.get(
+				((InfoListener) getActivity()).onChangeInfo(recentDeviceList.get(
 						position).getName());
 			}
 		});

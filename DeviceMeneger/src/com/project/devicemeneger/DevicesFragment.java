@@ -16,7 +16,7 @@ public class DevicesFragment extends Fragment {
 
 	public static ListView listView;
 	public static List<Device> deviceList = new ArrayList<Device>();
-	private static final String ARG_SECTION_NUMBER = "section_number";
+	public static final String ARG_SECTION_NUMBER = "section_number1";
 
 	
 	@Override
@@ -47,14 +47,18 @@ public class DevicesFragment extends Fragment {
 		View rootView = inflater.inflate(R.layout.fragment_main, container,
 				false);
 		listView = (ListView) rootView.findViewById(R.id.device_list_view);
+		System.out.println("deviceAdapter");
 		deviceAdapter = new DeviceAdapter(values, getActivity());
+		System.out.println("deviceAdapter is");
 		listView.setAdapter(deviceAdapter);
+
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				((InfoListener) getActivity()).onChangeInfo(deviceList.get(
-						position).getName());
+//				((InfoListener) getActivity()).onChangeInfo(deviceList.get(
+//						position).getName());
+				
 			}
 		});
 		setHasOptionsMenu(true);

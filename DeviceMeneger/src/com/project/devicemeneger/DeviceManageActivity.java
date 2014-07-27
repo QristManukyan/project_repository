@@ -122,10 +122,10 @@ public class DeviceManageActivity extends Activity implements
 				
 //				DevicesFragment.deviceList.add(new Device(deviceId,
 //						deviceName, deviceOwner, deviceIp));
-//				//deviceInfo = createInfo(deviceName);
+//				deviceInfo = DevicesFragment.datasource.addDevice(crateDevice);
 //				DevicesFragment.deviceAdapter.add(deviceInfo);
 //				DevicesFragment.deviceAdapter.notifyDataSetChanged();
-				//createInfo(deviceName);
+//			//	createInfo(deviceName);
 				
 				switch (pageTitle) {
 				case "My Devices":
@@ -137,18 +137,18 @@ public class DeviceManageActivity extends Activity implements
 					break;
 
 				case "Recent":
-					RecentFragment.deviceList.add(new Device(deviceId,
+					RecentFragment.recentDeviceList.add(new Device(deviceId,
 							deviceName, deviceOwner, deviceIp));
 					deviceInfo = RecentFragment.datasource.addDevice(crateDevice);
-					RecentFragment.deviceAdapter.add(deviceInfo);
-					RecentFragment.deviceAdapter.notifyDataSetChanged();
+					RecentFragment.recentDeviceAdapter.add(deviceInfo);
+					RecentFragment.recentDeviceAdapter.notifyDataSetChanged();
 					break;
 				case "More":
-					MoreFragment.deviceList.add(new Device(deviceId,
+					MoreFragment.moreDeviceList.add(new Device(deviceId,
 							deviceName, deviceOwner, deviceIp));
 					deviceInfo = MoreFragment.datasource.addDevice(crateDevice);
-					MoreFragment.deviceAdapter.add(deviceInfo);
-					MoreFragment.deviceAdapter.notifyDataSetChanged();
+					MoreFragment.moredeviceAdapter.add(deviceInfo);
+					MoreFragment.moredeviceAdapter.notifyDataSetChanged();
 					break;
 
 				}
@@ -164,7 +164,8 @@ public class DeviceManageActivity extends Activity implements
 	@Override
 	public void onTabSelected(ActionBar.Tab tab,
 			FragmentTransaction fragmentTransaction) {
-		//mViewPager.setCurrentItem(tab.getPosition());
+		mViewPager.setCurrentItem(tab.getPosition());
+		System.out.println("tab is changed");
 		
 		
 	}
@@ -189,14 +190,19 @@ public class DeviceManageActivity extends Activity implements
 		public Fragment getItem(int position) {
 			switch(position){
 			case 0:
+				System.out.println("getitem"+DevicesFragment.newInstance(position + 1));
 				return DevicesFragment.newInstance(position + 1);
-			
 			case 1:
+				
+				System.out.println("getitem"+ position);
 				return RecentFragment.newInstance(position + 1);
 			
 			case 2:
+				
+				System.out.println("getitem"+MoreFragment.newInstance(position + 1));
 				return MoreFragment.newInstance(position + 1);
 			}
+			
 			return null;
 		}
 
