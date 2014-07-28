@@ -1,6 +1,4 @@
 package com.project.devicemeneger;
-
-
 import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Dialog;
@@ -8,7 +6,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
-import android.support.v13.app.FragmentPagerAdapter;
+import android.support.v13.app.FragmentStatePagerAdapter;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
@@ -17,8 +15,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-public class DeviceManageActivity extends Activity implements
-		ActionBar.TabListener {
+public class DeviceManageActivity extends Activity  implements  ActionBar.TabListener{
+
 
 	SectionsPagerAdapter mSectionsPagerAdapter;
 	CharSequence pageTitle;
@@ -30,17 +28,19 @@ public class DeviceManageActivity extends Activity implements
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		System.out.println("onCreate");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		System.out.println("Setcontexnt");
 		// Set up the action bar.
 		final ActionBar actionBar = getActionBar();
+		System.out.println("actionBar"+actionBar);
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 		actionBar.setHomeButtonEnabled(true);
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.setDisplayUseLogoEnabled(false);
 		actionBar.setDisplayShowHomeEnabled(false);
 		actionBar.setTitle("Devices");
-		
 
 		mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
 
@@ -50,6 +50,7 @@ public class DeviceManageActivity extends Activity implements
 
 		mViewPager = (ViewPager) findViewById(R.id.pager);
 		mViewPager.setAdapter(mSectionsPagerAdapter);
+		mViewPager.setOffscreenPageLimit(2);
 		mViewPager
 				.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
 					@Override
@@ -65,8 +66,10 @@ public class DeviceManageActivity extends Activity implements
 					.setTabListener(this));
 
 		}
+}
 		
-	}
+	
+
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -97,7 +100,7 @@ public class DeviceManageActivity extends Activity implements
 		dialog.setContentView(R.layout.dialog);
 		dialog.setTitle("Add Device");
 		dialog.setCancelable(true);
-
+//
 		final EditText editId = (EditText) dialog.findViewById(R.id.dialog_edit_id);
 		final EditText editName = (EditText) dialog.findViewById(R.id.dialog_edit_name);
 		final EditText editOwner = (EditText) dialog.findViewById(R.id.dialog_edit_owner);
@@ -109,7 +112,6 @@ public class DeviceManageActivity extends Activity implements
 			public void onClick(View v) {
 				
 
-				Device deviceInfo = null;
 				int deviceId = editId.getText().hashCode();
 				String deviceName = editName.getText().toString();
 				int deviceOwner = editOwner.getText().hashCode();
@@ -120,36 +122,31 @@ public class DeviceManageActivity extends Activity implements
 				String pageTitle = getActionBar().getSelectedTab().getText()
 						.toString();
 				
-//				DevicesFragment.deviceList.add(new Device(deviceId,
-//						deviceName, deviceOwner, deviceIp));
-//				deviceInfo = DevicesFragment.datasource.addDevice(crateDevice);
-//				DevicesFragment.deviceAdapter.add(deviceInfo);
-//				DevicesFragment.deviceAdapter.notifyDataSetChanged();
-//			//	createInfo(deviceName);
-				
-				switch (pageTitle) {
-				case "My Devices":
-					DevicesFragment.deviceList.add(new Device(deviceId,
-							deviceName, deviceOwner, deviceIp));
-					deviceInfo = DevicesFragment.datasource.addDevice(crateDevice);
-					DevicesFragment.deviceAdapter.add(deviceInfo);
+				if (pageTitle.equals("My Devices")){
+					
+					DevicesFragment.deviceList.add(crateDevice);
+					System.out.println("deviceList=="+DevicesFragment.deviceList);
+					DevicesFragment.deviceAdapter.add(crateDevice);
+					System.out.println("adapter item count=="+DevicesFragment.deviceAdapter.getCount());
 					DevicesFragment.deviceAdapter.notifyDataSetChanged();
-					break;
-
-				case "Recent":
-					RecentFragment.recentDeviceList.add(new Device(deviceId,
-							deviceName, deviceOwner, deviceIp));
-					deviceInfo = RecentFragment.datasource.addDevice(crateDevice);
-					RecentFragment.recentDeviceAdapter.add(deviceInfo);
+					DevicesFragment.datasource.addDevice(crateDevice);
+				}
+				if (pageTitle.equals("Recent")){
+					
+					RecentFragment.recentDeviceList.add(crateDevice);
+					System.out.println("deviceList=="+DevicesFragment.deviceList);
+					RecentFragment.recentDeviceAdapter.add(crateDevice);
+					System.out.println("adapter item count=="+RecentFragment.recentDeviceAdapter.getCount());
 					RecentFragment.recentDeviceAdapter.notifyDataSetChanged();
-					break;
-				case "More":
-					MoreFragment.moreDeviceList.add(new Device(deviceId,
-							deviceName, deviceOwner, deviceIp));
-					deviceInfo = MoreFragment.datasource.addDevice(crateDevice);
-					MoreFragment.moredeviceAdapter.add(deviceInfo);
+					RecentFragment.datasource.addDevice(crateDevice);
+				}
+				if( pageTitle.equals("More")){
+					MoreFragment.moreDeviceList.add(crateDevice);
+					System.out.println("list is "+RecentFragment.recentDeviceList);
+					MoreFragment.moredeviceAdapter.add(crateDevice);
+					System.out.println("adapter item count=="+MoreFragment.moredeviceAdapter.getCount());
 					MoreFragment.moredeviceAdapter.notifyDataSetChanged();
-					break;
+					MoreFragment.datasource.addDevice(crateDevice);
 
 				}
 
@@ -159,13 +156,13 @@ public class DeviceManageActivity extends Activity implements
 
 		dialog.show();
 	}
-	
 
 	@Override
 	public void onTabSelected(ActionBar.Tab tab,
 			FragmentTransaction fragmentTransaction) {
 		mViewPager.setCurrentItem(tab.getPosition());
 		System.out.println("tab is changed");
+		System.out.println("title"+ getActionBar().getSelectedTab().getText().toString());
 		
 		
 	}
@@ -180,7 +177,7 @@ public class DeviceManageActivity extends Activity implements
 			FragmentTransaction fragmentTransaction) {
 	}
 
-	public class SectionsPagerAdapter extends FragmentPagerAdapter {
+	public class SectionsPagerAdapter extends FragmentStatePagerAdapter  {
 
 		public SectionsPagerAdapter(FragmentManager fm) {
 			super(fm);
@@ -226,5 +223,15 @@ public class DeviceManageActivity extends Activity implements
 		}
 	}
 	
+
+
+@Override
+protected void onSaveInstanceState(Bundle outState) {
+	// TODO Auto-generated method stub
+	super.onSaveInstanceState(outState);
+	outState.putInt("tab", getActionBar().getSelectedNavigationIndex());
+}
+	
 	
 }
+

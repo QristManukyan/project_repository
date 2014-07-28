@@ -40,11 +40,10 @@ public class DeviceAdapter extends ArrayAdapter<Device> {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		System.out.println("getView");
+		
 		
 		final ViewHolder holder;
 		if (convertView == null){
-			
 			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			convertView = inflater.inflate(R.layout.my_devices_item, null);
 			holder = new ViewHolder();
@@ -96,6 +95,7 @@ public class DeviceAdapter extends ArrayAdapter<Device> {
 					popupMenu.show();
 				}
 			});
+			 System.out.println("getView");
 		return convertView;
 
 	}
@@ -105,5 +105,6 @@ public class DeviceAdapter extends ArrayAdapter<Device> {
 		public ViewGroup deviceOptionsMore = null;
 	}
 
-
 }
+
+

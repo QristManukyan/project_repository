@@ -11,14 +11,15 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 public class RecentFragment extends Fragment {
-	
 
 	static MySQLiteHelper datasource;
 	public static DeviceAdapter recentDeviceAdapter;
 
 	public static ListView listView;
 	public static List<Device> recentDeviceList = new ArrayList<Device>();
-	private static final String ARG_SECTION_NUMBER = "section_number2";
+	private static final String ARG_SECTION_NUMBER = "section_number";
+	static final String SAVE_PAGE_NUMBER = "save_page_number";
+	int pageNumber;
 
 	
 	@Override
@@ -43,14 +44,18 @@ public class RecentFragment extends Fragment {
 		
 //		String pageTitle = getActivity().getActionBar().getSelectedTab().getText()
 //		.toString();
+		System.out.println("onCreateView_ Recent");
 		datasource = new MySQLiteHelper(getActivity());
 		datasource.getWritableDatabase();
 		List<Device> values = datasource.getAllDevices();
+		System.out.println("values"+values);
 		View rootView = inflater.inflate(R.layout.fragment_main, container,
 				false);
 		listView = (ListView) rootView.findViewById(R.id.device_list_view);
 		recentDeviceAdapter = new DeviceAdapter(values, getActivity());
+		recentDeviceAdapter.notifyDataSetChanged();
 		listView.setAdapter(recentDeviceAdapter);
+		listView.invalidate();
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
@@ -72,11 +77,16 @@ public class RecentFragment extends Fragment {
 		super.onActivityCreated(savedInstanceState);
 		
 	}
+	 @Override
+	  public void onSaveInstanceState(Bundle outState) {
+	    super.onSaveInstanceState(outState);
+	    outState.putInt(SAVE_PAGE_NUMBER, pageNumber);
+	  }
+	  
+	  @Override
+	  public void onDestroy() {
+	    super.onDestroy();
+	  }
 
-	// public static void deleteListItem (){
-	// int position = listView.getSelectedItemPosition();
-	// listView.removeViews(listView.getSelectedItemPosition(), 1);
-	// }
-	//
 
 }

@@ -16,8 +16,10 @@ public class MoreFragment extends Fragment {
 
 	public static ListView listView;
 	public static List<Device> moreDeviceList = new ArrayList<Device>();
-	public static final String ARG_SECTION_NUMBER = "section_number3";
-
+	public static final String ARG_SECTION_NUMBER = "section_number";
+	static final String SAVE_PAGE_NUMBER = "save_page_number";
+	int pageNumber;
+	
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -32,8 +34,8 @@ public class MoreFragment extends Fragment {
 		return fragment;
 	}
 
-	public MoreFragment() {
-	}
+//	public MoreFragment() {
+//	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -41,6 +43,7 @@ public class MoreFragment extends Fragment {
 		
 //		String pageTitle = getActivity().getActionBar().getSelectedTab().getText()
 //		.toString();
+		System.out.println("onCreateView_ More");
 		datasource = new MySQLiteHelper(getActivity());
 		datasource.getWritableDatabase();
 
@@ -71,11 +74,23 @@ public class MoreFragment extends Fragment {
 		super.onActivityCreated(savedInstanceState);
 		
 	}
+	
+	@Override
+	public void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+	}
 
-	// public static void deleteListItem (){
-	// int position = listView.getSelectedItemPosition();
-	// listView.removeViews(listView.getSelectedItemPosition(), 1);
-	// }
-	//
+	 @Override
+	  public void onSaveInstanceState(Bundle outState) {
+	    super.onSaveInstanceState(outState);
+	    outState.putInt(SAVE_PAGE_NUMBER, pageNumber);
+	  }
+	  
+	  @Override
+	  public void onDestroy() {
+	    super.onDestroy();
+	  }
+
 
 }

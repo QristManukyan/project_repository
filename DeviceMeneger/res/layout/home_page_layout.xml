@@ -4,8 +4,7 @@
     android:layout_height="match_parent"
     android:background="@android:color/white"
     android:orientation="vertical"
-    android:paddingTop="30dp" >
-
+>
     <LinearLayout
         android:id="@+id/home_page_first_row"
         android:layout_width="fill_parent"
@@ -26,7 +25,6 @@
 
     <LinearLayout
         android:id="@+id/home_page_second_row"
-        style="?android:attr/buttonBarStyle"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
