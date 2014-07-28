@@ -107,7 +107,6 @@ public class DeviceManageActivity extends Activity  implements  ActionBar.TabLis
 		addBtn.setOnClickListener(new View.OnClickListener() {
 
 			public void onClick(View v) {
-				
 
 				int deviceId = Integer.parseInt(editId.getText().toString());
 				String deviceName = editName.getText().toString();
@@ -138,9 +137,7 @@ public class DeviceManageActivity extends Activity  implements  ActionBar.TabLis
 					MoreFragment.moredeviceAdapter.add(crateDevice);
 					MoreFragment.moredeviceAdapter.notifyDataSetChanged();
 					MoreFragment.datasource.addDevice(crateDevice);
-
 				}
-
 				dialog.dismiss();
 			}
 		});

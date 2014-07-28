@@ -95,7 +95,6 @@ public class DeviceAdapter extends ArrayAdapter<Device> {
 				}
 			});
 		return convertView;
-
 	}
 
 	private class ViewHolder {
