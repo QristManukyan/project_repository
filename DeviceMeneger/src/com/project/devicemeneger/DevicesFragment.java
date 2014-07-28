@@ -34,37 +34,29 @@ public class DevicesFragment extends Fragment {
 		return fragment;
 	}
 
-//	public DevicesFragment() {
-//	}
+	public DevicesFragment() {
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		
-//		String pageTitle = getActivity().getActionBar().getSelectedTab().getText()
-//		.toString();
-		System.out.println("onCreateView_ Devices");
-		datasource = new MySQLiteHelper(getActivity());
+		datasource = new MySQLiteHelper(getActivity(),"DEVICESBASE.db");
 		datasource.getWritableDatabase();
 		List<Device> values = datasource.getAllDevices();
 		View rootView = inflater.inflate(R.layout.fragment_main, container,
 				false);
 		
 		listView = (ListView) rootView.findViewById(R.id.device_list_view);
-		System.out.println("deviceAdapter");
 		deviceAdapter = new DeviceAdapter(values, getActivity());
-		System.out.println("deviceAdapter is");
 		listView.setAdapter(deviceAdapter);
 
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-//				((InfoListener) getActivity()).onChangeInfo(deviceList.get(
-//						position).getName());
-				
 			}
 		});
+		
 		setHasOptionsMenu(true);
 		return rootView;
 	}
@@ -76,9 +68,7 @@ public class DevicesFragment extends Fragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		
 	}
-
 
 	 @Override
 	  public void onSaveInstanceState(Bundle outState) {

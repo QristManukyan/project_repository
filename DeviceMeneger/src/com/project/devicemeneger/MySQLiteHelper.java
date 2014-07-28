@@ -9,16 +9,14 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import android.database.Cursor;
 import android.database.SQLException;
-import android.util.Log;
 
 public class MySQLiteHelper extends SQLiteOpenHelper {
 	
   private MySQLiteHelper dbHelper;
 	
   private static final int DATABASE_VERSION = 1;
-  private static final String DATABASE_NAME = "DEVICESBASE.db";
  
-  public MySQLiteHelper(Context context) {
+  public MySQLiteHelper(Context context, String DATABASE_NAME) {
 	    super(context, DATABASE_NAME, null, DATABASE_VERSION);
 	  }
 
@@ -60,7 +58,6 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
   
   
   public Device addDevice(Device device){
-		Log.d("addDevice", device.toString());
 		// get reference to writable DB
 		SQLiteDatabase db = this.getWritableDatabase();
 		 

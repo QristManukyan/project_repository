@@ -28,13 +28,10 @@ public class DeviceManageActivity extends Activity  implements  ActionBar.TabLis
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		System.out.println("onCreate");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		System.out.println("Setcontexnt");
 		// Set up the action bar.
 		final ActionBar actionBar = getActionBar();
-		System.out.println("actionBar"+actionBar);
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 		actionBar.setHomeButtonEnabled(true);
 		actionBar.setDisplayHomeAsUpEnabled(true);
@@ -112,10 +109,10 @@ public class DeviceManageActivity extends Activity  implements  ActionBar.TabLis
 			public void onClick(View v) {
 				
 
-				int deviceId = editId.getText().hashCode();
+				int deviceId = Integer.parseInt(editId.getText().toString());
 				String deviceName = editName.getText().toString();
-				int deviceOwner = editOwner.getText().hashCode();
-				int deviceIp =  editIp.getText().hashCode();
+				int deviceOwner = Integer.parseInt(editOwner.getText().toString());
+				int deviceIp = Integer.parseInt(editIp.getText().toString());
 				
 				Device crateDevice = new Device(deviceId, deviceName, deviceOwner, deviceIp);
 
@@ -125,26 +122,20 @@ public class DeviceManageActivity extends Activity  implements  ActionBar.TabLis
 				if (pageTitle.equals("My Devices")){
 					
 					DevicesFragment.deviceList.add(crateDevice);
-					System.out.println("deviceList=="+DevicesFragment.deviceList);
 					DevicesFragment.deviceAdapter.add(crateDevice);
-					System.out.println("adapter item count=="+DevicesFragment.deviceAdapter.getCount());
 					DevicesFragment.deviceAdapter.notifyDataSetChanged();
 					DevicesFragment.datasource.addDevice(crateDevice);
 				}
 				if (pageTitle.equals("Recent")){
 					
 					RecentFragment.recentDeviceList.add(crateDevice);
-					System.out.println("deviceList=="+DevicesFragment.deviceList);
 					RecentFragment.recentDeviceAdapter.add(crateDevice);
-					System.out.println("adapter item count=="+RecentFragment.recentDeviceAdapter.getCount());
 					RecentFragment.recentDeviceAdapter.notifyDataSetChanged();
 					RecentFragment.datasource.addDevice(crateDevice);
 				}
 				if( pageTitle.equals("More")){
 					MoreFragment.moreDeviceList.add(crateDevice);
-					System.out.println("list is "+RecentFragment.recentDeviceList);
 					MoreFragment.moredeviceAdapter.add(crateDevice);
-					System.out.println("adapter item count=="+MoreFragment.moredeviceAdapter.getCount());
 					MoreFragment.moredeviceAdapter.notifyDataSetChanged();
 					MoreFragment.datasource.addDevice(crateDevice);
 
@@ -161,9 +152,6 @@ public class DeviceManageActivity extends Activity  implements  ActionBar.TabLis
 	public void onTabSelected(ActionBar.Tab tab,
 			FragmentTransaction fragmentTransaction) {
 		mViewPager.setCurrentItem(tab.getPosition());
-		System.out.println("tab is changed");
-		System.out.println("title"+ getActionBar().getSelectedTab().getText().toString());
-		
 		
 	}
 
@@ -187,16 +175,10 @@ public class DeviceManageActivity extends Activity  implements  ActionBar.TabLis
 		public Fragment getItem(int position) {
 			switch(position){
 			case 0:
-				System.out.println("getitem"+DevicesFragment.newInstance(position + 1));
 				return DevicesFragment.newInstance(position + 1);
 			case 1:
-				
-				System.out.println("getitem"+ position);
 				return RecentFragment.newInstance(position + 1);
-			
 			case 2:
-				
-				System.out.println("getitem"+MoreFragment.newInstance(position + 1));
 				return MoreFragment.newInstance(position + 1);
 			}
 			
@@ -205,7 +187,6 @@ public class DeviceManageActivity extends Activity  implements  ActionBar.TabLis
 
 		@Override
 		public int getCount() {
-			// Show 3 total pages.
 			return 3;
 		}
 
@@ -227,7 +208,6 @@ public class DeviceManageActivity extends Activity  implements  ActionBar.TabLis
 
 @Override
 protected void onSaveInstanceState(Bundle outState) {
-	// TODO Auto-generated method stub
 	super.onSaveInstanceState(outState);
 	outState.putInt("tab", getActionBar().getSelectedNavigationIndex());
 }

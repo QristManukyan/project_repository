@@ -42,13 +42,9 @@ public class RecentFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		
-//		String pageTitle = getActivity().getActionBar().getSelectedTab().getText()
-//		.toString();
-		System.out.println("onCreateView_ Recent");
-		datasource = new MySQLiteHelper(getActivity());
+		datasource = new MySQLiteHelper(getActivity(),"RECENTDEVICESBASE.db");
 		datasource.getWritableDatabase();
 		List<Device> values = datasource.getAllDevices();
-		System.out.println("values"+values);
 		View rootView = inflater.inflate(R.layout.fragment_main, container,
 				false);
 		listView = (ListView) rootView.findViewById(R.id.device_list_view);
@@ -60,8 +56,6 @@ public class RecentFragment extends Fragment {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				((InfoListener) getActivity()).onChangeInfo(recentDeviceList.get(
-						position).getName());
 			}
 		});
 		setHasOptionsMenu(true);

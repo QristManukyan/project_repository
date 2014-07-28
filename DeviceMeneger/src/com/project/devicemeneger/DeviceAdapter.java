@@ -63,7 +63,6 @@ public class DeviceAdapter extends ArrayAdapter<Device> {
 				@Override
 				public void onClick(View view) {
 
-					System.out.println("onClick");
 					PopupMenu popupMenu = new PopupMenu(context, holder.deviceOptionsMore);
 					popupMenu.getMenuInflater().inflate(R.menu.popup_menu, popupMenu.getMenu());
 					
@@ -95,7 +94,6 @@ public class DeviceAdapter extends ArrayAdapter<Device> {
 					popupMenu.show();
 				}
 			});
-			 System.out.println("getView");
 		return convertView;
 
 	}

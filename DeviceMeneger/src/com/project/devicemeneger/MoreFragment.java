@@ -34,19 +34,15 @@ public class MoreFragment extends Fragment {
 		return fragment;
 	}
 
-//	public MoreFragment() {
-//	}
+	public MoreFragment() {
+	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		
-//		String pageTitle = getActivity().getActionBar().getSelectedTab().getText()
-//		.toString();
-		System.out.println("onCreateView_ More");
-		datasource = new MySQLiteHelper(getActivity());
+		datasource = new MySQLiteHelper(getActivity(),"MOREDEVICESBASE.db");
 		datasource.getWritableDatabase();
-
 		List<Device> values = datasource.getAllDevices();
 		View rootView = inflater.inflate(R.layout.fragment_main, container,
 				false);
@@ -57,8 +53,6 @@ public class MoreFragment extends Fragment {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
-				((InfoListener) getActivity()).onChangeInfo(moreDeviceList.get(
-						position).getName());
 			}
 		});
 		setHasOptionsMenu(true);
@@ -77,7 +71,6 @@ public class MoreFragment extends Fragment {
 	
 	@Override
 	public void onResume() {
-		// TODO Auto-generated method stub
 		super.onResume();
 	}
 
