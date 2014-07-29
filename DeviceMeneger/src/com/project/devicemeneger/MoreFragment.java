@@ -19,8 +19,7 @@ public class MoreFragment extends Fragment {
 	public static final String ARG_SECTION_NUMBER = "section_number";
 	static final String SAVE_PAGE_NUMBER = "save_page_number";
 	int pageNumber;
-	
-	
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -40,19 +39,18 @@ public class MoreFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		
-		datasource = new MySQLiteHelper(getActivity(),"MOREDEVICESBASE.db");
+
+		datasource = new MySQLiteHelper(getActivity(), "MOREDEVICESBASE.db");
 		datasource.getWritableDatabase();
 		List<Device> values = datasource.getAllDevices();
-		View rootView = inflater.inflate(R.layout.fragment_main, container,
-				false);
+		View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 		listView = (ListView) rootView.findViewById(R.id.device_list_view);
 		moredeviceAdapter = new DeviceAdapter(values, getActivity());
 		listView.setAdapter(moredeviceAdapter);
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
+			public void onItemClick(AdapterView<?> parent, View view, int position,
+					long id) {
 			}
 		});
 		setHasOptionsMenu(true);
@@ -66,24 +64,23 @@ public class MoreFragment extends Fragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		
+
 	}
-	
+
 	@Override
 	public void onResume() {
 		super.onResume();
 	}
 
-	 @Override
-	  public void onSaveInstanceState(Bundle outState) {
-	    super.onSaveInstanceState(outState);
-	    outState.putInt(SAVE_PAGE_NUMBER, pageNumber);
-	  }
-	  
-	  @Override
-	  public void onDestroy() {
-	    super.onDestroy();
-	  }
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putInt(SAVE_PAGE_NUMBER, pageNumber);
+	}
 
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+	}
 
 }

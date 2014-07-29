@@ -17,6 +17,7 @@
    	<string name="dialog_owner_hint">Owner</string>
    	<string name="dialog_ip_hint">IP</string> 
    	<string name="dialog_add_new">Add</string> 
+   	<string name="dialog_cancel">Cancel</string>
    	<string name="action_bar_title">Devices</string>
    	<string name="gen_send">Send</string>
    	<string name="gen_browse">Browse</string>

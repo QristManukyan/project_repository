@@ -20,7 +20,6 @@ public class DevicesFragment extends Fragment {
 	static final String SAVE_PAGE_NUMBER = "save_page_number";
 	int pageNumber;
 
-	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -40,23 +39,22 @@ public class DevicesFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		datasource = new MySQLiteHelper(getActivity(),"DEVICESBASE.db");
+		datasource = new MySQLiteHelper(getActivity(), "DEVICESBASE.db");
 		datasource.getWritableDatabase();
 		List<Device> values = datasource.getAllDevices();
-		View rootView = inflater.inflate(R.layout.fragment_main, container,
-				false);
-		
+		View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+
 		listView = (ListView) rootView.findViewById(R.id.device_list_view);
 		deviceAdapter = new DeviceAdapter(values, getActivity());
 		listView.setAdapter(deviceAdapter);
 
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
+			public void onItemClick(AdapterView<?> parent, View view, int position,
+					long id) {
 			}
 		});
-		
+
 		setHasOptionsMenu(true);
 		return rootView;
 	}
@@ -70,15 +68,15 @@ public class DevicesFragment extends Fragment {
 		super.onActivityCreated(savedInstanceState);
 	}
 
-	 @Override
-	  public void onSaveInstanceState(Bundle outState) {
-	    super.onSaveInstanceState(outState);
-	    outState.putInt(SAVE_PAGE_NUMBER, pageNumber);
-	  }
-	  
-	  @Override
-	  public void onDestroy() {
-	    super.onDestroy();
-	  }
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putInt(SAVE_PAGE_NUMBER, pageNumber);
+	}
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+	}
 
 }
