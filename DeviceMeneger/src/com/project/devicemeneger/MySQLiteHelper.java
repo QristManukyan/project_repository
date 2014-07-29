@@ -26,7 +26,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 		// SQL statement to create table
 		String DATABASE_CREATE = "CREATE TABLE devices ( "
 				+ "id INTEGER PRIMARY KEY AUTOINCREMENT, "
-				+ "deviceID TEXT, "
+			//	+ "deviceID TEXT, "
 				+ "name TEXT, " 
 				+ "owner TEXT, " 
 				+ "deviceIp TEXT )";
@@ -47,12 +47,12 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 	// Devices Table Columns names
 	private static final String KEY_ID = "id";
 
-	private static final String KEY_DEVICE_ID = "deviceID";
+//	private static final String KEY_DEVICE_ID = "deviceID";
 	private static final String KEY_NAME = "name";
 	private static final String KEY_OWNER = "owner";
 	private static final String KEY_IP = "deviceIp";
 
-	private static final String[] COLUMNS = { KEY_ID, KEY_NAME, KEY_DEVICE_ID, KEY_OWNER,
+	private static final String[] COLUMNS = { KEY_ID, KEY_NAME,  KEY_OWNER,
 			KEY_IP };
 
 	public Device addDevice(Device device) {
@@ -61,7 +61,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
 		// create ContentValues to add key "column"/value
 		ContentValues values = new ContentValues();
-		values.put(KEY_DEVICE_ID, device.getId());
+		//values.put(KEY_DEVICE_ID, device.getId());
 		values.put(KEY_NAME, device.getName());
 		values.put(KEY_OWNER, device.getOwner());
 		values.put(KEY_IP, device.getIp());
@@ -78,7 +78,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 	}
 
 	private Device cursorToInfo(Cursor cursor) {
-		Device info = new Device(0, null, 0, 0);
+		Device info = new Device( null, 0, 0);
 		info.setId(cursor.getInt(0));
 		info.setName(cursor.getString(1));
 		return info;
@@ -99,11 +99,11 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 
 		// build device object
 		Device device = new Device();
-		// device.setId(Integer.parseInt(cursor.getString(0)));
-		device.setId(cursor.getInt(1));
-		device.setName(cursor.getString(2));
-		device.setOwner(cursor.getInt(3));
-		device.setIp(cursor.getInt(4));
+		device.setId(Integer.parseInt(cursor.getString(0)));
+		//device.setId(cursor.getInt(1));
+		device.setName(cursor.getString(1));
+		device.setOwner(cursor.getInt(2));
+		device.setIp(cursor.getInt(3));
 
 		System.out.println("getDevice(" + id + ")" + device.toString());
 
@@ -126,11 +126,12 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 		if (cursor.moveToFirst()) {
 			do {
 				device = new Device();
-				// device.setId(Integer.parseInt(cursor.getString(0)));
-				device.setId(cursor.getInt(1));
-				device.setName(cursor.getString(2));
-				device.setOwner(cursor.getInt(3));
-				device.setIp(cursor.getInt(4));
+				device.setId(Integer.parseInt(cursor.getString(0)));
+				//device.setId(cursor.getInt(1));
+				device.setName(cursor.getString(1));
+				System.out.println("cursor.getString(1)="+cursor.getString(1));
+				device.setOwner(cursor.getInt(2));
+				device.setIp(cursor.getInt(3));
 				devices.add(device);
 			} while (cursor.moveToNext());
 		}
@@ -145,7 +146,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 		ContentValues values = new ContentValues();
 		values.put("name", device.getName());
 		values.put("owner", device.getOwner());
-		values.put("deviceID", device.getId());
+	//	values.put("deviceID", device.getId());
 		values.put("deviceIp", device.getIp());
 
 		// updating row

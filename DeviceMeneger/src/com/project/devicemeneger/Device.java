@@ -8,8 +8,7 @@ public class Device {
 	private int owner;
 	private int ip;
 	
-	public Device(int id,  String name, int owner, int ip){
-		this.id = id;
+	public Device( String name, int owner, int ip){
 		this.name = name;
 		this.owner = owner;
 		this.ip = ip;
