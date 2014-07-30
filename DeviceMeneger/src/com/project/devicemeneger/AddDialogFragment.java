@@ -1,8 +1,5 @@
 package com.project.devicemeneger;
-
 import java.util.Random;
-
-
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
@@ -14,6 +11,15 @@ import android.widget.EditText;
 
 public class AddDialogFragment extends DialogFragment{
 	
+	private MySQLiteHelper myDatasourse = MyDevicesFragment.datasource;
+	private MySQLiteHelper recentDatasourse = RecentDevicesFragment.datasource;
+	private MySQLiteHelper moreDatasourse = MoreDevicesFragment.datasource;
+	private int deviceRandomOwner = new Random().nextInt(100);
+	private int deviceRandomIp = new Random().nextInt(200);
+	private int pageIndex;
+	
+	
+	
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 
@@ -22,73 +28,78 @@ public class AddDialogFragment extends DialogFragment{
 		View  dialogView = inflater.inflate(R.layout.dialog, null);
 		builder.setView(dialogView);
 		builder.setTitle("Add Device");
-
-		final int deviceRandomOwner = new Random().nextInt(100);
-		final int deviceRandomIp = new Random().nextInt(200);
+		pageIndex = getActivity().getActionBar().getSelectedTab().getPosition();
+		int myDId = 1, moreDId = 1, recentDId = 1;
 		
 		final EditText editName = (EditText) dialogView.findViewById(R.id.dialog_edit_name);
+		EditText editId = (EditText) dialogView.findViewById(R.id.dialog_edit_id);
 		
 		EditText editOwner = (EditText) dialogView.findViewById(R.id.dialog_edit_owner);
 		editOwner.setText(Integer.toString(deviceRandomOwner));
-		
+	
 		EditText editIp = (EditText) dialogView.findViewById(R.id.dialog_edit_ip);
 		editIp.setText(Integer.toString(deviceRandomIp));
+
+		if(myDatasourse.getDevicesCount() != 0 )
+			myDId = myDatasourse.getNextId();
+
+		if (recentDatasourse.getDevicesCount() != 0)
+			recentDId = recentDatasourse.getNextId();
 		
-		try
-		{
-			EditText editId = (EditText) dialogView.findViewById(R.id.dialog_edit_id);
-			int deviceId = Integer.parseInt(editId.getText().toString());	
-		}
-		catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-		 
+		if (moreDatasourse.getDevicesCount() !=0 )
+			moreDId = moreDatasourse.getNextId();
 		
+		switch (pageIndex){
+			case 0:
+				editId.setText(Integer.toString(myDId));
+				break;
+			case 1:			
+				editId.setText(Integer.toString(recentDId));
+				break;
+			case 2:			
+				editId.setText(Integer.toString(moreDId));
+				break;
+		}
 		
 		builder.setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
 			
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				
-				if(which == dialog.BUTTON_NEGATIVE){
+				if(which == DialogInterface.BUTTON_NEGATIVE){
 					dialog.dismiss();
 				}
-								
 			}
 		});
+		
 		builder.setPositiveButton(R.string.dialog_add_new, new DialogInterface.OnClickListener() {
 			
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				
-				String pageTitle = getActivity().getActionBar().getSelectedTab().getText().toString();
+			
 				String deviceName = editName.getText().toString();
-				 Device crateDevice = new Device(deviceName, deviceRandomOwner, deviceRandomIp);
+				Device crateDevice = new Device(deviceName, deviceRandomOwner, deviceRandomIp);
 				
-				//int deviceId = Integer.parseInt(editId.getText().toString());
-				 
-				if (pageTitle.equals("My Devices")) {
-					DevicesFragment.deviceList.add(crateDevice);
-					DevicesFragment.deviceAdapter.add(crateDevice);
-					DevicesFragment.deviceAdapter.notifyDataSetChanged();
-					DevicesFragment.datasource.addDevice(crateDevice);
-
+				switch(pageIndex) {
+				case 0:
+					MyDevicesFragment.deviceList.add(crateDevice);
+					MyDevicesFragment.deviceAdapter.add(crateDevice);
+					MyDevicesFragment.deviceAdapter.notifyDataSetChanged();
+					myDatasourse.addDevice(crateDevice);
+					break;
+				case 1:
+					RecentDevicesFragment.recentDeviceList.add(crateDevice);
+					RecentDevicesFragment.recentDeviceAdapter.add(crateDevice);
+					RecentDevicesFragment.recentDeviceAdapter.notifyDataSetChanged();
+					recentDatasourse.addDevice(crateDevice);
+					break;
+				case 2:
+					MoreDevicesFragment.moreDeviceList.add(crateDevice);
+					MoreDevicesFragment.moredeviceAdapter.add(crateDevice);
+					MoreDevicesFragment.moredeviceAdapter.notifyDataSetChanged();
+					moreDatasourse.addDevice(crateDevice);
+					break;
 				}
-				if (pageTitle.equals("Recent")) {
-					RecentFragment.recentDeviceList.add(crateDevice);
-					RecentFragment.recentDeviceAdapter.add(crateDevice);
-					RecentFragment.recentDeviceAdapter.notifyDataSetChanged();
-					RecentFragment.datasource.addDevice(crateDevice);
-				}
-				if (pageTitle.equals("More")) {
-					MoreFragment.moreDeviceList.add(crateDevice);
-					MoreFragment.moredeviceAdapter.add(crateDevice);
-					MoreFragment.moredeviceAdapter.notifyDataSetChanged();
-					MoreFragment.datasource.addDevice(crateDevice);
-				}
-				
-				
 			}
 		});
 		return builder.create();

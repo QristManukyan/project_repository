@@ -35,7 +35,7 @@ public class DeviceAdapter extends ArrayAdapter<Device> {
 
 	@Override
 	public long getItemId(int position) {
-		return deviceList.get(position).hashCode();
+		return deviceList.get(position).getId();
 	}
 
 	@Override
@@ -43,8 +43,7 @@ public class DeviceAdapter extends ArrayAdapter<Device> {
 
 		final ViewHolder holder;
 		if (convertView == null) {
-			LayoutInflater inflater = (LayoutInflater) context
-					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+			LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			convertView = inflater.inflate(R.layout.my_devices_item, null);
 			holder = new ViewHolder();
 			convertView.setTag(holder);
@@ -52,27 +51,20 @@ public class DeviceAdapter extends ArrayAdapter<Device> {
 			holder = (ViewHolder) convertView.getTag();
 		}
 
-		if (holder.deviceNameTextView == null) {
 
-			holder.deviceNameTextView = (TextView) convertView
-					.findViewById(R.id.my_devices_item_name);
-			holder.deviceNameTextView.setText(deviceList.get(position)
-					.getName());
-		}
-		holder.deviceOptionsMore = (ViewGroup) convertView
-				.findViewById(R.id.my_devices_item_options_more);
-		holder.deviceOptionsMore.setOnClickListener(new OnClickListener() {
-
+			holder.deviceNameTextView = (TextView) convertView.findViewById(R.id.my_devices_item_name);
+			holder.deviceNameTextView.setText(deviceList.get(position).getName());
+			
+			holder.deviceOptionsMore = (ViewGroup) convertView.findViewById(R.id.my_devices_item_options_more);
+			holder.deviceOptionsMore.setOnClickListener(new OnClickListener() {
+		
 			@Override
 			public void onClick(View view) {
 
-				PopupMenu popupMenu = new PopupMenu(context,
-						holder.deviceOptionsMore);
-				popupMenu.getMenuInflater().inflate(R.menu.popup_menu,
-						popupMenu.getMenu());
+				PopupMenu popupMenu = new PopupMenu(context,holder.deviceOptionsMore);
+				popupMenu.getMenuInflater().inflate(R.menu.popup_menu,popupMenu.getMenu());
 
-				popupMenu
-						.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+				popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
 
 							@Override
 							public boolean onMenuItemClick(MenuItem item) {
@@ -108,6 +100,8 @@ public class DeviceAdapter extends ArrayAdapter<Device> {
 				popupMenu.show();
 			}
 		});
+		
+	
 		return convertView;
 	}
 

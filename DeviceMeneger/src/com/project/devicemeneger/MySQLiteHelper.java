@@ -26,12 +26,10 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 		// SQL statement to create table
 		String DATABASE_CREATE = "CREATE TABLE devices ( "
 				+ "id INTEGER PRIMARY KEY AUTOINCREMENT, "
-			//	+ "deviceID TEXT, "
 				+ "name TEXT, " 
 				+ "owner TEXT, " 
 				+ "deviceIp TEXT )";
 
-		// create table
 		database.execSQL(DATABASE_CREATE);
 	}
 
@@ -47,7 +45,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 	// Devices Table Columns names
 	private static final String KEY_ID = "id";
 
-//	private static final String KEY_DEVICE_ID = "deviceID";
+	//	private static final String KEY_DEVICE_ID = "deviceID";
 	private static final String KEY_NAME = "name";
 	private static final String KEY_OWNER = "owner";
 	private static final String KEY_IP = "deviceIp";
@@ -55,13 +53,11 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 	private static final String[] COLUMNS = { KEY_ID, KEY_NAME,  KEY_OWNER,
 			KEY_IP };
 
+	//Add device in database
 	public Device addDevice(Device device) {
-		// get reference to writable DB
+		
 		SQLiteDatabase db = this.getWritableDatabase();
-
-		// create ContentValues to add key "column"/value
 		ContentValues values = new ContentValues();
-		//values.put(KEY_DEVICE_ID, device.getId());
 		values.put(KEY_NAME, device.getName());
 		values.put(KEY_OWNER, device.getOwner());
 		values.put(KEY_IP, device.getIp());
@@ -72,7 +68,6 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 				MySQLiteHelper.KEY_ID + " = " + insertId, null, null, null, null);
 		cursor.moveToFirst();
 		Device newInfo = cursorToInfo(cursor);
-		// close
 		db.close();
 		return newInfo;
 	}
@@ -84,52 +79,60 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 		return info;
 	}
 
+	//Get Deivce from database
 	public Device getDevice(int id) {
 
-		// get reference to readable DB
 		SQLiteDatabase db = this.getReadableDatabase();
-
-		// build query
 		Cursor cursor = db.query(TABLE_DEVICES, COLUMNS, " id = ?",
 				new String[] { String.valueOf(id) }, null, null, null, null);
 
-		// if we got results get the first one
 		if (cursor != null)
 			cursor.moveToFirst();
-
-		// build device object
 		Device device = new Device();
 		device.setId(Integer.parseInt(cursor.getString(0)));
-		//device.setId(cursor.getInt(1));
 		device.setName(cursor.getString(1));
 		device.setOwner(cursor.getInt(2));
 		device.setIp(cursor.getInt(3));
-
-		System.out.println("getDevice(" + id + ")" + device.toString());
-
+		//System.out.println("getDevice(" + id + ")" + device.toString());
 		return device;
 	}
-
-	// Get All device
+	
+	// Get next device id
+	public int getNextId(){
+		
+		int id = 0;
+		String query = "SELECT  * FROM " + TABLE_DEVICES;
+		SQLiteDatabase database = this.getReadableDatabase();
+		Cursor cursor = database.rawQuery(query, null);
+		if(cursor!=null)
+			cursor.moveToLast();
+		id = Integer.parseInt(cursor.getString(0));
+		int nextId = id + 1;
+		return nextId;
+	}
+	
+	
+	// Getting devices Count
+	    public int getDevicesCount() {
+	        String countQuery = "SELECT  * FROM " + TABLE_DEVICES;
+	        SQLiteDatabase db = this.getReadableDatabase();
+	        Cursor cursor = db.rawQuery(countQuery, null);
+	        return cursor.getCount();
+	    }
+	
+	// Get All devices
 	public List<Device> getAllDevices() {
 		List<Device> devices = new LinkedList<Device>();
 
-		// build the query
 		String query = "SELECT  * FROM " + TABLE_DEVICES;
-
-		// get reference to writable DB
 		SQLiteDatabase db = this.getWritableDatabase();
 		Cursor cursor = db.rawQuery(query, null);
-
-		// go over each row, build device and add it to list
 		Device device = null;
 		if (cursor.moveToFirst()) {
 			do {
 				device = new Device();
 				device.setId(Integer.parseInt(cursor.getString(0)));
-				//device.setId(cursor.getInt(1));
 				device.setName(cursor.getString(1));
-				System.out.println("cursor.getString(1)="+cursor.getString(1));
 				device.setOwner(cursor.getInt(2));
 				device.setIp(cursor.getInt(3));
 				devices.add(device);
@@ -141,12 +144,10 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 	// Updating single device
 	public int updateDevice(Device device) {
 
-		// get reference to writable DB
 		SQLiteDatabase db = this.getWritableDatabase();
 		ContentValues values = new ContentValues();
 		values.put("name", device.getName());
 		values.put("owner", device.getOwner());
-	//	values.put("deviceID", device.getId());
 		values.put("deviceIp", device.getIp());
 
 		// updating row

@@ -10,13 +10,13 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-public class DevicesFragment extends Fragment {
+public class MoreDevicesFragment extends Fragment {
 	static MySQLiteHelper datasource;
-	public static DeviceAdapter deviceAdapter;
+	public static DeviceAdapter moredeviceAdapter;
 
 	public static ListView listView;
-	public static List<Device> deviceList = new ArrayList<Device>();
-	public static final String ARG_SECTION_NUMBER = "section_number1";
+	public static List<Device> moreDeviceList = new ArrayList<Device>();
+	public static final String ARG_SECTION_NUMBER = "section_number";
 	static final String SAVE_PAGE_NUMBER = "save_page_number";
 	int pageNumber;
 
@@ -25,36 +25,34 @@ public class DevicesFragment extends Fragment {
 		super.onCreate(savedInstanceState);
 	};
 
-	public static DevicesFragment newInstance(int sectionNumber) {
-		DevicesFragment fragment = new DevicesFragment();
+	public static MoreDevicesFragment newInstance(int sectionNumber) {
+		MoreDevicesFragment fragment = new MoreDevicesFragment();
 		Bundle args = new Bundle();
 		args.putInt(ARG_SECTION_NUMBER, sectionNumber);
 		fragment.setArguments(args);
 		return fragment;
 	}
 
-	public DevicesFragment() {
+	public MoreDevicesFragment() {
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		datasource = new MySQLiteHelper(getActivity(), "DEVICESBASE.db");
+
+		datasource = new MySQLiteHelper(getActivity(), "MOREDEVICESBASE.db");
 		datasource.getWritableDatabase();
 		List<Device> values = datasource.getAllDevices();
 		View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-
 		listView = (ListView) rootView.findViewById(R.id.device_list_view);
-		deviceAdapter = new DeviceAdapter(values, getActivity());
-		listView.setAdapter(deviceAdapter);
-
+		moredeviceAdapter = new DeviceAdapter(values, getActivity());
+		listView.setAdapter(moredeviceAdapter);
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position,
 					long id) {
 			}
 		});
-
 		setHasOptionsMenu(true);
 		return rootView;
 	}
@@ -66,6 +64,12 @@ public class DevicesFragment extends Fragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
 	}
 
 	@Override

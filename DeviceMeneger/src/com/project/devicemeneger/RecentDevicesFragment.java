@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-public class RecentFragment extends Fragment {
+public class RecentDevicesFragment extends Fragment {
 
 	static MySQLiteHelper datasource;
 	public static DeviceAdapter recentDeviceAdapter;
@@ -27,15 +27,15 @@ public class RecentFragment extends Fragment {
 		super.onCreate(savedInstanceState);
 	};
 
-	public static RecentFragment newInstance(int sectionNumber) {
-		RecentFragment fragment = new RecentFragment();
+	public static RecentDevicesFragment newInstance(int sectionNumber) {
+		RecentDevicesFragment fragment = new RecentDevicesFragment();
 		Bundle args = new Bundle();
 		args.putInt(ARG_SECTION_NUMBER, sectionNumber);
 		fragment.setArguments(args);
 		return fragment;
 	}
 
-	public RecentFragment() {
+	public RecentDevicesFragment() {
 	}
 
 	@Override
@@ -51,7 +51,6 @@ public class RecentFragment extends Fragment {
 		recentDeviceAdapter = new DeviceAdapter(values, getActivity());
 		recentDeviceAdapter.notifyDataSetChanged();
 		listView.setAdapter(recentDeviceAdapter);
-		listView.invalidate();
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,

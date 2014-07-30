@@ -10,13 +10,13 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-public class MoreFragment extends Fragment {
+public class MyDevicesFragment extends Fragment {
 	static MySQLiteHelper datasource;
-	public static DeviceAdapter moredeviceAdapter;
+	public static DeviceAdapter deviceAdapter;
 
 	public static ListView listView;
-	public static List<Device> moreDeviceList = new ArrayList<Device>();
-	public static final String ARG_SECTION_NUMBER = "section_number";
+	public static List<Device> deviceList = new ArrayList<Device>();
+	public static final String ARG_SECTION_NUMBER = "section_number1";
 	static final String SAVE_PAGE_NUMBER = "save_page_number";
 	int pageNumber;
 
@@ -25,34 +25,36 @@ public class MoreFragment extends Fragment {
 		super.onCreate(savedInstanceState);
 	};
 
-	public static MoreFragment newInstance(int sectionNumber) {
-		MoreFragment fragment = new MoreFragment();
+	public static MyDevicesFragment newInstance(int sectionNumber) {
+		MyDevicesFragment fragment = new MyDevicesFragment();
 		Bundle args = new Bundle();
 		args.putInt(ARG_SECTION_NUMBER, sectionNumber);
 		fragment.setArguments(args);
 		return fragment;
 	}
 
-	public MoreFragment() {
+	public MyDevicesFragment() {
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-
-		datasource = new MySQLiteHelper(getActivity(), "MOREDEVICESBASE.db");
+		datasource = new MySQLiteHelper(getActivity(), "DEVICESBASE.db");
 		datasource.getWritableDatabase();
 		List<Device> values = datasource.getAllDevices();
 		View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+
 		listView = (ListView) rootView.findViewById(R.id.device_list_view);
-		moredeviceAdapter = new DeviceAdapter(values, getActivity());
-		listView.setAdapter(moredeviceAdapter);
+		deviceAdapter = new DeviceAdapter(values, getActivity());
+		listView.setAdapter(deviceAdapter);
+
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position,
 					long id) {
 			}
 		});
+
 		setHasOptionsMenu(true);
 		return rootView;
 	}
@@ -64,12 +66,6 @@ public class MoreFragment extends Fragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-
-	}
-
-	@Override
-	public void onResume() {
-		super.onResume();
 	}
 
 	@Override

@@ -120,11 +120,11 @@ public class DeviceManageActivity extends Activity implements
 		public Fragment getItem(int position) {
 			switch (position) {
 			case 0:
-				return DevicesFragment.newInstance(position + 1);
+				return MyDevicesFragment.newInstance(position + 1);
 			case 1:
-				return RecentFragment.newInstance(position + 1);
+				return RecentDevicesFragment.newInstance(position + 1);
 			case 2:
-				return MoreFragment.newInstance(position + 1);
+				return MoreDevicesFragment.newInstance(position + 1);
 			}
 			return null;
 		}
