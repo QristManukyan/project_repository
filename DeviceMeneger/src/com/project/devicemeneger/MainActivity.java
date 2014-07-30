@@ -22,7 +22,6 @@ public class MainActivity extends Activity implements OnClickListener {
 		Button deviceBtn = (Button) findViewById(R.id.home_page_devices_btn);
 		deviceBtn.setOnClickListener(this);
 		
-        
 	}
 
 	@Override

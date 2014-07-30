@@ -54,8 +54,8 @@ public class Device {
 	
 	@Override
 	public String toString(){
-		return name;
-//			return "Device [id=" + id + ", name=" + name + ", owner=" + owner + ", ip=" + ip
-//					+ "]";
+			return "Device [id=" + id + ", name=" + name + ", owner=" + owner + ", ip=" + ip
+					+ "]";
 	}
+	
 }
