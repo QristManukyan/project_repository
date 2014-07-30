@@ -42,16 +42,15 @@ public class MyDevicesFragment extends Fragment {
 		datasource = new MySQLiteHelper(getActivity(), "DEVICESBASE.db");
 		datasource.getWritableDatabase();
 		List<Device> values = datasource.getAllDevices();
-		View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+		View rootView = inflater.inflate(R.layout.fragment_main, container,false);
 
 		listView = (ListView) rootView.findViewById(R.id.device_list_view);
 		deviceAdapter = new DeviceAdapter(values, getActivity());
 		listView.setAdapter(deviceAdapter);
-
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position,
-					long id) {
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
 			}
 		});
 
@@ -72,6 +71,26 @@ public class MyDevicesFragment extends Fragment {
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putInt(SAVE_PAGE_NUMBER, pageNumber);
+	}
+
+	@Override
+	public void onStart() {
+		super.onStart();
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+	}
+
+	@Override
+	public void onStop() {
+		super.onStop();
 	}
 
 	@Override

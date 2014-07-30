@@ -49,8 +49,8 @@ public class MoreDevicesFragment extends Fragment {
 		listView.setAdapter(moredeviceAdapter);
 		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position,
-					long id) {
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
 			}
 		});
 		setHasOptionsMenu(true);
@@ -68,14 +68,29 @@ public class MoreDevicesFragment extends Fragment {
 	}
 
 	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putInt(SAVE_PAGE_NUMBER, pageNumber);
+	}
+
+	@Override
+	public void onStart() {
+		super.onStart();
+	}
+
+	@Override
 	public void onResume() {
 		super.onResume();
 	}
 
 	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
-		outState.putInt(SAVE_PAGE_NUMBER, pageNumber);
+	public void onPause() {
+		super.onPause();
+	}
+
+	@Override
+	public void onStop() {
+		super.onStop();
 	}
 
 	@Override

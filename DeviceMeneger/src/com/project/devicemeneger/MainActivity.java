@@ -24,6 +24,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		
 	}
 
+
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
@@ -36,5 +37,27 @@ public class MainActivity extends Activity implements OnClickListener {
 			Intent intent = new Intent(this, DeviceManageActivity.class);
 			startActivity(intent);
 		}
+	}
+	
+	@Override
+	protected void onStart() {
+		super.onStart();
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+	}
+	@Override
+	protected void onPause() {
+		super.onPause();
+	}
+	@Override
+	protected void onStop() {
+		super.onStop();
+	}
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
 	}
 }
