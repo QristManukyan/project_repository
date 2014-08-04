@@ -2,8 +2,6 @@ package com.project.devicemeneger;
 
 import android.app.Activity;
 import android.app.ActionBar;
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -14,8 +12,6 @@ import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 
 public class DeviceManageActivity extends Activity implements
 		ActionBar.TabListener {
