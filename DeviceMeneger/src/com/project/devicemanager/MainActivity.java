@@ -13,6 +13,7 @@ import android.widget.Button;
 public class MainActivity extends Activity implements OnClickListener {
 	
 	final int REQUSET_CODE_DEVICE = 1;
+	final int REQUSET_CODE_FILES = 2;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -52,6 +53,8 @@ public class MainActivity extends Activity implements OnClickListener {
 //TODO
 		case R.id.home_page_files_btn:
 			System.out.println("file on click");
+			intent = new Intent(this, FileChooserActivity.class);
+			startActivityForResult(intent, REQUSET_CODE_FILES);
 			
 			break;
 		case R.id.home_page_btn3:
@@ -77,7 +80,13 @@ public class MainActivity extends Activity implements OnClickListener {
 	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
+		
+		if (requestCode == REQUSET_CODE_FILES){
+			if (resultCode == RESULT_OK){
+				String curFileName = data.getStringExtra("GetFileName"); 
+				System.out.println("curFileName is = "+curFileName);
+			}
+		}
 	}
 	
 	@Override

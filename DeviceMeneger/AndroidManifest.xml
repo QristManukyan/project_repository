@@ -7,6 +7,9 @@
     <uses-sdk
         android:minSdkVersion="19"
         android:targetSdkVersion="19" />
+    
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -17,11 +20,26 @@
             android:label="@string/action_bar_title" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
+                
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="DeviceManageActivity"></activity>
+        <activity 
+            android:name=".DeviceManageActivity"
+            android:label="Device Manage" >
+               <action android:name="com.project.devicemanager.DeviceManageActivity" />
+
+               <category android:name="android.intent.category.DEFAULT" /> 
+            
+        </activity>
+         <activity
+             android:name=".FileChooserActivity"
+             android:label="Choose File" 
+             android:theme="@android:style/Theme.Holo"> 
+                <action android:name="com.project.devicemanager.FileChooser" />
+
+                <category android:name="android.intent.category.DEFAULT" /> 
+        </activity>
         <service android:name="MyService"></service>
     </application>
 
