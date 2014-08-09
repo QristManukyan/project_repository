@@ -1,4 +1,6 @@
-package com.project.devicemeneger;
+package com.project.devicemanager;
+
+import com.project.devicemanager.R;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -9,6 +11,8 @@ import android.view.View;
 import android.widget.Button;
 
 public class MainActivity extends Activity implements OnClickListener {
+	
+	final int REQUSET_CODE_DEVICE = 1;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -21,6 +25,12 @@ public class MainActivity extends Activity implements OnClickListener {
 
 		Button deviceBtn = (Button) findViewById(R.id.home_page_devices_btn);
 		deviceBtn.setOnClickListener(this);
+		Button fileBtn = (Button) findViewById(R.id.home_page_files_btn);
+		fileBtn.setOnClickListener(this);
+		Button button3Btn = (Button) findViewById(R.id.home_page_btn3);
+		button3Btn.setOnClickListener(this);
+		Button button4Btn = (Button) findViewById(R.id.home_page_btn4);
+		button4Btn.setOnClickListener(this);
 		
 	}
 
@@ -33,11 +43,32 @@ public class MainActivity extends Activity implements OnClickListener {
 
 	@Override
 	public void onClick(View view) {
-		if (view.getId() == R.id.home_page_devices_btn) {
-			Intent intent = new Intent(this, DeviceManageActivity.class);
-			startActivity(intent);
+		Intent intent;
+		switch (view.getId()){
+		case R.id.home_page_devices_btn :
+			 intent = new Intent(this, DeviceManageActivity.class);
+			 startActivityForResult(intent, REQUSET_CODE_DEVICE);
+			 break;
+//TODO
+		case R.id.home_page_files_btn:
+			System.out.println("file on click");
+			
+			break;
+		case R.id.home_page_btn3:
+			System.out.println("btn3");
+			//todo
+//			startService(new Intent(this, MyService.class).putExtra("time", 5));
+//			startService(new Intent(this, MyService.class).putExtra("time", 7));
+//			startService(new Intent(this, MyService.class).putExtra("time", 4));
+			break;
+		case R.id.home_page_btn4:
+			System.out.println("btn4");
+			//todo
+			break;
+		
 		}
 	}
+	
 	
 	@Override
 	protected void onStart() {
@@ -45,9 +76,15 @@ public class MainActivity extends Activity implements OnClickListener {
 	}
 	
 	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+	}
+	
+	@Override
 	protected void onResume() {
 		super.onResume();
 	}
+	
 	@Override
 	protected void onPause() {
 		super.onPause();

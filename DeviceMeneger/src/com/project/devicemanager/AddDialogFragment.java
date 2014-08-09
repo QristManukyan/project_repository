@@ -1,5 +1,8 @@
-package com.project.devicemeneger;
+package com.project.devicemanager;
 import java.util.Random;
+
+import com.project.devicemanager.R;
+
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;

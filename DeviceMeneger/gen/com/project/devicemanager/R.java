@@ -5,7 +5,7 @@
  * should not be modified by hand.
  */
 
-package com.project.devicemeneger;
+package com.project.devicemanager;
 
 public final class R {
     public static final class array {

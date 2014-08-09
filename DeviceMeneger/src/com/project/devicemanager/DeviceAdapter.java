@@ -1,6 +1,9 @@
-package com.project.devicemeneger;
+package com.project.devicemanager;
 
 import java.util.List;
+
+import com.project.devicemanager.R;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.MenuItem;

@@ -1,4 +1,4 @@
-package com.project.devicemeneger;
+package com.project.devicemanager;
 
 import java.util.LinkedList;
 import java.util.List;

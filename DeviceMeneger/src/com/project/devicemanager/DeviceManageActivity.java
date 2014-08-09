@@ -1,4 +1,6 @@
-package com.project.devicemeneger;
+package com.project.devicemanager;
+
+import com.project.devicemanager.R;
 
 import android.app.Activity;
 import android.app.ActionBar;
@@ -69,17 +71,18 @@ public class DeviceManageActivity extends Activity implements
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 
+		Intent intent = new Intent(this, MainActivity.class);
 		switch (item.getItemId()) {
 		case R.id.new_device_item:
 			addDevice(mViewPager);
 			break;
 		case android.R.id.home:
-			Intent intent = new Intent(this, MainActivity.class);
 			startActivity(intent);
 			break;
 		case MENU_QUIT_ID:
 			finish();
 		}
+		setResult(RESULT_OK, intent);
 		return super.onOptionsItemSelected(item);
 	}
 

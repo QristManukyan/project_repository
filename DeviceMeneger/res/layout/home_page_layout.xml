@@ -3,14 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
-    android:orientation="vertical"
->
+    android:orientation="vertical" >
+
     <LinearLayout
         android:id="@+id/home_page_first_row"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-     >
+        android:gravity="center" >
 
         <Button
             android:id="@+id/home_page_devices_btn"
@@ -27,8 +26,7 @@
         android:id="@+id/home_page_second_row"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-         >
+        android:gravity="center" >
 
         <Button
             android:id="@+id/home_page_btn3"
