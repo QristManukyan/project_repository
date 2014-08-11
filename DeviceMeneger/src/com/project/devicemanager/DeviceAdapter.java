@@ -61,12 +61,12 @@ public class DeviceAdapter extends ArrayAdapter<Device> {
 			holder.deviceOptionsMore = (ViewGroup) convertView.findViewById(R.id.my_devices_item_options_more);
 			holder.deviceOptionsMore.setOnClickListener(new OnClickListener() {
 		
+				
 			@Override
 			public void onClick(View view) {
 
 				PopupMenu popupMenu = new PopupMenu(context,holder.deviceOptionsMore);
 				popupMenu.getMenuInflater().inflate(R.menu.popup_menu,popupMenu.getMenu());
-
 				popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
 
 							@Override

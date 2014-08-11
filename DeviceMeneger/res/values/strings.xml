@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">DeviceMeneger</string>
+    <string name="app_name">DeviceManager</string>
     <string name="title_section1">My Devices</string>
     <string name="title_section2">Recent </string>
     <string name="title_section3">More</string>

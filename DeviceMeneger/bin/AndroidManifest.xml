@@ -35,7 +35,7 @@
          <activity
              android:name=".FileChooserActivity"
              android:label="Choose File" 
-             android:theme="@android:style/Theme.Holo"> 
+             > 
                 <action android:name="com.project.devicemanager.FileChooser" />
 
                 <category android:name="android.intent.category.DEFAULT" /> 

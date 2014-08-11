@@ -73,6 +73,7 @@ public class DeviceManageActivity extends Activity implements
 
 		Intent intent = new Intent(this, MainActivity.class);
 		switch (item.getItemId()) {
+		
 		case R.id.new_device_item:
 			addDevice(mViewPager);
 			break;
