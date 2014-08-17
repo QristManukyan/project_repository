@@ -4,10 +4,19 @@
     android:layout_height="wrap_content"
     android:orientation="vertical" >
 
+    <CheckBox
+        android:id="@+id/file_item_check"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:focusable="false"
+        android:onClick="onClick"
+        android:visibility="visible" />
+
     <ImageView
         android:id="@+id/file_item_fd_icon"
         android:layout_width="50dip"
-        android:layout_height="50dip" >
+        android:layout_height="50dip"
+        android:layout_toRightOf="@id/file_item_check" >
     </ImageView>
 
     <TextView

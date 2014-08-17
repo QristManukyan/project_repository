@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -46,6 +47,7 @@ public class FileArrayAdapter extends ArrayAdapter<Item>{
 		final Item item = items.get(position);
 		
 		if (item != null) {
+			CheckBox chekBox = (CheckBox) view.findViewById(R.id.file_item_check);
 			TextView nameText = (TextView) view.findViewById(R.id.file_item_name_text);
 			TextView dateText = (TextView) view.findViewById(R.id.file_item_date_text);
 			TextView dataText = (TextView) view.findViewById(R.id.file_item_data_text);
@@ -64,6 +66,21 @@ public class FileArrayAdapter extends ArrayAdapter<Item>{
 			
 			if(dataText != null) {
 				dataText.setText(item.getData());
+			}
+			if(chekBox != null) {
+				chekBox.setClickable(true);
+				chekBox.setOnClickListener(new View.OnClickListener() {
+					
+					@Override
+					public void onClick(View view) {
+						CheckBox check = (CheckBox) view;
+						// TODO Auto-generated method stub
+						System.out.println("checkBox is checked");
+						
+						System.out.println("item  "+ item.getName() +"path  "+item.getPath());
+					}
+				});
+				
 			}
 		}
 		

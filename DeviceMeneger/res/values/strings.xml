@@ -24,6 +24,10 @@
    	<string name="gen_info">Info</string>
    	<string name="gen_disconect">Disconect</string>
    	<string name="gen_remove">Remove</string>
+   	<string name="gen_file_copy">Copy</string>
+   	<string name="gen_file_move">Move</string>
+   	<string name="gen_file_paste">Paste</string>
+   	<string name="gen_file_delete">Delete</string>
     <string-array name="item_options_array">
         <item >Send</item>
         <item >Browse</item>
