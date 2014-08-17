@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+     <item  
+        android:id="@+id/copy"  
+        android:title="@string/gen_file_copy"/>  
+      
+    <item  
+        android:id="@+id/move"  
+        android:title="@string/gen_file_move"/>  
+        
+    <item  
+        android:id="@+id/delete"  
+        android:title="@string/gen_file_delete"/>  
+    <item  
+        android:id="@+id/paste"  
+        android:title="@string/gen_file_paste"/>  
+        
+
+</menu>
