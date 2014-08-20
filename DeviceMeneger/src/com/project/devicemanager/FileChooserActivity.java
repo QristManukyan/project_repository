@@ -10,9 +10,13 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import android.app.ActionBar;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.ActionMode;
+import android.view.ActionMode.Callback;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -28,11 +32,23 @@ public class FileChooserActivity extends ListActivity  {
 	private File currentDir;
 	private FileArrayAdapter fileAdapter;
 	private boolean enabled;
+	ActionMode actionMode;
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.file_view_layout);
+		// Set up the action bar.
+				final ActionBar actionBar = getActionBar();
+//				actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+				actionBar.setHomeButtonEnabled(true);
+				actionBar.setDisplayHomeAsUpEnabled(true);
+				actionBar.setDisplayUseLogoEnabled(false);
+				actionBar.setDisplayShowHomeEnabled(false);
+//				actionBar.setTitle("Files");
+				
+		
 		registerForContextMenu(this.getListView());
 		currentDir = new File("/sdcard/");
 		getFile(currentDir);
@@ -41,21 +57,49 @@ public class FileChooserActivity extends ListActivity  {
 	}
 	
 	public void onClick (View view) {
-		
 		boolean checked = ((CheckBox) view).isChecked();
 		switch (view.getId()) {
 		case R.id.file_item_check:
 			if(checked) {
 				System.out.println("chekbox  is checked");
+				if (actionMode == null){
+					actionMode = startActionMode(callback);
+				}
 			}
 			else {
-				System.out.println("chekbox  is not checked");
+				if(actionMode != null){
+					actionMode.finish();
+				}
 			}
 			break;
 		default:
 			break;
 		}
 	}
+	private ActionMode.Callback callback = new Callback() {
+		
+		@Override
+		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+			return false;
+		}
+		
+		@Override
+		public void onDestroyActionMode(ActionMode mode) {
+			actionMode = null;
+		}
+		
+		@Override
+		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+			mode.getMenuInflater().inflate(R.menu.context_menu, menu);
+			return true;
+		}
+		
+		@Override
+		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+			System.out.println("item is this "+ item.getTitle());
+			return false;
+		}
+	};
 	
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View view,
@@ -79,14 +123,14 @@ public class FileChooserActivity extends ListActivity  {
 		//	AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
 			enabled = true;
 			
-			File source = new File("/sdcard/Alarms");
-		    File dest = new File("/sdcard/DCIM");
-			try {
-				copyFileUsingFileChannels (source, dest);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+//			File source = new File("/sdcard/Alarms");
+//		    File dest = new File("/sdcard/DCIM");
+//			try {
+//				copyFileUsingFileChannels (source, dest);
+//			} catch (IOException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
 			
 			break;
 		case R.id.move :
@@ -139,7 +183,7 @@ public class FileChooserActivity extends ListActivity  {
 	
 	private void getFile(File file) {
 		File[] fileDirectores = file.listFiles();
-		//this.setTitle(file.getPath());
+		this.setTitle(file.getPath());
 		List<Item> directory = new ArrayList<Item>();
 		List<Item> files = new ArrayList<Item>();
 		try {
@@ -214,12 +258,12 @@ public class FileChooserActivity extends ListActivity  {
 	}
 
 	
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		//getMenuInflater().inflate(R.menu.main, menu)
-		menu.addSubMenu(0, MENU_QUIT_ID, 0, getString(R.string.action_quit));
-		return super.onCreateOptionsMenu(menu);
-	}
+//	@Override
+//	public boolean onCreateOptionsMenu(Menu menu) {
+//		//getMenuInflater().inflate(R.menu.main, menu)
+//		menu.addSubMenu(0, MENU_QUIT_ID, 0, getString(R.string.action_quit));
+//		return super.onCreateOptionsMenu(menu);
+//	}
 	
 		@Override
 		public boolean onOptionsItemSelected(MenuItem item) {

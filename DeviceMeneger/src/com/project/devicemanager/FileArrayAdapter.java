@@ -69,17 +69,17 @@ public class FileArrayAdapter extends ArrayAdapter<Item>{
 			}
 			if(chekBox != null) {
 				chekBox.setClickable(true);
-				chekBox.setOnClickListener(new View.OnClickListener() {
-					
-					@Override
-					public void onClick(View view) {
-						CheckBox check = (CheckBox) view;
-						// TODO Auto-generated method stub
-						System.out.println("checkBox is checked");
-						
-						System.out.println("item  "+ item.getName() +"path  "+item.getPath());
-					}
-				});
+//				chekBox.setOnClickListener(new View.OnClickListener() {
+//					
+//					@Override
+//					public void onClick(View view) {
+//						CheckBox check = (CheckBox) view;
+//						
+//						System.out.println("checkBox is checked");
+//						
+//						System.out.println("item  "+ item.getName() +"path  "+item.getPath());
+//					}
+//				});
 				
 			}
 		}
