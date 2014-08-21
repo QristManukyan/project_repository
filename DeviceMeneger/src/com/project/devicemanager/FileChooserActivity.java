@@ -36,7 +36,6 @@ public class FileChooserActivity extends ListActivity  {
 	private File currentDir;
 	private FileArrayAdapter fileAdapter;
 	private boolean enabled;
-	ActionMode actionMode;
 	ListView listView;
 	CheckBox checkBox;
 	int position;
@@ -64,19 +63,14 @@ public class FileChooserActivity extends ListActivity  {
 	public void onClick (View view) {
 		boolean checked = ((CheckBox) view).isChecked();
 		switch (view.getId()) {
-//		case R.id.file_item_check:
-//			if(checked) {
-//				
-//				if (actionMode == null){
-//					actionMode = startActionMode(callback);
-//				}
-//			}
-//			else {
-//				if(actionMode != null){
-//					actionMode.finish();
-//				}
-//			}
-//			break;
+		case R.id.file_item_check:
+			if(checked) {
+				System.out.println("cheched ");
+			}
+			else {
+				System.out.println("no cheched ");
+			}
+			break;
 		default:
 			break;
 		}
@@ -99,7 +93,6 @@ public class FileChooserActivity extends ListActivity  {
 	//TODO	
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
-		System.out.println("enabled== "+enabled);
 		switch (item.getItemId()) {
 		case R.id.copy :
 			
@@ -110,7 +103,6 @@ public class FileChooserActivity extends ListActivity  {
 //			try {
 //				copyFileUsingFileChannels (source, dest);
 //			} catch (IOException e) {
-//				// TODO Auto-generated catch block
 //				e.printStackTrace();
 //			}
 			
@@ -120,42 +112,17 @@ public class FileChooserActivity extends ListActivity  {
 			// 
 			break;
 		case R.id.delete :
-			// 
-			
 			AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
 			position = info.position;
-			System.out.println("position is = "+ position);
-			System.out.println("before delete count is = "+fileAdapter.getCount());
-			//deleteSelectedItem(possition);
-			System.out.println(fileAdapter.getItem(position));
 			fileAdapter.remove(fileAdapter.getItem(position));
 			fileAdapter.notifyDataSetChanged();
-			System.out.println("after delete count is = "+fileAdapter.getCount());
 			break;
 		case R.id.paste :
 			enabled = false;
-			
 			// 
 			break;
-			
-			
 		}
 		return true;
-	}
-
-	private void deleteSelectedItem(int possition) {
-		System.out.println("this si deleteSelectedItem function ");
-		int count = fileAdapter.getCount();
-		System.out.println("adapter item's count = " +count);
-        	fileAdapter.remove(fileAdapter.getItem(possition));
-//            if (listView.isItemChecked(i))
-//            {
-               
-           // }
-//            else {
-//            	System.out.println("this is else " + listView.isItemChecked(i));
-//            }
-		
 	}
 
 	public static void copyFileUsingFileChannels(File source, File dest)
@@ -183,10 +150,7 @@ public class FileChooserActivity extends ListActivity  {
         }
         System.out.println("inputChannel  "+inputChannel);
         System.out.println("outputChannel  " +outputChannel);
-        
-
     }
-
 	
 	private void createFile(File file) {
 		File[] fileDirectores = file.listFiles();
@@ -270,7 +234,7 @@ public class FileChooserActivity extends ListActivity  {
 		getMenuInflater().inflate(R.menu.context_menu, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
-	
+	//TODO	
 		@Override
 		public boolean onOptionsItemSelected(MenuItem item) {
 	
@@ -287,6 +251,15 @@ public class FileChooserActivity extends ListActivity  {
 				System.out.println("files is moved");
 				break;
 			case R.id.delete:
+				SparseBooleanArray checkedItemPositions = getListView().getCheckedItemPositions();
+	    		int itemCount = getListView().getCount();
+	    		for(int i=itemCount-1; i >= 0; i--){
+	    			if(checkedItemPositions.get(i)){	   
+	    				fileAdapter.remove(fileAdapter.getItem(i));
+	    			}
+	    		}	
+	    		checkedItemPositions.clear();
+	    	    fileAdapter.notifyDataSetChanged();
 				break;
 			case R.id.paste:
 				System.out.println("files is pasted");

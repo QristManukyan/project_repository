@@ -14,7 +14,6 @@ public class Item implements Comparable<Item>{
 		this.path = path;
 		this.data = data;
 		this.image = image;
-		System.out.println("date = " +date);
 	}
 
 	public String getName() {
