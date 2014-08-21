@@ -8,12 +8,13 @@ public class Item implements Comparable<Item>{
 	private String data;
 	private String image;
 	
-	public Item(String name, String data, String date, String path, String image){
+	public Item(String name, String date, String data, String path, String image){
 		this.name = name;
-		this.date = data;
+		this.date = date;
 		this.path = path;
 		this.data = data;
 		this.image = image;
+		System.out.println("date = " +date);
 	}
 
 	public String getName() {

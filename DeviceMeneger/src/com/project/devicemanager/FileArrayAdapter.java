@@ -47,10 +47,10 @@ public class FileArrayAdapter extends ArrayAdapter<Item>{
 		final Item item = items.get(position);
 		
 		if (item != null) {
-			CheckBox chekBox = (CheckBox) view.findViewById(R.id.file_item_check);
+	//		CheckBox chekBox = (CheckBox) view.findViewById(R.id.file_item_check);
 			TextView nameText = (TextView) view.findViewById(R.id.file_item_name_text);
 			TextView dateText = (TextView) view.findViewById(R.id.file_item_date_text);
-			TextView dataText = (TextView) view.findViewById(R.id.file_item_data_text);
+			//TextView dataText = (TextView) view.findViewById(R.id.file_item_data_text);
 			ImageView imageIcon = (ImageView) view.findViewById(R.id.file_item_fd_icon);
 			String uri = "drawable/"+ item.getImage();
 			int imageResource = con.getResources().getIdentifier(uri, null, con.getPackageName());
@@ -62,13 +62,14 @@ public class FileArrayAdapter extends ArrayAdapter<Item>{
 			}
 			if (dateText != null) {
 				dateText.setText(item.getDate());
+				System.out.println("date is =  "+item.getDate());
 			}
 			
-			if(dataText != null) {
-				dataText.setText(item.getData());
-			}
-			if(chekBox != null) {
-				chekBox.setClickable(true);
+//			if(dataText != null) {
+//				dataText.setText(item.getData());
+//			}
+//			if(chekBox != null) {
+//				chekBox.setClickable(true);
 //				chekBox.setOnClickListener(new View.OnClickListener() {
 //					
 //					@Override
@@ -82,7 +83,7 @@ public class FileArrayAdapter extends ArrayAdapter<Item>{
 //				});
 				
 			}
-		}
+//		}
 		
 		return view;
 	}

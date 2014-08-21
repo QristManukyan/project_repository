@@ -10,11 +10,13 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.zip.Inflater;
 
 import android.app.ActionBar;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.SparseBooleanArray;
 import android.view.ActionMode;
 import android.view.ActionMode.Callback;
 import android.view.ContextMenu;
@@ -23,8 +25,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.ListView;
+import android.widget.PopupMenu;
 import android.widget.Toast;
 
 public class FileChooserActivity extends ListActivity  {
@@ -33,12 +37,15 @@ public class FileChooserActivity extends ListActivity  {
 	private FileArrayAdapter fileAdapter;
 	private boolean enabled;
 	ActionMode actionMode;
-	
+	ListView listView;
+	CheckBox checkBox;
+	int position;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.file_view_layout);
+		listView = (ListView) findViewById(android.R.id.list);
 		// Set up the action bar.
 				final ActionBar actionBar = getActionBar();
 //				actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
@@ -46,12 +53,10 @@ public class FileChooserActivity extends ListActivity  {
 				actionBar.setDisplayHomeAsUpEnabled(true);
 				actionBar.setDisplayUseLogoEnabled(false);
 				actionBar.setDisplayShowHomeEnabled(false);
-//				actionBar.setTitle("Files");
-				
 		
 		registerForContextMenu(this.getListView());
 		currentDir = new File("/sdcard/");
-		getFile(currentDir);
+		createFile(currentDir);
 		enabled = false;
 		
 	}
@@ -59,47 +64,24 @@ public class FileChooserActivity extends ListActivity  {
 	public void onClick (View view) {
 		boolean checked = ((CheckBox) view).isChecked();
 		switch (view.getId()) {
-		case R.id.file_item_check:
-			if(checked) {
-				System.out.println("chekbox  is checked");
-				if (actionMode == null){
-					actionMode = startActionMode(callback);
-				}
-			}
-			else {
-				if(actionMode != null){
-					actionMode.finish();
-				}
-			}
-			break;
+//		case R.id.file_item_check:
+//			if(checked) {
+//				
+//				if (actionMode == null){
+//					actionMode = startActionMode(callback);
+//				}
+//			}
+//			else {
+//				if(actionMode != null){
+//					actionMode.finish();
+//				}
+//			}
+//			break;
 		default:
 			break;
 		}
 	}
-	private ActionMode.Callback callback = new Callback() {
-		
-		@Override
-		public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-			return false;
-		}
-		
-		@Override
-		public void onDestroyActionMode(ActionMode mode) {
-			actionMode = null;
-		}
-		
-		@Override
-		public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-			mode.getMenuInflater().inflate(R.menu.context_menu, menu);
-			return true;
-		}
-		
-		@Override
-		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-			System.out.println("item is this "+ item.getTitle());
-			return false;
-		}
-	};
+	
 	
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View view,
@@ -120,7 +102,7 @@ public class FileChooserActivity extends ListActivity  {
 		System.out.println("enabled== "+enabled);
 		switch (item.getItemId()) {
 		case R.id.copy :
-		//	AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+			
 			enabled = true;
 			
 //			File source = new File("/sdcard/Alarms");
@@ -139,6 +121,16 @@ public class FileChooserActivity extends ListActivity  {
 			break;
 		case R.id.delete :
 			// 
+			
+			AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+			position = info.position;
+			System.out.println("position is = "+ position);
+			System.out.println("before delete count is = "+fileAdapter.getCount());
+			//deleteSelectedItem(possition);
+			System.out.println(fileAdapter.getItem(position));
+			fileAdapter.remove(fileAdapter.getItem(position));
+			fileAdapter.notifyDataSetChanged();
+			System.out.println("after delete count is = "+fileAdapter.getCount());
 			break;
 		case R.id.paste :
 			enabled = false;
@@ -149,6 +141,21 @@ public class FileChooserActivity extends ListActivity  {
 			
 		}
 		return true;
+	}
+
+	private void deleteSelectedItem(int possition) {
+		System.out.println("this si deleteSelectedItem function ");
+		int count = fileAdapter.getCount();
+		System.out.println("adapter item's count = " +count);
+        	fileAdapter.remove(fileAdapter.getItem(possition));
+//            if (listView.isItemChecked(i))
+//            {
+               
+           // }
+//            else {
+//            	System.out.println("this is else " + listView.isItemChecked(i));
+//            }
+		
 	}
 
 	public static void copyFileUsingFileChannels(File source, File dest)
@@ -181,7 +188,7 @@ public class FileChooserActivity extends ListActivity  {
     }
 
 	
-	private void getFile(File file) {
+	private void createFile(File file) {
 		File[] fileDirectores = file.listFiles();
 		this.setTitle(file.getPath());
 		List<Item> directory = new ArrayList<Item>();
@@ -226,7 +233,7 @@ public class FileChooserActivity extends ListActivity  {
 		Collections.sort(files);
 		directory.addAll(files);
 		 if(!file.getName().equalsIgnoreCase("sdcard"))
-			 directory.add(0,new Item("..","Parent Directory","",file.getParent(),"directory_up"));
+			 directory.add(0,new Item("...","","",file.getParent(),"directory_up"));
 		 fileAdapter = new FileArrayAdapter(FileChooserActivity.this,R.layout.file_item_view,directory);
 		 this.setListAdapter(fileAdapter); 
 	}
@@ -239,7 +246,7 @@ public class FileChooserActivity extends ListActivity  {
 		Item item = fileAdapter.getItem(position);
 		if (item.getImage().equalsIgnoreCase("directory_icon")||item.getImage().equalsIgnoreCase("directory_up")) {
 			currentDir = new File (item.getPath());
-			getFile(currentDir);
+			createFile(currentDir);
 		}
 		else {
 			onFileClick (item);
@@ -258,12 +265,11 @@ public class FileChooserActivity extends ListActivity  {
 	}
 
 	
-//	@Override
-//	public boolean onCreateOptionsMenu(Menu menu) {
-//		//getMenuInflater().inflate(R.menu.main, menu)
-//		menu.addSubMenu(0, MENU_QUIT_ID, 0, getString(R.string.action_quit));
-//		return super.onCreateOptionsMenu(menu);
-//	}
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.context_menu, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
 	
 		@Override
 		public boolean onOptionsItemSelected(MenuItem item) {
@@ -274,8 +280,17 @@ public class FileChooserActivity extends ListActivity  {
 			case android.R.id.home:
 				startActivity(intent);
 				break;
-			case MENU_QUIT_ID:
-				finish();
+			case R.id.copy:
+				System.out.println("files is copyed");
+				break;
+			case R.id.move:
+				System.out.println("files is moved");
+				break;
+			case R.id.delete:
+				break;
+			case R.id.paste:
+				System.out.println("files is pasted");
+				break;
 			}
 			setResult(RESULT_OK, intent);
 			return super.onOptionsItemSelected(item);

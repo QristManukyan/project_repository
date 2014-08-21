@@ -7,16 +7,20 @@
          android:paddingRight="8dp">
 
     
-         <TextView android:id="@android:id/empty"
-               android:layout_width="match_parent"
-               android:layout_height="50dp"
-               android:text="No data"/>
-         
-     <ListView android:id="@android:id/list"
-               android:layout_width="match_parent"
-               android:layout_height="match_parent"
-               android:layout_weight="1"
-               android:drawSelectorOnTop="false"/>
+        <TextView 
+        android:id="@android:id/empty"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Empty"
+        android:gravity="center_horizontal"        
+        />
+	
+	<ListView
+	    android:id="@android:id/list"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"	    
+	    android:choiceMode="multipleChoice" >
+	</ListView>
      
      
 
