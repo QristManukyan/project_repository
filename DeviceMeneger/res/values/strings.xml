@@ -22,12 +22,14 @@
    	<string name="gen_send">Send</string>
    	<string name="gen_browse">Browse</string>
    	<string name="gen_info">Info</string>
+   	<string name="get_file_path">Path</string>
    	<string name="gen_disconect">Disconect</string>
    	<string name="gen_remove">Remove</string>
    	<string name="gen_file_copy">Copy</string>
    	<string name="gen_file_move">Move</string>
    	<string name="gen_file_paste">Paste</string>
    	<string name="gen_file_delete">Delete</string>
+   	<string name="cont_description_image">Image</string>
     <string-array name="item_options_array">
         <item >Send</item>
         <item >Browse</item>

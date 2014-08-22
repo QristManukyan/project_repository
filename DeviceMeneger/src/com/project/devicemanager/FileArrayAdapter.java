@@ -1,18 +1,15 @@
 package com.project.devicemanager;
 
+
 import java.util.List;
-
-
-import android.R.string;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
-import android.widget.CheckedTextView;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -35,25 +32,23 @@ public class FileArrayAdapter extends ArrayAdapter<Item>{
 	}
 	
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
+	public View getView(final int position, View convertView, ViewGroup parent) {
 		View view = convertView;
 		if (view == null){
 			LayoutInflater inflater = (LayoutInflater)con.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			view = inflater.inflate(id, null);
 		}
 		
-		
-	
-		
 		final Item item = items.get(position);
 		
 		if (item != null) {
 			//TextView dataText = (TextView) view.findViewById(R.id.file_item_data_text);
-			CheckBox chekBox = (CheckBox) view.findViewById(R.id.file_item_check);
+			CheckBox checkBox = (CheckBox) view.findViewById(R.id.file_item_check);
 			TextView nameText = (TextView) view.findViewById(R.id.file_item_name_text);
 			TextView dateText = (TextView) view.findViewById(R.id.file_item_date_text);
 			ImageView imageIcon = (ImageView) view.findViewById(R.id.file_item_fd_icon);
-			String uri = "drawable/"+ item.getImage();
+			
+ 			String uri = "drawable/"+ item.getImage();
 			int imageResource = con.getResources().getIdentifier(uri, null, con.getPackageName());
 			Drawable image = view.getResources().getDrawable(imageResource);
 			
@@ -64,14 +59,28 @@ public class FileArrayAdapter extends ArrayAdapter<Item>{
 			if (dateText != null) {
 				dateText.setText(item.getDate());
 			}
-			
-			if(chekBox != null) {
-				chekBox.setClickable(true);
-				chekBox.setOnClickListener(new View.OnClickListener() {
+			if(checkBox != null) {
+				if (!item.getChack()) 
+					checkBox.setVisibility(View.GONE);
+				checkBox.setClickable(true);
+				checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 					
 					@Override
-					public void onClick(View view) {
-						//TODO
+					public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
+						CheckBox checkBox = (CheckBox) arg0;
+						boolean isChecked = checkBox.isChecked();
+						if  (isChecked){
+							//
+						}else {
+							//
+						}
+					}
+				});
+				checkBox.setOnClickListener(new View.OnClickListener() {
+					
+					@Override
+					public void onClick(View arg0) {
+						//
 					}
 				});
 			}

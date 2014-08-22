@@ -1,5 +1,7 @@
 package com.project.devicemanager;
+import android.annotation.SuppressLint;
 
+@SuppressLint("DefaultLocale")
 public class Item implements Comparable<Item>{
 	
 	private String name;
@@ -7,15 +9,20 @@ public class Item implements Comparable<Item>{
 	private String path;
 	private String data;
 	private String image;
+	private boolean chack;
 	
-	public Item(String name, String date, String data, String path, String image){
+	public Item(String name, String date, String data, String path, String image, boolean chack ){
 		this.name = name;
 		this.date = date;
 		this.path = path;
 		this.data = data;
 		this.image = image;
+		this.chack = chack;
 	}
 
+	public boolean getChack (){
+		return chack;
+	}
 	public String getName() {
 		return name;
 	}
