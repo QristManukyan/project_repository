@@ -22,6 +22,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.AdapterView;
+import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,10 +32,11 @@ public class FileChooserActivity extends ListActivity  {
 	private FileArrayAdapter fileAdapter;
 	private boolean enabled;
 	
-	View wantedView;
 	int menuInfoPosition;
 	TextView titleTextView;
 	ListView listView;
+	View wantedView;
+	CheckBox checkBox;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -55,7 +57,6 @@ public class FileChooserActivity extends ListActivity  {
 		registerForContextMenu(this.getListView());
 		currentDir = new File("/sdcard/");
 		createFile(currentDir);
-	
 		
 	}
 	
@@ -161,12 +162,12 @@ public class FileChooserActivity extends ListActivity  {
 
 					directory.add(new Item(fileIndex.getName(), itemNumbers,
 							date_modify, fileIndex.getAbsolutePath(),
-							"directory_icon", true));
+							"directory_icon", true, false));
 				} else {
 					
 					files.add(new Item(fileIndex.getName(), fileIndex.length()
 							+ " Byte", date_modify,
-							fileIndex.getAbsolutePath(), "file_icon", true));
+							fileIndex.getAbsolutePath(), "file_icon", true, false));
 				}
 			}
 		} catch (Exception e) {
@@ -176,7 +177,7 @@ public class FileChooserActivity extends ListActivity  {
 		Collections.sort(files);
 		directory.addAll(files);
 		 if(!file.getName().equalsIgnoreCase("sdcard"))
-			 directory.add(0,new Item("...","","",file.getParent(),"directory_up", false));
+			 directory.add(0,new Item("...","","",file.getParent(),"directory_up", false, false));
 		 
 		 fileAdapter = new FileArrayAdapter(FileChooserActivity.this,R.layout.file_item_view,directory);
 		 this.setListAdapter(fileAdapter); 
@@ -184,7 +185,6 @@ public class FileChooserActivity extends ListActivity  {
 		 
 		 
 	}
-	
 	
 	
 	@Override
@@ -217,50 +217,62 @@ public class FileChooserActivity extends ListActivity  {
 		getMenuInflater().inflate(R.menu.context_menu, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
-	//TODO	
-		@Override
-		public boolean onOptionsItemSelected(MenuItem item) {
-	
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
 			Intent intent = new Intent(this, MainActivity.class);
 			switch (item.getItemId()) {
-			
 			case android.R.id.home:
 				startActivity(intent);
 				break;
 			case R.id.copy:
-				System.out.println("files is copyed");
+				copyFile();
 				break;
 			case R.id.move:
-				System.out.println("files is moved");
+				moveFile();
 				break;
 			case R.id.delete:
-//TODO
-				//getListView().setItemChecked(5, true);
-				SparseBooleanArray checkedItemPositions = getListView().getCheckedItemPositions();
-				System.out.println("checkedItemPositions = "+checkedItemPositions);
-	    		int itemCount = getListView().getCount();
-	    		for(int i=itemCount-1; i >= 0; i--){
-	    			if(checkedItemPositions.get(i)){	   
-	    				fileAdapter.remove(fileAdapter.getItem(i));
-	    			}
-	    		}
-	    		checkedItemPositions.clear();
-	    	    fileAdapter.notifyDataSetChanged();
-				break;
+				deleteFile ();
+			break;
 			case R.id.paste:
-				System.out.println("files is pasted");
+				pasteFile();
 				break;
 			}
 			setResult(RESULT_OK, intent);
 			return super.onOptionsItemSelected(item);
+	}
+
+		private void pasteFile() {
+			// TODO Auto-generated method stub
+			
+		}
+
+		private void copyFile() {
+			// TODO Auto-generated method stub
+			
+		}
+
+		private void moveFile() {
+			// TODO Auto-generated method stub
+			
+		}
+
+		private void deleteFile() {
+			ArrayList<Item>  list = fileAdapter.getCheckedItemsList();
+			int position = 0;
+		    for (Item p : list) {
+		      position = fileAdapter.getPosition(p);
+		      getListView().setItemChecked(position, true);
+		      SparseBooleanArray checkedItemPositions = getListView().getCheckedItemPositions();
+		      if (checkedItemPositions.get(position)){
+		    	  fileAdapter.remove(fileAdapter.getItem(position));
+		      }
+		    }
+    	    fileAdapter.notifyDataSetChanged();
+			
 		}
 	}
 
 
-//listView.setItemChecked(0, true);
-//View wantedView = fileAdapter.getView(0,null, listView);
-//CheckBox checkBox = (CheckBox) wantedView.findViewById(R.id.file_item_check);
-//if(fileAdapter.getItem(0).getName().equals("...") && checkBox.getVisibility()== 0) 
-//	 System.out.println("ooooooo");
 
 

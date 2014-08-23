@@ -9,20 +9,21 @@ public class Item implements Comparable<Item>{
 	private String path;
 	private String data;
 	private String image;
-	private boolean chack;
+	private boolean visible;
+	boolean check;
 	
-	public Item(String name, String date, String data, String path, String image, boolean chack ){
+	public Item(String name, String date, String data, String path, String image, boolean visible, boolean check ){
 		this.name = name;
 		this.date = date;
 		this.path = path;
 		this.data = data;
 		this.image = image;
-		this.chack = chack;
+		this.visible = visible;
+		this.check = check;
+		
 	}
-
-	public boolean getChack (){
-		return chack;
-	}
+	
+	
 	public String getName() {
 		return name;
 	}
@@ -40,6 +41,14 @@ public class Item implements Comparable<Item>{
 	
 	public String getImage() {
 		return image;
+	}
+	
+	public boolean getCheck (){
+		return check;
+	}
+	
+	public boolean getCheckVisible () {
+		return visible;
 	}
 	
 	@Override

@@ -1,6 +1,7 @@
 package com.project.devicemanager;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -10,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -31,6 +33,19 @@ public class FileArrayAdapter extends ArrayAdapter<Item>{
 		return items.get(possition);
 	}
 	
+	 
+	 ArrayList<Item> getCheckedItemsList() {
+		    ArrayList<Item> checkedList = new ArrayList<Item>();
+		    for (Item p : items) {
+		      // если в корзине
+		      if (p.check)
+		    	  checkedList.add(p);
+		    }
+		    return checkedList;
+		  }
+	 
+	 
+	
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		View view = convertView;
@@ -38,8 +53,8 @@ public class FileArrayAdapter extends ArrayAdapter<Item>{
 			LayoutInflater inflater = (LayoutInflater)con.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			view = inflater.inflate(id, null);
 		}
+		final Item item = getItem(position);
 		
-		final Item item = items.get(position);
 		
 		if (item != null) {
 			//TextView dataText = (TextView) view.findViewById(R.id.file_item_data_text);
@@ -60,22 +75,26 @@ public class FileArrayAdapter extends ArrayAdapter<Item>{
 				dateText.setText(item.getDate());
 			}
 			if(checkBox != null) {
-				if (!item.getChack()) 
+				if (!item.getCheckVisible()) 
 					checkBox.setVisibility(View.GONE);
 				checkBox.setClickable(true);
-				checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-					
-					@Override
-					public void onCheckedChanged(CompoundButton arg0, boolean arg1) {
-						CheckBox checkBox = (CheckBox) arg0;
-						boolean isChecked = checkBox.isChecked();
-						if  (isChecked){
-							//
-						}else {
-							//
-						}
-					}
-				});
+				checkBox.setOnCheckedChangeListener(myCheckChangList);
+//				checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//					
+//					@Override
+//					public void onCheckedChanged(CompoundButton buttonView, boolean arg1) {
+//						CheckBox checkBox = (CheckBox) buttonView;
+//						boolean isChecked = checkBox.isChecked();
+//						if  (isChecked){
+//							
+//							getItem((Integer) buttonView.getTag()).check = isChecked;
+//							System.out.println("check box is checked");
+//							
+//						}else {
+//							System.out.println("check box is not  checked");
+//						}
+//					}
+//				});
 				checkBox.setOnClickListener(new View.OnClickListener() {
 					
 					@Override
@@ -83,10 +102,22 @@ public class FileArrayAdapter extends ArrayAdapter<Item>{
 						//
 					}
 				});
+				checkBox.setTag(position);
+				checkBox.setChecked(item.check);
 			}
 		}
 		
 		return view;
 	}
+	
+	OnCheckedChangeListener  myCheckChangList = new OnCheckedChangeListener() {
+		
+		@Override
+		public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+			getItem((Integer) buttonView.getTag()).check = isChecked;
+			
+		}
+	};
 
 }
