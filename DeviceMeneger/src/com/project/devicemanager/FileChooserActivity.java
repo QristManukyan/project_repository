@@ -10,6 +10,8 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import android.R.integer;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ListActivity;
@@ -53,8 +55,8 @@ public class FileChooserActivity extends Activity {
 		gridView = (GridView) findViewById(R.id.file_view_grid);
 		gridView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 
-		Button listButton = (Button) findViewById(R.id.file_list_view_btn);
-		Button gridButton = (Button) findViewById(R.id.file_grid_view_btn);
+		ImageButton listButton = (ImageButton) findViewById(R.id.file_list_view_btn);
+		ImageButton gridButton = (ImageButton) findViewById(R.id.file_grid_view_btn);
 		OnClickListener listenerbtn = new OnClickListener() {
 
 			@Override
@@ -64,7 +66,7 @@ public class FileChooserActivity extends Activity {
 					gridView.setNumColumns(1);
 					break;
 				case R.id.file_grid_view_btn:
-					gridView.setNumColumns(3);
+					gridView.setNumColumns(2);
 					break;
 				}
 			}

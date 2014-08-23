@@ -25,11 +25,13 @@ public final class R {
         public static final int activity_vertical_margin=0x7f040001;
     }
     public static final class drawable {
-        public static final int directory_icon=0x7f020000;
-        public static final int directory_up=0x7f020001;
-        public static final int file_icon=0x7f020002;
-        public static final int ic_launcher=0x7f020003;
-        public static final int menu_moreoverflow_normal_holo_light=0x7f020004;
+        public static final int custom_view_icon=0x7f020000;
+        public static final int directory_icon=0x7f020001;
+        public static final int directory_up=0x7f020002;
+        public static final int file_icon=0x7f020003;
+        public static final int ic_launcher=0x7f020004;
+        public static final int list_view_icon=0x7f020005;
+        public static final int menu_moreoverflow_normal_holo_light=0x7f020006;
     }
     public static final class id {
         public static final int browse=0x7f09001d;
@@ -41,14 +43,14 @@ public final class R {
         public static final int dialog_edit_name=0x7f090002;
         public static final int dialog_edit_owner=0x7f090003;
         public static final int disconect=0x7f09001f;
-        public static final int file_grid_view_btn=0x7f09000a;
+        public static final int file_grid_view_btn=0x7f09000c;
         public static final int file_item_check=0x7f090008;
         public static final int file_item_date_text=0x7f090007;
         public static final int file_item_fd_icon=0x7f090005;
         public static final int file_item_name_text=0x7f090006;
-        public static final int file_list_view_btn=0x7f090009;
-        public static final int file_view_grid=0x7f09000c;
-        public static final int file_view_path_text=0x7f09000b;
+        public static final int file_list_view_btn=0x7f09000b;
+        public static final int file_view_grid=0x7f09000a;
+        public static final int file_view_path_text=0x7f090009;
         public static final int home_page_btn3=0x7f090012;
         public static final int home_page_btn4=0x7f090013;
         public static final int home_page_devices_btn=0x7f09000f;
