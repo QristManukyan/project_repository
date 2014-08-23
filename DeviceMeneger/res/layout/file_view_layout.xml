@@ -5,7 +5,21 @@
     android:orientation="vertical"
     android:paddingLeft="8dp"
     android:paddingRight="8dp" >
-
+<LinearLayout
+    android:layout_height="wrap_content"
+    android:layout_width="fill_parent">
+<Button
+        android:id="@+id/file_list_view_btn"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@android:drawable/btn_dialog" />
+     <Button
+        android:id="@+id/file_grid_view_btn"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@android:drawable/btn_dropdown"/>
+    </LinearLayout>
+     
     <TextView
         android:id="@+id/file_view_path_text"
         android:layout_width="fill_parent"
@@ -13,11 +27,12 @@
         android:gravity="left"
         android:text="@string/get_file_path" />
 
-    <ListView
-        android:id="@android:id/list"
+    <GridView
+        android:id="@+id/file_view_grid"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:choiceMode="multipleChoice" >
-    </ListView>
+    </GridView>
 
+   
 </LinearLayout>
