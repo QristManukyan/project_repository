@@ -52,6 +52,8 @@ public class FileArrayAdapter extends ArrayAdapter<Item>{
 		if (view == null){
 			LayoutInflater inflater = (LayoutInflater)con.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			view = inflater.inflate(id, null);
+		}else {
+			view.forceLayout();
 		}
 		final Item item = getItem(position);
 		

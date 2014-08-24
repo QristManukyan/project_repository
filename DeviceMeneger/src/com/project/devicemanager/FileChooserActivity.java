@@ -16,9 +16,11 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Intent;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.util.SparseBooleanArray;
 import android.view.ContextMenu;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -50,50 +52,28 @@ public class FileChooserActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.file_view_layout);
+
 		titleTextView = (TextView) findViewById(R.id.file_view_path_text);
 
 		gridView = (GridView) findViewById(R.id.file_view_grid);
 		gridView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+		gridView.setOnItemClickListener(listener);
+		
+titleTextView.setOnClickListener(new View.OnClickListener() {
+	
+	@Override
+	public void onClick(View v) {
+//		currentDir = new File();
+//		createFile(currentDir);
+		
+	}
+});
 
 		ImageButton listButton = (ImageButton) findViewById(R.id.file_list_view_btn);
-		ImageButton gridButton = (ImageButton) findViewById(R.id.file_grid_view_btn);
-		OnClickListener listenerbtn = new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				switch (v.getId()) {
-				case R.id.file_list_view_btn:
-					gridView.setNumColumns(1);
-					break;
-				case R.id.file_grid_view_btn:
-					gridView.setNumColumns(2);
-					break;
-				}
-			}
-		};
-
 		listButton.setOnClickListener(listenerbtn);
+		ImageButton gridButton = (ImageButton) findViewById(R.id.file_grid_view_btn);
 		gridButton.setOnClickListener(listenerbtn);
-
-		OnItemClickListener listener = new OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> arg0, View view,
-					int position, long id) {
-				Item item = fileAdapter.getItem(position);
-				if (item.getImage().equalsIgnoreCase("directory_icon")
-						|| item.getImage().equalsIgnoreCase("directory_up")) {
-					currentDir = new File(item.getPath());
-					createFile(currentDir);
-				} else {
-					onFileClick(item);
-				}
-				// TODO Auto-generated method stub
-
-			}
-		};
-		gridView.setOnItemClickListener(listener);
-
+		
 		// Set up the action bar.
 		final ActionBar actionBar = getActionBar();
 		actionBar.setHomeButtonEnabled(true);
@@ -107,6 +87,46 @@ public class FileChooserActivity extends Activity {
 		createFile(currentDir);
 
 	}
+	
+	
+	
+	OnItemClickListener listener = new OnItemClickListener() {
+
+		@Override
+		public void onItemClick(AdapterView<?> arg0, View view,
+				int position, long id) {
+			Item item = fileAdapter.getItem(position);
+			if (item.getImage().equalsIgnoreCase("directory_icon")
+					|| item.getImage().equalsIgnoreCase("directory_up")) {
+				currentDir = new File(item.getPath());
+				createFile(currentDir);
+				setSizes(gridView.getNumColumns());
+			} else {
+				onFileClick(item);
+			}
+			// TODO Auto-generated method stub
+
+		}
+	};
+	
+	OnClickListener listenerbtn = new OnClickListener() {
+
+		@Override
+		public void onClick(View v) {
+			switch (v.getId()) {
+			case R.id.file_list_view_btn:
+				gridView.setNumColumns(1);
+				currentDir = new File("/sdcard/");
+				createFile(currentDir);
+				break;
+			case R.id.file_grid_view_btn:
+				gridView.setNumColumns(2);
+				setSizes(2);
+				
+				break;
+			};
+		}
+	};
 
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View view,
@@ -157,6 +177,38 @@ public class FileChooserActivity extends Activity {
 		return true;
 	}
 
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.context_menu, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		Intent intent = new Intent(this, MainActivity.class);
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			startActivity(intent);
+			break;
+		case R.id.copy:
+			copyFile();
+			break;
+		case R.id.move:
+			moveFile();
+			break;
+		case R.id.delete:
+			deleteFile();
+			break;
+		case R.id.paste:
+			pasteFile();
+			break;
+		}
+		setResult(RESULT_OK, intent);
+		return super.onOptionsItemSelected(item);
+	}
+
+	
 	public static void copyFileUsingFileChannels(File source, File dest)
 
 	throws IOException {
@@ -185,6 +237,7 @@ public class FileChooserActivity extends Activity {
 	}
 
 	private void createFile(File file) {
+		
 		File[] fileDirectores = file.listFiles();
 		titleTextView.setText(file.getPath());
 		List<Item> directory = new ArrayList<Item>();
@@ -232,10 +285,10 @@ public class FileChooserActivity extends Activity {
 		if (!file.getName().equalsIgnoreCase("sdcard"))
 			directory.add(0, new Item("...", "", "", file.getParent(),
 					"directory_up", false, false));
-
 		fileAdapter = new FileArrayAdapter(FileChooserActivity.this,
 				R.layout.file_item_view, directory);
 		gridView.setAdapter(fileAdapter);
+		
 
 	}
 
@@ -254,6 +307,8 @@ public class FileChooserActivity extends Activity {
 	// onFileClick (item);
 	// }
 	// }
+	
+	
 
 	private void onFileClick(Item item) {
 
@@ -266,36 +321,7 @@ public class FileChooserActivity extends Activity {
 		finish();
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.context_menu, menu);
-		return super.onCreateOptionsMenu(menu);
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		Intent intent = new Intent(this, MainActivity.class);
-		switch (item.getItemId()) {
-		case android.R.id.home:
-			startActivity(intent);
-			break;
-		case R.id.copy:
-			copyFile();
-			break;
-		case R.id.move:
-			moveFile();
-			break;
-		case R.id.delete:
-			deleteFile();
-			break;
-		case R.id.paste:
-			pasteFile();
-			break;
-		}
-		setResult(RESULT_OK, intent);
-		return super.onOptionsItemSelected(item);
-	}
-
+	
 	private void pasteFile() {
 		// TODO Auto-generated method stub
 
@@ -322,12 +348,29 @@ public class FileChooserActivity extends Activity {
 			if (checkedItemPositions.get(position)) {
 				fileAdapter.remove(fileAdapter.getItem(position));
 				File file = new File(p.getPath());
-				System.out.println("file= " + file + "path = " + p.getPath());
 				file.delete();
-				System.out.println("file.delete() = " + file.delete());
 			}
 		}
 		fileAdapter.notifyDataSetChanged();
 
+	}
+	
+	private void setSizes (int colCount) {
+		System.out.println("this is setSizes");
+		System.out.println(gridView.getNumColumns());
+		Display display = getWindowManager().getDefaultDisplay();
+		
+		int width = display.getWidth();
+		int height = display.getHeight();
+		
+		for (int i = 0 ;i < gridView.getCount(); i ++){
+			
+			String name = fileAdapter.getItem(i).getName();
+			if (name.length() > 5 && colCount == 2){
+				String newName = name.substring(0,name.length()/2);
+				fileAdapter.getItem(i).setName(newName);
+			}
+			
+		}
 	}
 }
