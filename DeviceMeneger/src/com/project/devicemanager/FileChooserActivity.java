@@ -11,16 +11,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import android.R.integer;
 import android.app.ActionBar;
 import android.app.Activity;
-import android.app.ListActivity;
 import android.content.Intent;
-import android.graphics.Point;
 import android.os.Bundle;
 import android.util.SparseBooleanArray;
 import android.view.ContextMenu;
-import android.view.Display;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -29,7 +25,6 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.GridView;
 import android.widget.ImageButton;
@@ -44,7 +39,7 @@ public class FileChooserActivity extends Activity {
 
 	int menuInfoPosition;
 	TextView titleTextView;
-	GridView gridView;
+	static GridView gridView;
 	View wantedView;
 	CheckBox checkBox;
 
@@ -53,27 +48,17 @@ public class FileChooserActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.file_view_layout);
 
-		titleTextView = (TextView) findViewById(R.id.file_view_path_text);
-
 		gridView = (GridView) findViewById(R.id.file_view_grid);
 		gridView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 		gridView.setOnItemClickListener(listener);
-		
-titleTextView.setOnClickListener(new View.OnClickListener() {
-	
-	@Override
-	public void onClick(View v) {
-//		currentDir = new File();
-//		createFile(currentDir);
-		
-	}
-});
+
+		titleTextView = (TextView) findViewById(R.id.file_view_path_text);
 
 		ImageButton listButton = (ImageButton) findViewById(R.id.file_list_view_btn);
 		listButton.setOnClickListener(listenerbtn);
 		ImageButton gridButton = (ImageButton) findViewById(R.id.file_grid_view_btn);
 		gridButton.setOnClickListener(listenerbtn);
-		
+
 		// Set up the action bar.
 		final ActionBar actionBar = getActionBar();
 		actionBar.setHomeButtonEnabled(true);
@@ -87,28 +72,24 @@ titleTextView.setOnClickListener(new View.OnClickListener() {
 		createFile(currentDir);
 
 	}
-	
-	
-	
+
 	OnItemClickListener listener = new OnItemClickListener() {
 
 		@Override
-		public void onItemClick(AdapterView<?> arg0, View view,
-				int position, long id) {
+		public void onItemClick(AdapterView<?> arg0, View view, int position,
+				long id) {
 			Item item = fileAdapter.getItem(position);
 			if (item.getImage().equalsIgnoreCase("directory_icon")
 					|| item.getImage().equalsIgnoreCase("directory_up")) {
 				currentDir = new File(item.getPath());
 				createFile(currentDir);
-				setSizes(gridView.getNumColumns());
 			} else {
 				onFileClick(item);
 			}
-			// TODO Auto-generated method stub
 
 		}
 	};
-	
+
 	OnClickListener listenerbtn = new OnClickListener() {
 
 		@Override
@@ -120,11 +101,11 @@ titleTextView.setOnClickListener(new View.OnClickListener() {
 				createFile(currentDir);
 				break;
 			case R.id.file_grid_view_btn:
-				gridView.setNumColumns(2);
-				setSizes(2);
-				
+				gridView.setNumColumns(GridView.AUTO_FIT);
+
 				break;
-			};
+			}
+			;
 		}
 	};
 
@@ -177,7 +158,6 @@ titleTextView.setOnClickListener(new View.OnClickListener() {
 		return true;
 	}
 
-	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.context_menu, menu);
@@ -208,7 +188,6 @@ titleTextView.setOnClickListener(new View.OnClickListener() {
 		return super.onOptionsItemSelected(item);
 	}
 
-	
 	public static void copyFileUsingFileChannels(File source, File dest)
 
 	throws IOException {
@@ -237,7 +216,7 @@ titleTextView.setOnClickListener(new View.OnClickListener() {
 	}
 
 	private void createFile(File file) {
-		
+
 		File[] fileDirectores = file.listFiles();
 		titleTextView.setText(file.getPath());
 		List<Item> directory = new ArrayList<Item>();
@@ -288,7 +267,6 @@ titleTextView.setOnClickListener(new View.OnClickListener() {
 		fileAdapter = new FileArrayAdapter(FileChooserActivity.this,
 				R.layout.file_item_view, directory);
 		gridView.setAdapter(fileAdapter);
-		
 
 	}
 
@@ -307,8 +285,6 @@ titleTextView.setOnClickListener(new View.OnClickListener() {
 	// onFileClick (item);
 	// }
 	// }
-	
-	
 
 	private void onFileClick(Item item) {
 
@@ -321,7 +297,6 @@ titleTextView.setOnClickListener(new View.OnClickListener() {
 		finish();
 	}
 
-	
 	private void pasteFile() {
 		// TODO Auto-generated method stub
 
@@ -352,25 +327,5 @@ titleTextView.setOnClickListener(new View.OnClickListener() {
 			}
 		}
 		fileAdapter.notifyDataSetChanged();
-
-	}
-	
-	private void setSizes (int colCount) {
-		System.out.println("this is setSizes");
-		System.out.println(gridView.getNumColumns());
-		Display display = getWindowManager().getDefaultDisplay();
-		
-		int width = display.getWidth();
-		int height = display.getHeight();
-		
-		for (int i = 0 ;i < gridView.getCount(); i ++){
-			
-			String name = fileAdapter.getItem(i).getName();
-			if (name.length() > 5 && colCount == 2){
-				String newName = name.substring(0,name.length()/2);
-				fileAdapter.getItem(i).setName(newName);
-			}
-			
-		}
 	}
 }
