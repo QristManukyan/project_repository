@@ -45,6 +45,7 @@ public class FileArrayAdapter extends ArrayAdapter<Item> {
 
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
+		System.out.println("this is getView");
 		View view = convertView;
 		if (view == null) {
 			LayoutInflater inflater = (LayoutInflater) con
@@ -70,9 +71,12 @@ public class FileArrayAdapter extends ArrayAdapter<Item> {
 			String uri = "drawable/" + item.getImage();
 			int imageResource = con.getResources().getIdentifier(uri, null,
 					con.getPackageName());
-			Drawable image = view.getResources().getDrawable(imageResource);
 
+			Drawable image = view.getResources().getDrawable(imageResource);
 			imageIcon.setImageDrawable(image);
+			if (item.getImage().equals("file_icon")) {
+				System.out.println("ooo");
+			}
 
 			if (dateText != null) {
 				dateText.setText(item.getDate());
@@ -95,11 +99,11 @@ public class FileArrayAdapter extends ArrayAdapter<Item> {
 							nLength = uNameLength / 2;
 							uName = uName.substring(0, nLength) + "..";
 						}
-					}else {
+					} else {
 						nLength = uNameLength - uNameLength / 3;
 						uName = uName.substring(0, nLength) + "..";
 					}
-					
+
 				}
 				if (colWidth < 400 && uNameLength >= 8) {
 					uName = uName.substring(0, 6) + "..";

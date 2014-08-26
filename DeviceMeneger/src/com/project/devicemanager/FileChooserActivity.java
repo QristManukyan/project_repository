@@ -48,10 +48,12 @@ public class FileChooserActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.file_view_layout);
 
+		System.out.println("this is oncreate");
 		gridView = (GridView) findViewById(R.id.file_view_grid);
 		gridView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 		gridView.setOnItemClickListener(listener);
 
+		System.out.println("gridView " + gridView  +"listener   " +listener);
 		titleTextView = (TextView) findViewById(R.id.file_view_path_text);
 
 		ImageButton listButton = (ImageButton) findViewById(R.id.file_list_view_btn);
@@ -270,22 +272,6 @@ public class FileChooserActivity extends Activity {
 
 	}
 
-	// @Override
-	// protected void onListItemClick(ListView listView, View view, int
-	// position, long id) {
-	// super.onListItemClick(listView, view, position, id);
-	// Item item = fileAdapter.getItem(position);
-	// if
-	// (item.getImage().equalsIgnoreCase("directory_icon")||item.getImage().equalsIgnoreCase("directory_up"))
-	// {
-	// currentDir = new File (item.getPath());
-	// createFile(currentDir);
-	// }
-	// else {
-	// onFileClick (item);
-	// }
-	// }
-
 	private void onFileClick(Item item) {
 
 		Toast.makeText(this, "Folder Clicked: " + currentDir,
@@ -294,7 +280,7 @@ public class FileChooserActivity extends Activity {
 		intent.putExtra("GetPath", currentDir.toString());
 		intent.putExtra("GetFileName", item.getName());
 		setResult(RESULT_OK, intent);
-		finish();
+		//finish();
 	}
 
 	private void pasteFile() {
