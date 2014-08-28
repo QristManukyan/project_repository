@@ -45,7 +45,6 @@ public class FileArrayAdapter extends ArrayAdapter<Item> {
 
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
-		System.out.println("this is getView");
 		View view = convertView;
 		if (view == null) {
 			LayoutInflater inflater = (LayoutInflater) con
@@ -75,7 +74,7 @@ public class FileArrayAdapter extends ArrayAdapter<Item> {
 			Drawable image = view.getResources().getDrawable(imageResource);
 			imageIcon.setImageDrawable(image);
 			if (item.getImage().equals("file_icon")) {
-				System.out.println("ooo");
+				//System.out.println("ooo");
 			}
 
 			if (dateText != null) {

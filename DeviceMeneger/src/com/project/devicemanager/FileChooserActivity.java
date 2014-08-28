@@ -1,15 +1,20 @@
 package com.project.devicemanager;
 
 import java.io.File;
+import java.io.FileDescriptor;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.channels.FileChannel;
 import java.sql.Date;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Stack;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -42,18 +47,18 @@ public class FileChooserActivity extends Activity {
 	static GridView gridView;
 	View wantedView;
 	CheckBox checkBox;
+	File globalFileDirectory;
+	Stack<File> pathStack = new Stack<File>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.file_view_layout);
 
-		System.out.println("this is oncreate");
 		gridView = (GridView) findViewById(R.id.file_view_grid);
 		gridView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
 		gridView.setOnItemClickListener(listener);
 
-		System.out.println("gridView " + gridView  +"listener   " +listener);
 		titleTextView = (TextView) findViewById(R.id.file_view_path_text);
 
 		ImageButton listButton = (ImageButton) findViewById(R.id.file_list_view_btn);
@@ -72,7 +77,6 @@ public class FileChooserActivity extends Activity {
 		registerForContextMenu(gridView);
 		currentDir = new File("/sdcard/");
 		createFile(currentDir);
-
 	}
 
 	OnItemClickListener listener = new OnItemClickListener() {
@@ -104,7 +108,6 @@ public class FileChooserActivity extends Activity {
 				break;
 			case R.id.file_grid_view_btn:
 				gridView.setNumColumns(GridView.AUTO_FIT);
-
 				break;
 			}
 			;
@@ -127,25 +130,21 @@ public class FileChooserActivity extends Activity {
 	// TODO
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
+		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item
+				.getMenuInfo();
+		menuInfoPosition = info.position;
 		switch (item.getItemId()) {
+
 		case R.id.copy:
 			enabled = true;
-			// File source = new File("/sdcard/Alarms");
-			// File dest = new File("/sdcard/DCIM");
-			// try {
-			// copyFileUsingFileChannels (source, dest);
-			// } catch (IOException e) {
-			// e.printStackTrace();
-			// }
+			pathStack.push(new File(getPath(menuInfoPosition)));
 			break;
 		case R.id.move:
 			enabled = true;
 			//
 			break;
 		case R.id.delete:
-			AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item
-					.getMenuInfo();
-			menuInfoPosition = info.position;
+
 			fileAdapter.remove(fileAdapter.getItem(menuInfoPosition));
 			File file = new File(fileAdapter.getItem(menuInfoPosition)
 					.getPath());
@@ -154,7 +153,18 @@ public class FileChooserActivity extends Activity {
 			break;
 		case R.id.paste:
 			enabled = false;
-			//
+			File copyPath = pathStack.pop();
+			File pastePath = new File(getPath(menuInfoPosition));
+
+			try {
+				copyDirectory(copyPath, pastePath);
+
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			// TODO
+			createFile(pastePath);
+			fileAdapter.notifyDataSetChanged();
 			break;
 		}
 		return true;
@@ -174,7 +184,7 @@ public class FileChooserActivity extends Activity {
 			startActivity(intent);
 			break;
 		case R.id.copy:
-			copyFile();
+			// copyFile();
 			break;
 		case R.id.move:
 			moveFile();
@@ -188,33 +198,6 @@ public class FileChooserActivity extends Activity {
 		}
 		setResult(RESULT_OK, intent);
 		return super.onOptionsItemSelected(item);
-	}
-
-	public static void copyFileUsingFileChannels(File source, File dest)
-
-	throws IOException {
-
-		FileChannel inputChannel = null;
-
-		FileChannel outputChannel = null;
-
-		try {
-
-			inputChannel = new FileInputStream(source).getChannel();
-
-			outputChannel = new FileOutputStream(dest).getChannel();
-
-			outputChannel.transferFrom(inputChannel, 0, inputChannel.size());
-
-		} finally {
-
-			inputChannel.close();
-
-			outputChannel.close();
-
-		}
-		System.out.println("inputChannel  " + inputChannel);
-		System.out.println("outputChannel  " + outputChannel);
 	}
 
 	private void createFile(File file) {
@@ -249,6 +232,8 @@ public class FileChooserActivity extends Activity {
 					directory.add(new Item(fileIndex.getName(), itemNumbers,
 							date_modify, fileIndex.getAbsolutePath(),
 							"directory_icon", true, false));
+					globalFileDirectory = fileIndex.getAbsoluteFile();
+
 				} else {
 
 					files.add(new Item(fileIndex.getName(), fileIndex.length()
@@ -280,15 +265,10 @@ public class FileChooserActivity extends Activity {
 		intent.putExtra("GetPath", currentDir.toString());
 		intent.putExtra("GetFileName", item.getName());
 		setResult(RESULT_OK, intent);
-		//finish();
+		// finish();
 	}
 
 	private void pasteFile() {
-		// TODO Auto-generated method stub
-
-	}
-
-	private void copyFile() {
 		// TODO Auto-generated method stub
 
 	}
@@ -313,5 +293,38 @@ public class FileChooserActivity extends Activity {
 			}
 		}
 		fileAdapter.notifyDataSetChanged();
+	}
+
+	private String getPath(int index) {
+		return fileAdapter.getItem(index).getPath();
+
+	}
+
+	public void copyDirectory(File sourceLocation, File targetLocation)
+			throws IOException {
+
+		if (sourceLocation.isDirectory()) {
+			if (!targetLocation.exists()) {
+				targetLocation.mkdir();
+			}
+			String[] children = sourceLocation.list();
+			for (int i = 0; i < children.length; i++) {
+				copyDirectory(new File(sourceLocation, children[i]), new File(
+						targetLocation, children[i]));
+			}
+		} else {
+
+			InputStream in = new FileInputStream(sourceLocation);
+			OutputStream out = new FileOutputStream(targetLocation);
+
+			// Copy the bits from instream to outstream
+			byte[] buf = new byte[1024];
+			int len;
+			while ((len = in.read(buf)) > 0) {
+				out.write(buf, 0, len);
+			}
+			in.close();
+			out.close();
+		}
 	}
 }
