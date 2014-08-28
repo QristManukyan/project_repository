@@ -232,7 +232,7 @@ public class FileChooserActivity extends Activity {
 					directory.add(new Item(fileIndex.getName(), itemNumbers,
 							date_modify, fileIndex.getAbsolutePath(),
 							"directory_icon", true, false));
-					globalFileDirectory = fileIndex.getAbsoluteFile();
+					//globalFileDirectory = fileIndex.getAbsoluteFile();
 
 				} else {
 
@@ -259,13 +259,12 @@ public class FileChooserActivity extends Activity {
 
 	private void onFileClick(Item item) {
 
-		Toast.makeText(this, "Folder Clicked: " + currentDir,
-				Toast.LENGTH_SHORT).show();
 		Intent intent = new Intent();
 		intent.putExtra("GetPath", currentDir.toString());
 		intent.putExtra("GetFileName", item.getName());
 		setResult(RESULT_OK, intent);
-		// finish();
+		item.check = true;
+		fileAdapter.notifyDataSetChanged();
 	}
 
 	private void pasteFile() {

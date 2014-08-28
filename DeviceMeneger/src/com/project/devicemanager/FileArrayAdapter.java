@@ -3,6 +3,8 @@ package com.project.devicemanager;
 import java.util.ArrayList;
 import java.util.List;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +15,7 @@ import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class FileArrayAdapter extends ArrayAdapter<Item> {
@@ -74,7 +77,11 @@ public class FileArrayAdapter extends ArrayAdapter<Item> {
 			Drawable image = view.getResources().getDrawable(imageResource);
 			imageIcon.setImageDrawable(image);
 			if (item.getImage().equals("file_icon")) {
-				//System.out.println("ooo");
+				if (item.getName().contains(".jpg")|| item.getName().contains(".png")) {
+					Bitmap bmp = BitmapFactory.decodeFile(getItem(position).getPath());
+					imageIcon.setImageBitmap(bmp);
+					imageIcon.setLayoutParams(new RelativeLayout.LayoutParams(60, 60));
+				}
 			}
 
 			if (dateText != null) {
@@ -99,8 +106,10 @@ public class FileArrayAdapter extends ArrayAdapter<Item> {
 							uName = uName.substring(0, nLength) + "..";
 						}
 					} else {
-						nLength = uNameLength - uNameLength / 3;
-						uName = uName.substring(0, nLength) + "..";
+						if(uNameLength > 20) {
+							nLength = uNameLength - uNameLength / 3;
+							uName = uName.substring(0, nLength) + "..";
+						}
 					}
 
 				}
