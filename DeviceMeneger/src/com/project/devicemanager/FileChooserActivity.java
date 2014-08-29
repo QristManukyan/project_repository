@@ -35,7 +35,7 @@ public class FileChooserActivity extends Activity {
 	private FileArrayAdapter fileAdapter;
 	private TextView titleTextView;
 	private Stack<Item> itemsStack = new Stack<Item>();
-	private boolean enabled;
+	private boolean enabled = false;
 	private int menuInfoPosition;
 	public static GridView gridView;
 
@@ -123,20 +123,26 @@ public class FileChooserActivity extends Activity {
 		case R.id.copy:
 			itemsStack.push(fileAdapter.getItem(menuInfoPosition));
 			enabled = true;
-			invalidateOptionsMenu();
+			
 			break;
 		case R.id.move:
-			enabled = true;
-			// TODO
+//			itemsStack.push(fileAdapter.getItem(menuInfoPosition));
+//			enabled = true;
+//			fileAdapter.remove(fileAdapter.getItem(menuInfoPosition));
+//			File movedFile = new File(fileAdapter.getItem(menuInfoPosition)
+//					.getPath());
+//			movedFile.delete();
 			break;
 		case R.id.delete:
 			fileAdapter.remove(fileAdapter.getItem(menuInfoPosition));
 			File deletedFile = new File(fileAdapter.getItem(menuInfoPosition)
 					.getPath());
 			deletedFile.delete();
-			fileAdapter.notifyDataSetChanged();
+			
 			break;
 		}
+		invalidateOptionsMenu();
+		fileAdapter.notifyDataSetChanged();
 		return true;
 	}
 
@@ -160,7 +166,7 @@ public class FileChooserActivity extends Activity {
 			copyFiles();
 			break;
 		case R.id.move:
-			moveFiles();
+			//copyFiles();
 			break;
 		case R.id.delete:
 			deleteFiles();
@@ -259,6 +265,8 @@ public class FileChooserActivity extends Activity {
 				itemIndex.check = false;
 			fileAdapter.add(itemIndex);
 		}
+		
+		
 		fileAdapter.notifyDataSetChanged();
 		enabled = false;
 		invalidateOptionsMenu();
@@ -280,11 +288,16 @@ public class FileChooserActivity extends Activity {
 		enabled = true;
 		invalidateOptionsMenu();
 	}
-
-	private void moveFiles() {
-		// TODO Auto-generated method stub
-
-	}
+//
+//	private void moveDirectory(File sourceLocation, File targetLocation) throws IOException {
+//
+//		copyDirectory(sourceLocation, targetLocation);
+//		
+//		
+//	}
+		
+		
+	
 
 	private void deleteFiles() {
 		ArrayList<Item> list = fileAdapter.getCheckedItemsList();

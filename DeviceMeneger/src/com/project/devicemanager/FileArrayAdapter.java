@@ -51,7 +51,6 @@ public class FileArrayAdapter extends ArrayAdapter<Item> {
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 
-		System.out.println("this is getView");
 		View view = convertView;
 		if (view == null) {
 			LayoutInflater inflater = (LayoutInflater) con
