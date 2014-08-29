@@ -15,8 +15,8 @@
 
     <GridView
         android:id="@+id/file_view_grid"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:layout_weight="1"
         android:choiceMode="multipleChoice" >
     </GridView>
@@ -28,11 +28,12 @@
         android:paddingTop="5dp" >
 
         <ImageButton
-            android:paddingRight="5dp"
             android:id="@+id/file_list_view_btn"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:background="@android:color/white"
+            android:contentDescription="@string/cont_description_image"
+            android:paddingRight="5dp"
             android:src="@drawable/list_view_icon" />
 
         <ImageButton
@@ -40,6 +41,7 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:background="@android:color/white"
+            android:contentDescription="@string/cont_description_image"
             android:src="@drawable/custom_view_icon" />
     </LinearLayout>
 

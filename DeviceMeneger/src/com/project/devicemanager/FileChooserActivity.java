@@ -1,21 +1,16 @@
 package com.project.devicemanager;
-
 import java.io.File;
-import java.io.FileDescriptor;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.nio.channels.FileChannel;
 import java.sql.Date;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Stack;
-
 import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
@@ -30,25 +25,19 @@ import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.CheckBox;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class FileChooserActivity extends Activity {
 	private File currentDir;
 	private FileArrayAdapter fileAdapter;
+	private TextView titleTextView;
+	private Stack<Item> itemsStack = new Stack<Item>();
 	private boolean enabled;
-
-	int menuInfoPosition;
-	TextView titleTextView;
-	static GridView gridView;
-	View wantedView;
-	CheckBox checkBox;
-	File globalFileDirectory;
-	Stack<File> pathStack = new Stack<File>();
+	private int menuInfoPosition;
+	public static GridView gridView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -121,13 +110,9 @@ public class FileChooserActivity extends Activity {
 		if (view.getId() == gridView.getId()) {
 			MenuInflater inflater = getMenuInflater();
 			inflater.inflate(R.menu.context_menu, menu);
-			if (!enabled) {
-				menu.getItem(3).setEnabled(false);
-			}
 		}
 	}
 
-	// TODO
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item
@@ -136,34 +121,19 @@ public class FileChooserActivity extends Activity {
 		switch (item.getItemId()) {
 
 		case R.id.copy:
+			itemsStack.push(fileAdapter.getItem(menuInfoPosition));
 			enabled = true;
-			pathStack.push(new File(getPath(menuInfoPosition)));
+			invalidateOptionsMenu();
 			break;
 		case R.id.move:
 			enabled = true;
-			//
+			// TODO
 			break;
 		case R.id.delete:
-
 			fileAdapter.remove(fileAdapter.getItem(menuInfoPosition));
-			File file = new File(fileAdapter.getItem(menuInfoPosition)
+			File deletedFile = new File(fileAdapter.getItem(menuInfoPosition)
 					.getPath());
-			file.delete();
-			fileAdapter.notifyDataSetChanged();
-			break;
-		case R.id.paste:
-			enabled = false;
-			File copyPath = pathStack.pop();
-			File pastePath = new File(getPath(menuInfoPosition));
-
-			try {
-				copyDirectory(copyPath, pastePath);
-
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			// TODO
-			createFile(pastePath);
+			deletedFile.delete();
 			fileAdapter.notifyDataSetChanged();
 			break;
 		}
@@ -172,7 +142,10 @@ public class FileChooserActivity extends Activity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.context_menu, menu);
+		getMenuInflater().inflate(R.menu.options_menu, menu);
+		if (!enabled) {
+			menu.getItem(3).setEnabled(false);
+		}
 		return super.onCreateOptionsMenu(menu);
 	}
 
@@ -184,13 +157,13 @@ public class FileChooserActivity extends Activity {
 			startActivity(intent);
 			break;
 		case R.id.copy:
-			// copyFile();
+			copyFiles();
 			break;
 		case R.id.move:
-			moveFile();
+			moveFiles();
 			break;
 		case R.id.delete:
-			deleteFile();
+			deleteFiles();
 			break;
 		case R.id.paste:
 			pasteFile();
@@ -232,7 +205,6 @@ public class FileChooserActivity extends Activity {
 					directory.add(new Item(fileIndex.getName(), itemNumbers,
 							date_modify, fileIndex.getAbsolutePath(),
 							"directory_icon", true, false));
-					//globalFileDirectory = fileIndex.getAbsoluteFile();
 
 				} else {
 
@@ -268,16 +240,53 @@ public class FileChooserActivity extends Activity {
 	}
 
 	private void pasteFile() {
+		List<Item> copyedItems = new ArrayList<Item>();
+		File copyedPath = new File("");
+		File pastePath = new File("");
+		while (!itemsStack.empty()) {
+			copyedItems.add(itemsStack.pop());
+		}
+		for (Item itemIndex : copyedItems) {
+			copyedPath = new File(itemIndex.getPath());
+			pastePath = new File(titleTextView.getText().toString() + "/" + itemIndex.getName());
+			try {
+				copyDirectory(copyedPath, pastePath);
+
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			if (itemIndex.check)
+				itemIndex.check = false;
+			fileAdapter.add(itemIndex);
+		}
+		fileAdapter.notifyDataSetChanged();
+		enabled = false;
+		invalidateOptionsMenu();
+
+	}
+
+	private void copyFiles() {
+		ArrayList<Item> list = fileAdapter.getCheckedItemsList();
+		int position = 0;
+		for (Item p : list) {
+			position = fileAdapter.getPosition(p);
+			gridView.setItemChecked(position, true);
+			SparseBooleanArray checkedItemPositions = gridView
+					.getCheckedItemPositions();
+			if (checkedItemPositions.get(position)) {
+				itemsStack.push(p);
+			}
+		}
+		enabled = true;
+		invalidateOptionsMenu();
+	}
+
+	private void moveFiles() {
 		// TODO Auto-generated method stub
 
 	}
 
-	private void moveFile() {
-		// TODO Auto-generated method stub
-
-	}
-
-	private void deleteFile() {
+	private void deleteFiles() {
 		ArrayList<Item> list = fileAdapter.getCheckedItemsList();
 		int position = 0;
 		for (Item p : list) {
@@ -294,12 +303,7 @@ public class FileChooserActivity extends Activity {
 		fileAdapter.notifyDataSetChanged();
 	}
 
-	private String getPath(int index) {
-		return fileAdapter.getItem(index).getPath();
-
-	}
-
-	public void copyDirectory(File sourceLocation, File targetLocation)
+	private void copyDirectory(File sourceLocation, File targetLocation)
 			throws IOException {
 
 		if (sourceLocation.isDirectory()) {

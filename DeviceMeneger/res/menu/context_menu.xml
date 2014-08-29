@@ -11,9 +11,7 @@
     <item  
         android:id="@+id/delete"  
         android:title="@string/gen_file_delete"/>  
-    <item  
-        android:id="@+id/paste"  
-        android:title="@string/gen_file_paste"/>  
+      
         
 
 </menu>

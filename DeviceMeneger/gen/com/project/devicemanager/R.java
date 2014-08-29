@@ -61,9 +61,9 @@ public final class R {
         public static final int move=0x7f090018;
         public static final int my_devices_item_name=0x7f090015;
         public static final int my_devices_item_options_more=0x7f090016;
-        public static final int new_device_item=0x7f09001b;
+        public static final int new_device_item=0x7f09001a;
         public static final int pager=0x7f090000;
-        public static final int paste=0x7f09001a;
+        public static final int paste=0x7f09001b;
         public static final int remove=0x7f090020;
         public static final int send=0x7f09001c;
         public static final int si_ui_gallery_item_view_user_image_layout=0x7f090014;
@@ -80,7 +80,8 @@ public final class R {
     public static final class menu {
         public static final int context_menu=0x7f080000;
         public static final int main=0x7f080001;
-        public static final int popup_menu=0x7f080002;
+        public static final int options_menu=0x7f080002;
+        public static final int popup_menu=0x7f080003;
     }
     public static final class string {
         public static final int action_bar_title=0x7f050011;

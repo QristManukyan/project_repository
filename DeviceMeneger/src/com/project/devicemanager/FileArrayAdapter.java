@@ -6,6 +6,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ public class FileArrayAdapter extends ArrayAdapter<Item> {
 	private Context con;
 	private int id;
 	private List<Item> items;
+	ActionMode actionMode;
 
 	public FileArrayAdapter(Context context, int textViewResourceId,
 			List<Item> objects) {
@@ -48,19 +50,17 @@ public class FileArrayAdapter extends ArrayAdapter<Item> {
 
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
+
+		System.out.println("this is getView");
 		View view = convertView;
 		if (view == null) {
 			LayoutInflater inflater = (LayoutInflater) con
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			view = inflater.inflate(id, null);
-		} else {
-			view.forceLayout();
 		}
 		final Item item = getItem(position);
 
 		if (item != null) {
-			// TextView dataText = (TextView)
-			// view.findViewById(R.id.file_item_data_text);
 			CheckBox checkBox = (CheckBox) view
 					.findViewById(R.id.file_item_check);
 			TextView nameText = (TextView) view
@@ -70,6 +70,10 @@ public class FileArrayAdapter extends ArrayAdapter<Item> {
 			ImageView imageIcon = (ImageView) view
 					.findViewById(R.id.file_item_fd_icon);
 
+			if (dateText != null) {
+				dateText.setText(item.getDate());
+			}
+
 			String uri = "drawable/" + item.getImage();
 			int imageResource = con.getResources().getIdentifier(uri, null,
 					con.getPackageName());
@@ -77,15 +81,14 @@ public class FileArrayAdapter extends ArrayAdapter<Item> {
 			Drawable image = view.getResources().getDrawable(imageResource);
 			imageIcon.setImageDrawable(image);
 			if (item.getImage().equals("file_icon")) {
-				if (item.getName().contains(".jpg")|| item.getName().contains(".png")) {
-					Bitmap bmp = BitmapFactory.decodeFile(getItem(position).getPath());
+				if (item.getName().contains(".jpg")
+						|| item.getName().contains(".png")) {
+					Bitmap bmp = BitmapFactory.decodeFile(getItem(position)
+							.getPath());
 					imageIcon.setImageBitmap(bmp);
-					imageIcon.setLayoutParams(new RelativeLayout.LayoutParams(60, 60));
+					imageIcon.setLayoutParams(new RelativeLayout.LayoutParams(
+							60, 60));
 				}
-			}
-
-			if (dateText != null) {
-				dateText.setText(item.getDate());
 			}
 
 			GridView gridView = FileChooserActivity.gridView;
@@ -106,7 +109,7 @@ public class FileArrayAdapter extends ArrayAdapter<Item> {
 							uName = uName.substring(0, nLength) + "..";
 						}
 					} else {
-						if(uNameLength > 20) {
+						if (uNameLength > 20) {
 							nLength = uNameLength - uNameLength / 3;
 							uName = uName.substring(0, nLength) + "..";
 						}
@@ -121,8 +124,9 @@ public class FileArrayAdapter extends ArrayAdapter<Item> {
 			}
 
 			if (checkBox != null) {
-				if (!item.getCheckVisible())
+				if (!item.getCheckVisible()) {
 					checkBox.setVisibility(View.GONE);
+				}
 				checkBox.setClickable(true);
 				checkBox.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 					@Override
@@ -135,7 +139,6 @@ public class FileArrayAdapter extends ArrayAdapter<Item> {
 				checkBox.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View arg0) {
-						//
 					}
 				});
 				checkBox.setTag(position);

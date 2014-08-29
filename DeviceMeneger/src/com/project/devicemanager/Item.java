@@ -9,7 +9,7 @@ public class Item implements Comparable<Item>{
 	private String path;
 	private String data;
 	private String image;
-	private boolean visible;
+	boolean visible;
 	boolean check;
 	
 	public Item(String name, String date, String data, String path, String image, boolean visible, boolean check ){
