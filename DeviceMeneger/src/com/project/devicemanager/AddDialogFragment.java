@@ -28,7 +28,7 @@ public class AddDialogFragment extends DialogFragment{
 
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 		LayoutInflater inflater = getActivity().getLayoutInflater();
-		View  dialogView = inflater.inflate(R.layout.dialog, null);
+		View  dialogView = inflater.inflate(R.layout.add_dialog, null);
 		builder.setView(dialogView);
 		builder.setTitle("Add Device");
 		pageIndex = getActivity().getActionBar().getSelectedTab().getPosition();

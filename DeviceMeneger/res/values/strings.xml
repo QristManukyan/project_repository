@@ -17,6 +17,7 @@
    	<string name="dialog_owner_hint">Owner</string>
    	<string name="dialog_ip_hint">IP</string> 
    	<string name="dialog_add_new">Add</string> 
+   	<string name="dialog_rename_file">Ok</string> 
    	<string name="dialog_cancel">Cancel</string>
    	<string name="action_bar_title">Devices</string>
    	<string name="gen_send">Send</string>
@@ -26,9 +27,11 @@
    	<string name="gen_disconect">Disconect</string>
    	<string name="gen_remove">Remove</string>
    	<string name="gen_file_copy">Copy</string>
+   	<string name="gen_file_send">Send</string>
    	<string name="gen_file_move">Move</string>
    	<string name="gen_file_paste">Paste</string>
    	<string name="gen_file_delete">Delete</string>
+   	<string name="gen_file_rename">Rename</string>
    	<string name="cont_description_image">Image</string>
     <string-array name="item_options_array">
         <item >Send</item>

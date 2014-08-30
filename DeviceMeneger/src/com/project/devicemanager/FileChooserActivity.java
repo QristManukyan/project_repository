@@ -1,4 +1,5 @@
 package com.project.devicemanager;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -29,6 +30,7 @@ import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class FileChooserActivity extends Activity {
 	private File currentDir;
@@ -36,8 +38,11 @@ public class FileChooserActivity extends Activity {
 	private TextView titleTextView;
 	private Stack<Item> itemsStack = new Stack<Item>();
 	private boolean enabled = false;
+
+	private boolean moveBool = false;
 	private int menuInfoPosition;
 	public static GridView gridView;
+	String result = "";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -120,25 +125,26 @@ public class FileChooserActivity extends Activity {
 		menuInfoPosition = info.position;
 		switch (item.getItemId()) {
 
+		case R.id.send:
+			Toast.makeText(this, "File is sent", Toast.LENGTH_LONG).show();
 		case R.id.copy:
 			itemsStack.push(fileAdapter.getItem(menuInfoPosition));
 			enabled = true;
-			
 			break;
 		case R.id.move:
-//			itemsStack.push(fileAdapter.getItem(menuInfoPosition));
-//			enabled = true;
-//			fileAdapter.remove(fileAdapter.getItem(menuInfoPosition));
-//			File movedFile = new File(fileAdapter.getItem(menuInfoPosition)
-//					.getPath());
-//			movedFile.delete();
+			itemsStack.push(fileAdapter.getItem(menuInfoPosition));
+			enabled = true;
+			moveBool = true;
 			break;
 		case R.id.delete:
 			fileAdapter.remove(fileAdapter.getItem(menuInfoPosition));
 			File deletedFile = new File(fileAdapter.getItem(menuInfoPosition)
 					.getPath());
 			deletedFile.delete();
-			
+			break;
+		case R.id.rename:
+		//TODO	renameFile(menuInfoPosition);
+
 			break;
 		}
 		invalidateOptionsMenu();
@@ -146,11 +152,23 @@ public class FileChooserActivity extends Activity {
 		return true;
 	}
 
+	
+	public void renameFile(int menuInfoPosition) {
+		final RenamDialogFragment dialog = new RenamDialogFragment();
+		dialog.show(getFragmentManager(), "rename");
+		Bundle args = new Bundle();
+		String name = fileAdapter.getItem(menuInfoPosition).getName();
+		args.putString("name", name);
+		dialog.setArguments(args);
+		
+		
+	}
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.options_menu, menu);
 		if (!enabled) {
-			menu.getItem(3).setEnabled(false);
+			menu.getItem(4).setEnabled(false);
 		}
 		return super.onCreateOptionsMenu(menu);
 	}
@@ -162,11 +180,13 @@ public class FileChooserActivity extends Activity {
 		case android.R.id.home:
 			startActivity(intent);
 			break;
+		case R.id.send:
+			Toast.makeText(this, "Files are sent", Toast.LENGTH_LONG).show();
 		case R.id.copy:
 			copyFiles();
 			break;
 		case R.id.move:
-			//copyFiles();
+			copyFiles();
 			break;
 		case R.id.delete:
 			deleteFiles();
@@ -245,7 +265,9 @@ public class FileChooserActivity extends Activity {
 		fileAdapter.notifyDataSetChanged();
 	}
 
+	
 	private void pasteFile() {
+		boolean copyItem;
 		List<Item> copyedItems = new ArrayList<Item>();
 		File copyedPath = new File("");
 		File pastePath = new File("");
@@ -254,19 +276,25 @@ public class FileChooserActivity extends Activity {
 		}
 		for (Item itemIndex : copyedItems) {
 			copyedPath = new File(itemIndex.getPath());
-			pastePath = new File(titleTextView.getText().toString() + "/" + itemIndex.getName());
-			try {
-				copyDirectory(copyedPath, pastePath);
+			copyItem = checkCopying(itemIndex.getName());
+			if (copyItem) {
+				pastePath = new File(titleTextView.getText().toString() + "/"
+						+ itemIndex.getName());
+				try {
+					copyDirectory(copyedPath, pastePath);
 
-			} catch (IOException e) {
-				e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				if (itemIndex.check)
+					itemIndex.check = false;
+				fileAdapter.add(itemIndex);
+
+			}else {
+				Toast.makeText(this, "File already exist. Rename existing file ", Toast.LENGTH_LONG).show();
 			}
-			if (itemIndex.check)
-				itemIndex.check = false;
-			fileAdapter.add(itemIndex);
 		}
-		
-		
+
 		fileAdapter.notifyDataSetChanged();
 		enabled = false;
 		invalidateOptionsMenu();
@@ -288,16 +316,6 @@ public class FileChooserActivity extends Activity {
 		enabled = true;
 		invalidateOptionsMenu();
 	}
-//
-//	private void moveDirectory(File sourceLocation, File targetLocation) throws IOException {
-//
-//		copyDirectory(sourceLocation, targetLocation);
-//		
-//		
-//	}
-		
-		
-	
 
 	private void deleteFiles() {
 		ArrayList<Item> list = fileAdapter.getCheckedItemsList();
@@ -333,7 +351,6 @@ public class FileChooserActivity extends Activity {
 			InputStream in = new FileInputStream(sourceLocation);
 			OutputStream out = new FileOutputStream(targetLocation);
 
-			// Copy the bits from instream to outstream
 			byte[] buf = new byte[1024];
 			int len;
 			while ((len = in.read(buf)) > 0) {
@@ -342,5 +359,24 @@ public class FileChooserActivity extends Activity {
 			in.close();
 			out.close();
 		}
+		if (moveBool) {
+			sourceLocation.delete();
+		}
 	}
+
+	private boolean checkCopying(String name) {
+		boolean copy = true;
+		ArrayList<String> namesArray = new ArrayList<String>();
+		for (int i = 0; i < fileAdapter.getCount(); i++) {
+			namesArray.add(fileAdapter.getItem(i).getName());
+			if (namesArray.contains(name))
+				copy = false;
+		}
+		return copy;
+	}
+	 public void setNewName(String name){
+		result = name;
+		
+	}
+	 
 }
