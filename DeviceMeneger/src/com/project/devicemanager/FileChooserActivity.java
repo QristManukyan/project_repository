@@ -42,7 +42,6 @@ public class FileChooserActivity extends Activity {
 	private boolean moveBool = false;
 	private int menuInfoPosition;
 	public static GridView gridView;
-	String result = "";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -137,31 +136,21 @@ public class FileChooserActivity extends Activity {
 			moveBool = true;
 			break;
 		case R.id.delete:
-			fileAdapter.remove(fileAdapter.getItem(menuInfoPosition));
 			File deletedFile = new File(fileAdapter.getItem(menuInfoPosition)
 					.getPath());
-			deletedFile.delete();
-			break;
-		case R.id.rename:
-		//TODO	renameFile(menuInfoPosition);
-
+//			if (deletedFile.isFile()) {
+				fileAdapter.remove(fileAdapter.getItem(menuInfoPosition));
+				deletedFile.delete();
+//			}
+//			}else {
+//				Toast.makeText(this, "Yon can't delete this folder", Toast.LENGTH_LONG).show();
+//			}
+			
 			break;
 		}
 		invalidateOptionsMenu();
 		fileAdapter.notifyDataSetChanged();
 		return true;
-	}
-
-	
-	public void renameFile(int menuInfoPosition) {
-		final RenamDialogFragment dialog = new RenamDialogFragment();
-		dialog.show(getFragmentManager(), "rename");
-		Bundle args = new Bundle();
-		String name = fileAdapter.getItem(menuInfoPosition).getName();
-		args.putString("name", name);
-		dialog.setArguments(args);
-		
-		
 	}
 
 	@Override
@@ -326,13 +315,32 @@ public class FileChooserActivity extends Activity {
 			SparseBooleanArray checkedItemPositions = gridView
 					.getCheckedItemPositions();
 			if (checkedItemPositions.get(position)) {
-				fileAdapter.remove(fileAdapter.getItem(position));
 				File file = new File(p.getPath());
-				file.delete();
+				if (file.isDirectory()){
+					deleteDirectory (file);
+				}else 
+					file.delete();
+				fileAdapter.remove(fileAdapter.getItem(position));
 			}
 		}
 		fileAdapter.notifyDataSetChanged();
 	}
+	
+	
+	public boolean deleteDirectory(File path) {
+	    if( path.exists() ) {
+	      File[] files = path.listFiles();
+	      for(int i=0; i<files.length; i++) {
+	         if(files[i].isDirectory()) {
+	           deleteDirectory(files[i]);
+	         }
+	         else {
+	           files[i].delete();
+	         }
+	      }
+	    }
+	    return( path.delete() );
+	  }
 
 	private void copyDirectory(File sourceLocation, File targetLocation)
 			throws IOException {
@@ -374,9 +382,8 @@ public class FileChooserActivity extends Activity {
 		}
 		return copy;
 	}
-	 public void setNewName(String name){
-		result = name;
-		
-	}
+//	 public void setNewName(String name){
+//		
+//	}
 	 
 }

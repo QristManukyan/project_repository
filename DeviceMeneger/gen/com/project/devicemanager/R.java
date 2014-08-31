@@ -34,7 +34,7 @@ public final class R {
         public static final int menu_moreoverflow_normal_holo_light=0x7f020006;
     }
     public static final class id {
-        public static final int browse=0x7f09001e;
+        public static final int browse=0x7f09001d;
         public static final int copy=0x7f090018;
         public static final int delete=0x7f09001a;
         public static final int device_list_view=0x7f09000d;
@@ -42,7 +42,7 @@ public final class R {
         public static final int dialog_edit_ip=0x7f090004;
         public static final int dialog_edit_name=0x7f090002;
         public static final int dialog_edit_owner=0x7f090003;
-        public static final int disconect=0x7f090020;
+        public static final int disconect=0x7f09001f;
         public static final int file_grid_view_btn=0x7f09000c;
         public static final int file_item_check=0x7f090008;
         public static final int file_item_date_text=0x7f090007;
@@ -57,15 +57,14 @@ public final class R {
         public static final int home_page_files_btn=0x7f090010;
         public static final int home_page_first_row=0x7f09000e;
         public static final int home_page_second_row=0x7f090011;
-        public static final int info=0x7f09001f;
+        public static final int info=0x7f09001e;
         public static final int move=0x7f090019;
         public static final int my_devices_item_name=0x7f090015;
         public static final int my_devices_item_options_more=0x7f090016;
-        public static final int new_device_item=0x7f09001c;
+        public static final int new_device_item=0x7f09001b;
         public static final int pager=0x7f090000;
-        public static final int paste=0x7f09001d;
-        public static final int remove=0x7f090021;
-        public static final int rename=0x7f09001b;
+        public static final int paste=0x7f09001c;
+        public static final int remove=0x7f090020;
         public static final int send=0x7f090017;
         public static final int si_ui_gallery_item_view_user_image_layout=0x7f090014;
     }
