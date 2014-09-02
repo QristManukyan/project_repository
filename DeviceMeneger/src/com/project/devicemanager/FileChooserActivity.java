@@ -138,14 +138,8 @@ public class FileChooserActivity extends Activity {
 		case R.id.delete:
 			File deletedFile = new File(fileAdapter.getItem(menuInfoPosition)
 					.getPath());
-//			if (deletedFile.isFile()) {
 				fileAdapter.remove(fileAdapter.getItem(menuInfoPosition));
 				deletedFile.delete();
-//			}
-//			}else {
-//				Toast.makeText(this, "Yon can't delete this folder", Toast.LENGTH_LONG).show();
-//			}
-			
 			break;
 		}
 		invalidateOptionsMenu();
@@ -382,8 +376,5 @@ public class FileChooserActivity extends Activity {
 		}
 		return copy;
 	}
-//	 public void setNewName(String name){
-//		
-//	}
 	 
 }

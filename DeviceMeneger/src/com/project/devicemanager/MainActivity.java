@@ -20,7 +20,6 @@ public class MainActivity extends Activity implements OnClickListener {
 		setContentView(R.layout.home_page_layout);
 
 		final ActionBar actionBar = getActionBar();
-		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.setDisplayShowHomeEnabled(false);
 		actionBar.setTitle("Devices");
 
@@ -35,7 +34,6 @@ public class MainActivity extends Activity implements OnClickListener {
 		
 	}
 
-
 	@Override
 	protected void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
@@ -46,32 +44,24 @@ public class MainActivity extends Activity implements OnClickListener {
 	public void onClick(View view) {
 		Intent intent;
 		switch (view.getId()){
+		
 		case R.id.home_page_devices_btn :
 			 intent = new Intent(this, DeviceManageActivity.class);
 			 startActivityForResult(intent, REQUSET_CODE_DEVICE);
 			 break;
-//TODO
 		case R.id.home_page_files_btn:
-			System.out.println("file on click");
 			intent = new Intent(this, FileChooserActivity.class);
 			startActivityForResult(intent, REQUSET_CODE_FILES);
 			
 			break;
 		case R.id.home_page_btn3:
-			System.out.println("btn3");
-			//todo
-//			startService(new Intent(this, MyService.class).putExtra("time", 5));
-//			startService(new Intent(this, MyService.class).putExtra("time", 7));
-//			startService(new Intent(this, MyService.class).putExtra("time", 4));
+		
 			break;
 		case R.id.home_page_btn4:
-			System.out.println("btn4");
-			//todo
 			break;
 		
 		}
 	}
-	
 	
 	@Override
 	protected void onStart() {
@@ -83,8 +73,7 @@ public class MainActivity extends Activity implements OnClickListener {
 		
 		if (requestCode == REQUSET_CODE_FILES){
 			if (resultCode == RESULT_OK){
-				String curFileName = data.getStringExtra("GetFileName"); 
-				System.out.println("curFileName is = "+curFileName);
+				
 			}
 		}
 	}

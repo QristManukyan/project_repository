@@ -103,8 +103,6 @@ public class DeviceAdapter extends ArrayAdapter<Device> {
 				popupMenu.show();
 			}
 		});
-		
-	
 		return convertView;
 	}
 

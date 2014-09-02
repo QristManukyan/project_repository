@@ -93,7 +93,6 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
 		device.setName(cursor.getString(1));
 		device.setOwner(cursor.getInt(2));
 		device.setIp(cursor.getInt(3));
-		//System.out.println("getDevice(" + id + ")" + device.toString());
 		return device;
 	}
 	

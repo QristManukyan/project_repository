@@ -20,9 +20,9 @@ public class DeviceManageActivity extends Activity implements
 
 	private static final int MENU_QUIT_ID = 1;
 	static MySQLiteHelper dbHelper;
-	SectionsPagerAdapter mSectionsPagerAdapter;
-	CharSequence pageTitle;
-	ViewPager mViewPager;
+	private SectionsPagerAdapter mSectionsPagerAdapter;
+	private ViewPager mViewPager;
+	public CharSequence pageTitle;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

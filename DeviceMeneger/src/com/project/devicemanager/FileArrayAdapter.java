@@ -6,7 +6,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
-import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,16 +20,15 @@ import android.widget.TextView;
 
 public class FileArrayAdapter extends ArrayAdapter<Item> {
 
-	private Context con;
+	private Context context;
 	private int id;
 	private List<Item> items;
-	ActionMode actionMode;
 
 	public FileArrayAdapter(Context context, int textViewResourceId,
 			List<Item> objects) {
 		super(context, textViewResourceId, objects);
 
-		this.con = context;
+		this.context = context;
 		this.id = textViewResourceId;
 		this.items = objects;
 	}
@@ -53,7 +51,7 @@ public class FileArrayAdapter extends ArrayAdapter<Item> {
 
 		View view = convertView;
 		if (view == null) {
-			LayoutInflater inflater = (LayoutInflater) con
+			LayoutInflater inflater = (LayoutInflater) context
 					.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			view = inflater.inflate(id, null);
 		}
@@ -74,8 +72,7 @@ public class FileArrayAdapter extends ArrayAdapter<Item> {
 			}
 
 			String uri = "drawable/" + item.getImage();
-			int imageResource = con.getResources().getIdentifier(uri, null,
-					con.getPackageName());
+			int imageResource = context.getResources().getIdentifier(uri, null,context.getPackageName());
 
 			Drawable image = view.getResources().getDrawable(imageResource);
 			imageIcon.setImageDrawable(image);
@@ -85,8 +82,7 @@ public class FileArrayAdapter extends ArrayAdapter<Item> {
 					Bitmap bmp = BitmapFactory.decodeFile(getItem(position)
 							.getPath());
 					imageIcon.setImageBitmap(bmp);
-					imageIcon.setLayoutParams(new RelativeLayout.LayoutParams(
-							60, 60));
+					imageIcon.setLayoutParams(new RelativeLayout.LayoutParams(60, 60));
 				}
 			}
 
